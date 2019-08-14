@@ -149,7 +149,7 @@ namespace QLTS_LG
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            //if(cbLoaiBB.SelectedText="")
+            
         }
     }
 }

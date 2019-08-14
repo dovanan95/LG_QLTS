@@ -73,9 +73,49 @@ namespace QLTS_LG.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap IT_2 {
+            get {
+                object obj = ResourceManager.GetObject("IT_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap lg_logo_PNG21 {
             get {
                 object obj = ResourceManager.GetObject("lg_logo_PNG21", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap lg_logo_PNG211 {
+            get {
+                object obj = ResourceManager.GetObject("lg_logo_PNG211", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LG전자 {
+            get {
+                object obj = ResourceManager.GetObject("LG전자", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap share_default {
+            get {
+                object obj = ResourceManager.GetObject("share-default", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

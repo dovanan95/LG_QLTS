@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.IO;
 
 namespace QLTS_LG
 {
@@ -23,6 +24,82 @@ namespace QLTS_LG
         DataTable dtLoaiTS2 = new DataTable();
         DataTable dtStatus = new DataTable();
 
+        bool flag = false;
+
+        bool flag_2 = false;
+
+        bool flag_3 = false;
+
+        UploadAndRetrieve Upload = new UploadAndRetrieve();
+
+        LoadComboboxData loaddata = new LoadComboboxData();
+
+        AutoCompleteStringCollection AutoCompleteString = new AutoCompleteStringCollection();
+
+        public void AddItem()
+        {
+            con.Open();
+            try
+            {
+                //con.Open();
+                string InsertCMD = "INSERT INTO Tai_san (Ma_TS, Ten_TS, Ma_Loai_TS_cap1, Ma_Loai_TS_cap2,[dbo].[Tai_san].[S/N], FA_Tag, IT_Tag, Model, Spec, Ma_tinh_trang, Unit)"
+                                  + "VALUES(@Ma_TS, @Ten_TS, @Ma_Loai_TS_cap1, @Ma_Loai_TS_cap2, @SN, @FA_Tag, @IT_Tag, @Model, @Spec, @Ma_tinh_trang, @Unit)";
+                using (SqlCommand command = new SqlCommand(InsertCMD, con))
+                {
+                    // command.CommandType = Text;
+                    command.Parameters.AddWithValue("@Ma_TS", txtMaTS.Text.ToString());
+                    command.Parameters.AddWithValue("@Ten_TS", txtTenTS.Text.ToString());
+                    command.Parameters.AddWithValue("@Ma_Loai_TS_cap1", cbTypeLV1.SelectedValue.ToString());
+                    command.Parameters.AddWithValue("@Ma_Loai_TS_cap2", cbTypeLV2.SelectedValue.ToString());
+                    command.Parameters.AddWithValue("@SN", txtSN.Text.ToString());
+                    command.Parameters.AddWithValue("@FA_Tag", txtFATag.Text.ToString());
+                    command.Parameters.AddWithValue("@IT_Tag", txtITTag.Text.ToString());
+                    command.Parameters.AddWithValue("@Model", txtModel.Text.ToString());
+                    command.Parameters.AddWithValue("@Spec", txtSpec.Text.ToString());
+                    command.Parameters.AddWithValue("@Ma_tinh_trang", cbStatus.SelectedValue.ToString());
+                    command.Parameters.AddWithValue("@Unit", cbUnit.SelectedValue.ToString());
+                    command.ExecuteNonQuery();
+                    //txtSoBB.ResetText();
+                    //ReloadData();
+                }
+                // con.Close();
+                // command.Connection = con;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            con.Close();
+
+
+
+            con.Open();
+            SqlCommand input = new SqlCommand();
+            input.Connection = con;
+            input.CommandType = CommandType.Text;
+            input.CommandText = "INSERT INTO Nhap_Moi (So_BB, Ma_TS) " +
+                                "VALUES(@So_BB, @Ma_TS)";
+            input.Parameters.AddWithValue("@So_BB", txtSoBB.Text.ToString());
+            input.Parameters.AddWithValue("@Ma_TS", txtMaTS.Text.ToString());
+            input.ExecuteNonQuery();
+            con.Close();
+
+            con.Open();
+            SqlCommand Save = new SqlCommand();
+            Save.Connection = con;
+            Save.CommandType = CommandType.Text;
+            Save.CommandText = "INSERT INTO Luu_kho (Ma_TS, Tinh_Trang, Ngay_update) VALUES (@Ma_TS, @Tinh_Trang, @Ngay_update)";
+            Save.Parameters.AddWithValue("@Ma_TS", txtMaTS.Text.ToString());
+            Save.Parameters.AddWithValue("@Tinh_Trang", "NE");
+            Save.Parameters.AddWithValue("@Ngay_update", DateTime.Now.ToString());
+            Save.ExecuteNonQuery();
+            con.Close();
+
+            ReloadData();
+            //txtSoBB.ResetText();
+            btnAddNew.Enabled = false;
+        }
+
         public void ReloadData()
         {
             try
@@ -31,10 +108,11 @@ namespace QLTS_LG
                 DataTable data = new DataTable();
                 data.Clear();
                 SqlDataAdapter adapterdgv = new SqlDataAdapter(
-                    "SELECT a.Ma_TS, a.Ten_TS, b.Ten_loai, c.Ten_loai, a.[S/N], a.FA_Tag, a.IT_Tag, a.Model, a.Spec  " +
+                    "SELECT a.Ma_TS, a.Ten_TS, b.Ten_loai, c.Ten_loai, a.[S/N], a.FA_Tag, a.IT_Tag, a.Model, a.Spec, e.unit_name  " +
                     "FROM Tai_san AS a  " +
                     "INNER JOIN Loai_TS_cap1 AS b ON a.Ma_Loai_TS_cap1 = b.Ma_loai " +
                     "INNER JOIN Loai_TS_cap2 AS c ON a.Ma_Loai_TS_cap2 = c.Ma_loai " +
+                    "inner join Unit as e on e.unit_id = a.Unit " +
                     "INNER JOIN Nhap_Moi AS d ON d.Ma_TS = a.Ma_TS  AND d.So_BB= '" + txtSoBB.Text.ToString() + "'", con);
                 //adapterdgv.GetFillParameters
                 //SqlDataAdapter loaddata = new SqlDataAdapter("SELECT * FROM Nhap_Moi");
@@ -44,7 +122,7 @@ namespace QLTS_LG
                 //data.Rows.Add(row);
 
                 dataGridView1.DataSource = data;
-                dataGridView1.AutoResizeColumns();
+                //dataGridView1.AutoResizeColumns();
                 dataGridView1.Refresh();
                 dataGridView1.Update();
                 con.Close();
@@ -60,9 +138,11 @@ namespace QLTS_LG
             LoadDataCBTypeLV1();
             LoadDataCBTypeLV2();
             LoadDataStatus();
+            loaddata.LoadUnit(cbUnit);
             pnlInfo.Enabled = false;
-            cbStatus.Enabled = false;
+            //cbStatus.Enabled = false;
             btnAddNew.Enabled = false;
+
         }
 
         public void LoadDataCBTypeLV1()
@@ -75,6 +155,7 @@ namespace QLTS_LG
             cbTypeLV1.DataSource = dtLoaiTS1;
             cbTypeLV1.DisplayMember = "Ten_loai";
             cbTypeLV1.ValueMember = "Ma_loai";
+            cbTypeLV1.SelectedValue = "DE";
             cbTypeLV1.Enabled = true;
             cmd.ExecuteNonQuery();
             con.Close();
@@ -121,9 +202,42 @@ namespace QLTS_LG
         {
             InitializeComponent();
             LoadData();
+            AutoComplete auto = new AutoComplete();
+
+            string strAuto = "SELECT [S/N] FROM Tai_san";
+            //txtSN.AutoCompleteCustomSource = auto.AutoCompleteData1(strAuto);
+            //AutoComplete1();
+
+
+
+
         }
 
-
+        public void AutoComplete1()
+        {
+            string strAuto = "SELECT [S/N] FROM Tai_san";
+            SqlCommand cmdAuto = new SqlCommand();
+            cmdAuto.CommandType = CommandType.Text;
+            cmdAuto.CommandText = strAuto;
+            cmdAuto.Connection = con;
+            DataTable dtCollection = new DataTable();
+            SqlDataAdapter daCollection = new SqlDataAdapter(cmdAuto);
+            daCollection.Fill(dtCollection);
+            if (dtCollection.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtCollection.Rows.Count; i++)
+                {
+                    AutoCompleteString.Add(dtCollection.Rows[i]["S/N"].ToString());
+                }
+            }
+            else
+            {
+                MessageBox.Show("Not Found!");
+            }
+            txtSN.AutoCompleteMode = AutoCompleteMode.Suggest;
+            txtSN.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            txtSN.AutoCompleteCustomSource = AutoCompleteString;
+        }
 
         //DataSet DataSet = new DataSet();
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -132,7 +246,7 @@ namespace QLTS_LG
             btnAddNew.Enabled = false;
             btnSave.Enabled = false;
             //btnDelete.Enabled = false;
-            
+
         }
 
         private void AddNewItem_Load(object sender, EventArgs e)
@@ -141,6 +255,10 @@ namespace QLTS_LG
             this.loai_TS_cap1TableAdapter.Fill(this.qLTSDataSet.Loai_TS_cap1);
 
             //this.reportViewer1.RefreshReport();
+
+
+            //AutoComplete1();
+
         }
 
         private void fillByToolStripButton_Click(object sender, EventArgs e)
@@ -165,10 +283,10 @@ namespace QLTS_LG
             command2.CommandType = CommandType.Text;
             command2.CommandText = "INSERT INTO Bien_Ban (So_Bien_Ban, Ma_loai_BB, DATE) VALUES (@So_Bien_Ban, @Ma_loai_BB, @DATE)";
             command2.Parameters.AddWithValue("@So_Bien_Ban", txtSoBB.Text.ToString());
-            command2.Parameters.AddWithValue("@Ma_loai_BB", "01");
-            command2.Parameters.AddWithValue("@DATE", DateTime.Now.ToString("yyyyMMdd"));
+            command2.Parameters.AddWithValue("@Ma_loai_BB", "NE");
+            command2.Parameters.AddWithValue("@DATE", DateTime.Now.ToString());
 
-            SqlDataAdapter SoBB = new SqlDataAdapter("SELECT So_Bien_ban FROM Bien_Ban",con);
+            SqlDataAdapter SoBB = new SqlDataAdapter("SELECT So_Bien_ban FROM Bien_Ban", con);
             DataTable dtBB = new DataTable();
             SoBB.Fill(dtBB);
             int dtBBLastItemIndex = dtBB.Rows.Count - 1;
@@ -191,82 +309,88 @@ namespace QLTS_LG
 
                 }
             }
-            else if(dtBB.Rows.Count == 0)
+            else if (dtBB.Rows.Count == 0)
             {
                 con.Open();
                 command2.ExecuteNonQuery();
                 con.Close();
             }
 
-
-            con.Open();
-            try
+            if (cbTypeLV1.SelectedValue.ToString().Trim() == "DE")
             {
-                //con.Open();
-                string InsertCMD = "INSERT INTO Tai_san (Ma_TS, Ten_TS, Ma_Loai_TS_cap1, Ma_Loai_TS_cap2,[dbo].[Tai_san].[S/N], FA_Tag, IT_Tag, Model, Spec, Ma_tinh_trang)"
-                                  + "VALUES(@Ma_TS, @Ten_TS, @Ma_Loai_TS_cap1, @Ma_Loai_TS_cap2, @SN, @FA_Tag, @IT_Tag, @Model, @Spec, @Ma_tinh_trang)";
-                using (SqlCommand command = new SqlCommand(InsertCMD, con))
+
+                string strCheck = "SELECT [S/N], FA_Tag, IT_Tag FROM Tai_san WHERE Ma_Loai_TS_cap1 = 'DE'";
+                SqlDataAdapter daCheck = new SqlDataAdapter(strCheck, con);
+                DataTable dtCheck = new DataTable();
+                daCheck.Fill(dtCheck);
+
+                SqlCommand cmdCheck = new SqlCommand(strCheck, con);
+                SqlDataReader rdrCheck = null;
+
+                con.Open();
+                rdrCheck = cmdCheck.ExecuteReader();
+                while (rdrCheck.Read())
                 {
-                    // command.CommandType = Text;
-                    command.Parameters.AddWithValue("@Ma_TS", txtMaTS.Text.ToString());
-                    command.Parameters.AddWithValue("@Ten_TS", txtTenTS.Text.ToString());
-                    command.Parameters.AddWithValue("@Ma_Loai_TS_cap1", cbTypeLV1.SelectedValue.ToString());
-                    command.Parameters.AddWithValue("@Ma_Loai_TS_cap2", cbTypeLV2.SelectedValue.ToString());
-                    command.Parameters.AddWithValue("@SN", txtSN.Text.ToString());
-                    command.Parameters.AddWithValue("@FA_Tag", txtFATag.Text.ToString());
-                    command.Parameters.AddWithValue("@IT_Tag", txtITTag.Text.ToString());
-                    command.Parameters.AddWithValue("@Model", txtModel.Text.ToString());
-                    command.Parameters.AddWithValue("@Spec", txtSpec.Text.ToString());
-                    command.Parameters.AddWithValue("@Ma_tinh_trang", cbStatus.SelectedValue.ToString());
-                    command.ExecuteNonQuery();
-                    //txtSoBB.ResetText();
-                    //ReloadData();
+                    if (txtFATag.Text.ToString() == rdrCheck["FA_Tag"].ToString() && rdrCheck["FA_Tag"].ToString() != "")
+                    {
+                        flag = true;
+                        break;
+                       
+                    }
+                    if(txtITTag.Text.ToString() == rdrCheck["IT_Tag"].ToString() && rdrCheck["IT_Tag"].ToString() != "")
+                    {
+                        flag_2 = true;
+                        break;
+                    }
+                    if(txtSN.Text.ToString() == rdrCheck["S/N"].ToString() && rdrCheck["S/N"].ToString() != "")
+                    {
+                        flag_3 = true;
+                        break;
+                    }
                 }
-               // con.Close();
-                // command.Connection = con;
+                con.Close();
+
+                if(flag == true || flag_2 == true || flag_3 == true)
+                {
+                    MessageBox.Show("Giá trị nhập bị trùng. Vui lòng kiểm tra lại!", "Cảnh báo!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtFATag.ResetText();
+                    txtITTag.ResetText();
+                    txtSN.ResetText();
+                    flag = false;
+                    flag_2 = false;
+                    flag_3 = false;
+                }
+
+                if (txtITTag.Text == "" && txtFATag.Text == "" && txtSN.Text == "")
+                {
+                    MessageBox.Show("Vui lòng nhập đầy đủ thông tin IT_Tag, FA_Tag, S/N!", "Cảnh báo!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    AddItem();
+                }
+                              
+
             }
-            catch(Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message);
+
+                AddItem();
             }
-            con.Close();
-
-            
-
-            con.Open();
-            SqlCommand input = new SqlCommand();
-            input.Connection = con;
-            input.CommandType = CommandType.Text;
-            input.CommandText = "INSERT INTO Nhap_Moi (So_BB, Ma_TS) " +
-                                "VALUES(@So_BB, @Ma_TS)";
-            input.Parameters.AddWithValue("@So_BB", txtSoBB.Text.ToString());
-            input.Parameters.AddWithValue("@Ma_TS", txtMaTS.Text.ToString());
-            input.ExecuteNonQuery();
-            con.Close();
-
-            con.Open();
-            SqlCommand Save = new SqlCommand();
-            Save.Connection = con;
-            Save.CommandType = CommandType.Text;
-            Save.CommandText = "INSERT INTO Luu_kho (Ma_TS, Tinh_Trang, Ngay_update) VALUES (@Ma_TS, @Tinh_Trang, @Ngay_update)";
-            Save.Parameters.AddWithValue("@Ma_TS", txtMaTS.Text.ToString());
-            Save.Parameters.AddWithValue("@Tinh_Trang", "NE");
-            Save.Parameters.AddWithValue("@Ngay_update", DateTime.Now.ToString());
-            Save.ExecuteNonQuery();
-            con.Close();
-
-            ReloadData();
-            //txtSoBB.ResetText();
-            btnAddNew.Enabled = false;
 
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Main frm = new Main();
-            this.Hide();
-            frm.ShowDialog();
-
+            DialogResult dialog = MessageBox.Show("Anh chị muốn đóng biên bản?", "Cảnh báo!", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+            if (dialog == DialogResult.Yes)
+            {
+                btnCloseBB_Click(this, new EventArgs());
+                Main frm = new Main();
+                this.Hide();
+                //frm.ShowDialog();
+                this.Close();
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -286,7 +410,7 @@ namespace QLTS_LG
             pnlInfo.Enabled = true;
             btnNewBBNo.Enabled = false;
             txtSoBB.Enabled = false;
-            lblSoBB.Text = txtSoBB.Text;
+            //lblSoBB.Text = txtSoBB.Text;
         }
 
         private void btnCloseBB_Click(object sender, EventArgs e)
@@ -311,6 +435,7 @@ namespace QLTS_LG
 
             int index = dataGridView1.CurrentCell.RowIndex;
 
+
             txtMaTS.Text = dataGridView1.Rows[index].Cells["Ma_TS"].Value.ToString();
             txtTenTS.Text = dataGridView1.Rows[index].Cells["Ten_TS"].Value.ToString();
             cbTypeLV1.Text = dataGridView1.Rows[index].Cells[2].Value.ToString();
@@ -329,7 +454,7 @@ namespace QLTS_LG
             string strAssetCode = dataGridView1.Rows[AsCodeIndex].Cells["Ma_TS"].Value.ToString();
             string strUpdate = "UPDATE Tai_san SET Ten_TS = @Ten_TS, Ma_Loai_TS_cap1 = @Ma_Loai_TS_cap1, " +
                 "Ma_Loai_TS_cap2 = @Ma_Loai_TS_cap2, [S/N] = @SN, FA_Tag = @FA_Tag, IT_Tag = @IT_Tag, Model = @Model, Spec = @Spec " +
-                "WHERE Ma_TS = '"+ strAssetCode + "'";
+                "WHERE Ma_TS = '" + strAssetCode + "'";
             SqlCommand cmdUpdate = new SqlCommand();
             cmdUpdate.Connection = con;
             cmdUpdate.CommandType = CommandType.Text;
@@ -371,5 +496,164 @@ namespace QLTS_LG
         {
 
         }
+
+        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void cbTypeLV1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbTypeLV1.SelectedValue.ToString().Trim() == "TO")
+            {
+                txtFATag.Enabled = false;
+                txtFATag.ResetText();
+                txtITTag.Enabled = false;
+                txtITTag.ResetText();
+                txtSN.Enabled = false;
+                txtSN.ResetText();
+                txtModel.Enabled = true;
+                txtModel.ResetText();
+
+                con.Open();
+                string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "'";
+                SqlCommand cmdLoad = new SqlCommand();
+                cmdLoad.Connection = con;
+                cmdLoad.CommandType = CommandType.Text;
+                cmdLoad.CommandText = SelectTO;
+                SqlDataAdapter adapter = new SqlDataAdapter(cmdLoad);
+                DataTable dtTS = new DataTable();
+                adapter.Fill(dtTS);
+                cbTypeLV2.DataSource = dtTS;
+                cbTypeLV2.DisplayMember = "Ten_loai";
+                cbTypeLV2.ValueMember = "Ma_loai";
+                cbTypeLV2.Enabled = true;
+                cmdLoad.ExecuteNonQuery();
+                con.Close();
+            }
+            else if (cbTypeLV1.SelectedValue.ToString().Trim() == "MAT")
+            {
+                txtSN.Enabled = false;
+                txtSN.ResetText();
+                txtModel.Enabled = false;
+                txtModel.ResetText();
+                txtITTag.Enabled = false;
+                txtITTag.ResetText();
+                txtFATag.Enabled = false;
+                txtFATag.ResetText();
+
+                con.Open();
+                string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "'";
+                SqlCommand cmdLoad = new SqlCommand();
+                cmdLoad.Connection = con;
+                cmdLoad.CommandType = CommandType.Text;
+                cmdLoad.CommandText = SelectTO;
+                SqlDataAdapter adapter = new SqlDataAdapter(cmdLoad);
+                DataTable dtTS = new DataTable();
+                adapter.Fill(dtTS);
+                cbTypeLV2.DataSource = dtTS;
+                cbTypeLV2.DisplayMember = "Ten_loai";
+                cbTypeLV2.ValueMember = "Ma_loai";
+                cbTypeLV2.Enabled = true;
+                cmdLoad.ExecuteNonQuery();
+                con.Close();
+            }
+            else if (cbTypeLV1.SelectedValue.ToString().Trim() == "DE")
+            {
+                txtFATag.Enabled = true;
+                txtITTag.Enabled = true;
+                txtSN.Enabled = true;
+                txtModel.Enabled = true;
+
+                con.Open();
+                string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "'";
+                SqlCommand cmdLoad = new SqlCommand();
+                cmdLoad.Connection = con;
+                cmdLoad.CommandType = CommandType.Text;
+                cmdLoad.CommandText = SelectTO;
+                SqlDataAdapter adapter = new SqlDataAdapter(cmdLoad);
+                DataTable dtTS = new DataTable();
+                adapter.Fill(dtTS);
+                cbTypeLV2.DataSource = dtTS;
+                cbTypeLV2.DisplayMember = "Ten_loai";
+                cbTypeLV2.ValueMember = "Ma_loai";
+                cbTypeLV2.Enabled = true;
+                cmdLoad.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
+        private void pnlInfo_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.openFileDialog1.ShowDialog();
+            //Upload.UploadToDB(txtSoBB);
+        }
+
+        public void InputEPApproval(string varFilePath)
+        {
+            byte[] file;
+            FileStream Stream = new FileStream(varFilePath, FileMode.Open, FileAccess.Read);
+
+            BinaryReader reader = new BinaryReader(Stream);
+
+            file = reader.ReadBytes((int)Stream.Length);
+
+
+            SqlConnection con2 = new SqlConnection(connectionString);
+            SqlCommand Sqlwrite = new SqlCommand("UPDATE Bien_Ban SET File_attach = @File WHERE So_Bien_ban = @SoBB", con2);
+            Sqlwrite.Parameters.Add("@File", SqlDbType.VarBinary, file.Length).Value = file;
+            Sqlwrite.Parameters.AddWithValue("@SoBB", txtSoBB.Text.ToString());
+            con2.Open();
+            Sqlwrite.ExecuteNonQuery();
+            con2.Close();
+            MessageBox.Show("Upload successful!!");
+        }
+
+        private void cbTypeLV2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            /*try
+            {
+
+                //Save file path
+                string folderPath = @"\\10.224.50.100\\Share_all\\EP Approval\\";
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                string strInsertFile = "UPDATE Bien_Ban SET File_attach = @Path WHERE So_Bien_ban = @SoBB";
+                SqlCommand cmdUpdateFile = new SqlCommand();
+                cmdUpdateFile.Connection = con;
+                cmdUpdateFile.CommandType = CommandType.Text;
+                cmdUpdateFile.CommandText = strInsertFile;
+                cmdUpdateFile.Parameters.AddWithValue("@Path", folderPath + Path.GetFileName(this.openFileDialog1.FileName));
+                cmdUpdateFile.Parameters.AddWithValue("@SoBB", txtSoBB.Text.ToString());
+                con.Open();
+                cmdUpdateFile.ExecuteNonQuery();
+                con.Close();
+
+                //Upload file to server
+                string filelocation = openFileDialog1.FileName;
+                File.Copy(filelocation, Path.Combine(@"\\10.224.50.100\\Share_all\\EP Approval\\", Path.GetFileName(filelocation)), true);
+
+                MessageBox.Show("Finished!!!");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }*/
+            Upload.UploadToFileServer(txtSoBB, openFileDialog1);
+        }
     }
 }
+
