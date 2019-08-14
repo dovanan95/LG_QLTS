@@ -100,6 +100,24 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.tabNew = new System.Windows.Forms.TabPage();
+            this.tabRevoke = new System.Windows.Forms.TabPage();
+            this.tabDispose = new System.Windows.Forms.TabPage();
+            this.dgvRevoke = new System.Windows.Forms.DataGridView();
+            this.dgvNew = new System.Windows.Forms.DataGridView();
+            this.dgvDispose = new System.Windows.Forms.DataGridView();
+            this.btnApproveRevoke = new System.Windows.Forms.Button();
+            this.btnSelectAllRevoke = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnAppNew = new System.Windows.Forms.Button();
+            this.btnSelectAllNew = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.btnAppDispose = new System.Windows.Forms.Button();
+            this.btnAllDispose = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.SelectNew = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.SelectRevoke = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.SelectDispose = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -114,6 +132,12 @@
             this.tabCheckExpiredBorrow.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOverDue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tabNew.SuspendLayout();
+            this.tabRevoke.SuspendLayout();
+            this.tabDispose.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRevoke)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvNew)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDispose)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -399,9 +423,9 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Select});
             this.dataGridView1.GridColor = System.Drawing.Color.Crimson;
-            this.dataGridView1.Location = new System.Drawing.Point(23, 94);
+            this.dataGridView1.Location = new System.Drawing.Point(6, 94);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1257, 283);
+            this.dataGridView1.Size = new System.Drawing.Size(1276, 295);
             this.dataGridView1.TabIndex = 1;
             // 
             // Select
@@ -434,9 +458,9 @@
             this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView3.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SelectBorrow});
-            this.dataGridView3.Location = new System.Drawing.Point(28, 95);
+            this.dataGridView3.Location = new System.Drawing.Point(6, 95);
             this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.Size = new System.Drawing.Size(1252, 269);
+            this.dataGridView3.Size = new System.Drawing.Size(1279, 294);
             this.dataGridView3.TabIndex = 5;
             // 
             // SelectBorrow
@@ -517,6 +541,9 @@
             this.tab.Controls.Add(this.tabRepair);
             this.tab.Controls.Add(this.tabLend);
             this.tab.Controls.Add(this.tabCheckExpiredBorrow);
+            this.tab.Controls.Add(this.tabNew);
+            this.tab.Controls.Add(this.tabRevoke);
+            this.tab.Controls.Add(this.tabDispose);
             this.tab.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tab.Location = new System.Drawing.Point(12, 114);
             this.tab.Name = "tab";
@@ -548,7 +575,7 @@
             this.panelOut.Controls.Add(this.btnApproveOut);
             this.panelOut.Controls.Add(this.btnRejectOut);
             this.panelOut.Controls.Add(this.btnUnSelectOut);
-            this.panelOut.Location = new System.Drawing.Point(23, 47);
+            this.panelOut.Location = new System.Drawing.Point(6, 47);
             this.panelOut.Name = "panelOut";
             this.panelOut.Size = new System.Drawing.Size(515, 41);
             this.panelOut.TabIndex = 17;
@@ -597,7 +624,7 @@
             this.label1.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.Info;
-            this.label1.Location = new System.Drawing.Point(986, 57);
+            this.label1.Location = new System.Drawing.Point(988, 47);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(294, 31);
             this.label1.TabIndex = 16;
@@ -624,7 +651,7 @@
             this.panelRepair.Controls.Add(this.btnRejectRepair);
             this.panelRepair.Controls.Add(this.btnUnSelectRepair);
             this.panelRepair.Controls.Add(this.btnApproveRepair);
-            this.panelRepair.Location = new System.Drawing.Point(33, 42);
+            this.panelRepair.Location = new System.Drawing.Point(6, 42);
             this.panelRepair.Name = "panelRepair";
             this.panelRepair.Size = new System.Drawing.Size(485, 49);
             this.panelRepair.TabIndex = 14;
@@ -644,7 +671,7 @@
             this.label2.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Cornsilk;
-            this.label2.Location = new System.Drawing.Point(1057, 45);
+            this.label2.Location = new System.Drawing.Point(1057, 55);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(223, 31);
             this.label2.TabIndex = 12;
@@ -659,9 +686,9 @@
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SelectRepair});
             this.dataGridView2.GridColor = System.Drawing.Color.DarkBlue;
-            this.dataGridView2.Location = new System.Drawing.Point(33, 97);
+            this.dataGridView2.Location = new System.Drawing.Point(6, 97);
             this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(1247, 271);
+            this.dataGridView2.Size = new System.Drawing.Size(1274, 292);
             this.dataGridView2.TabIndex = 4;
             this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
             this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
@@ -692,7 +719,7 @@
             this.panelBorrow.Controls.Add(this.btnRejectLend);
             this.panelBorrow.Controls.Add(this.btnUnSelectLend);
             this.panelBorrow.Controls.Add(this.btnApproveLend);
-            this.panelBorrow.Location = new System.Drawing.Point(28, 37);
+            this.panelBorrow.Location = new System.Drawing.Point(6, 37);
             this.panelBorrow.Name = "panelBorrow";
             this.panelBorrow.Size = new System.Drawing.Size(495, 52);
             this.panelBorrow.TabIndex = 13;
@@ -712,7 +739,7 @@
             this.label3.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Cornsilk;
-            this.label3.Location = new System.Drawing.Point(795, 48);
+            this.label3.Location = new System.Drawing.Point(800, 48);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(485, 31);
             this.label3.TabIndex = 11;
@@ -735,9 +762,9 @@
             // 
             this.dgvOverDue.BackgroundColor = System.Drawing.Color.OldLace;
             this.dgvOverDue.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOverDue.Location = new System.Drawing.Point(41, 75);
+            this.dgvOverDue.Location = new System.Drawing.Point(6, 84);
             this.dgvOverDue.Name = "dgvOverDue";
-            this.dgvOverDue.Size = new System.Drawing.Size(1227, 274);
+            this.dgvOverDue.Size = new System.Drawing.Size(1276, 305);
             this.dgvOverDue.TabIndex = 1;
             // 
             // label6
@@ -745,7 +772,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Cornsilk;
-            this.label6.Location = new System.Drawing.Point(1058, 26);
+            this.label6.Location = new System.Drawing.Point(1072, 50);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(210, 31);
             this.label6.TabIndex = 0;
@@ -767,11 +794,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.Color.Gray;
+            this.label5.BackColor = System.Drawing.Color.DarkRed;
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label5.Font = new System.Drawing.Font("Algerian", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.label5.Location = new System.Drawing.Point(562, 49);
+            this.label5.ForeColor = System.Drawing.Color.AntiqueWhite;
+            this.label5.Location = new System.Drawing.Point(998, 49);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(181, 73);
             this.label5.TabIndex = 14;
@@ -791,6 +818,196 @@
             this.label4.Text = "© 2019 Copyright of Do Van An - Information Technology Department - LG Electronic" +
     "s";
             // 
+            // tabNew
+            // 
+            this.tabNew.BackColor = System.Drawing.Color.DarkGray;
+            this.tabNew.Controls.Add(this.label8);
+            this.tabNew.Controls.Add(this.btnSelectAllNew);
+            this.tabNew.Controls.Add(this.btnAppNew);
+            this.tabNew.Controls.Add(this.dgvNew);
+            this.tabNew.Location = new System.Drawing.Point(4, 29);
+            this.tabNew.Name = "tabNew";
+            this.tabNew.Padding = new System.Windows.Forms.Padding(3);
+            this.tabNew.Size = new System.Drawing.Size(1288, 395);
+            this.tabNew.TabIndex = 4;
+            this.tabNew.Text = "Nhập Mới";
+            // 
+            // tabRevoke
+            // 
+            this.tabRevoke.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.tabRevoke.Controls.Add(this.btnApproveRevoke);
+            this.tabRevoke.Controls.Add(this.btnSelectAllRevoke);
+            this.tabRevoke.Controls.Add(this.label7);
+            this.tabRevoke.Controls.Add(this.dgvRevoke);
+            this.tabRevoke.Location = new System.Drawing.Point(4, 29);
+            this.tabRevoke.Name = "tabRevoke";
+            this.tabRevoke.Padding = new System.Windows.Forms.Padding(3);
+            this.tabRevoke.Size = new System.Drawing.Size(1288, 395);
+            this.tabRevoke.TabIndex = 5;
+            this.tabRevoke.Text = "Nhập Kho";
+            // 
+            // tabDispose
+            // 
+            this.tabDispose.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.tabDispose.Controls.Add(this.label9);
+            this.tabDispose.Controls.Add(this.btnAllDispose);
+            this.tabDispose.Controls.Add(this.btnAppDispose);
+            this.tabDispose.Controls.Add(this.dgvDispose);
+            this.tabDispose.Location = new System.Drawing.Point(4, 29);
+            this.tabDispose.Name = "tabDispose";
+            this.tabDispose.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDispose.Size = new System.Drawing.Size(1288, 395);
+            this.tabDispose.TabIndex = 6;
+            this.tabDispose.Text = "Hủy";
+            // 
+            // dgvRevoke
+            // 
+            this.dgvRevoke.AllowUserToAddRows = false;
+            this.dgvRevoke.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.dgvRevoke.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgvRevoke.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRevoke.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SelectRevoke});
+            this.dgvRevoke.Location = new System.Drawing.Point(6, 91);
+            this.dgvRevoke.Name = "dgvRevoke";
+            this.dgvRevoke.Size = new System.Drawing.Size(1276, 298);
+            this.dgvRevoke.TabIndex = 0;
+            // 
+            // dgvNew
+            // 
+            this.dgvNew.AllowUserToAddRows = false;
+            this.dgvNew.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.dgvNew.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgvNew.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvNew.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SelectNew});
+            this.dgvNew.Location = new System.Drawing.Point(6, 90);
+            this.dgvNew.Name = "dgvNew";
+            this.dgvNew.Size = new System.Drawing.Size(1276, 299);
+            this.dgvNew.TabIndex = 0;
+            // 
+            // dgvDispose
+            // 
+            this.dgvDispose.AllowUserToAddRows = false;
+            this.dgvDispose.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.dgvDispose.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgvDispose.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDispose.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SelectDispose});
+            this.dgvDispose.Location = new System.Drawing.Point(6, 86);
+            this.dgvDispose.Name = "dgvDispose";
+            this.dgvDispose.Size = new System.Drawing.Size(1276, 303);
+            this.dgvDispose.TabIndex = 0;
+            // 
+            // btnApproveRevoke
+            // 
+            this.btnApproveRevoke.Location = new System.Drawing.Point(6, 51);
+            this.btnApproveRevoke.Name = "btnApproveRevoke";
+            this.btnApproveRevoke.Size = new System.Drawing.Size(114, 34);
+            this.btnApproveRevoke.TabIndex = 2;
+            this.btnApproveRevoke.Text = "Approve";
+            this.btnApproveRevoke.UseVisualStyleBackColor = true;
+            // 
+            // btnSelectAllRevoke
+            // 
+            this.btnSelectAllRevoke.Location = new System.Drawing.Point(126, 51);
+            this.btnSelectAllRevoke.Name = "btnSelectAllRevoke";
+            this.btnSelectAllRevoke.Size = new System.Drawing.Size(105, 34);
+            this.btnSelectAllRevoke.TabIndex = 3;
+            this.btnSelectAllRevoke.Text = "Select All";
+            this.btnSelectAllRevoke.UseVisualStyleBackColor = true;
+            this.btnSelectAllRevoke.Click += new System.EventHandler(this.btnSelectAllRevoke_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(1046, 48);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(236, 31);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Revoke Approval";
+            // 
+            // btnAppNew
+            // 
+            this.btnAppNew.Location = new System.Drawing.Point(6, 53);
+            this.btnAppNew.Name = "btnAppNew";
+            this.btnAppNew.Size = new System.Drawing.Size(115, 31);
+            this.btnAppNew.TabIndex = 1;
+            this.btnAppNew.Text = "Approve";
+            this.btnAppNew.UseVisualStyleBackColor = true;
+            this.btnAppNew.Click += new System.EventHandler(this.btnAppNew_Click);
+            // 
+            // btnSelectAllNew
+            // 
+            this.btnSelectAllNew.Location = new System.Drawing.Point(127, 53);
+            this.btnSelectAllNew.Name = "btnSelectAllNew";
+            this.btnSelectAllNew.Size = new System.Drawing.Size(117, 31);
+            this.btnSelectAllNew.TabIndex = 2;
+            this.btnSelectAllNew.Text = "Select All";
+            this.btnSelectAllNew.UseVisualStyleBackColor = true;
+            this.btnSelectAllNew.Click += new System.EventHandler(this.btnSelectAllNew_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(969, 48);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(313, 31);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Input Storage Approval";
+            // 
+            // btnAppDispose
+            // 
+            this.btnAppDispose.Location = new System.Drawing.Point(6, 48);
+            this.btnAppDispose.Name = "btnAppDispose";
+            this.btnAppDispose.Size = new System.Drawing.Size(117, 32);
+            this.btnAppDispose.TabIndex = 1;
+            this.btnAppDispose.Text = "Approve";
+            this.btnAppDispose.UseVisualStyleBackColor = true;
+            // 
+            // btnAllDispose
+            // 
+            this.btnAllDispose.Location = new System.Drawing.Point(129, 48);
+            this.btnAllDispose.Name = "btnAllDispose";
+            this.btnAllDispose.Size = new System.Drawing.Size(117, 32);
+            this.btnAllDispose.TabIndex = 2;
+            this.btnAllDispose.Text = "Select All";
+            this.btnAllDispose.UseVisualStyleBackColor = true;
+            this.btnAllDispose.Click += new System.EventHandler(this.btnAllDispose_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(1039, 44);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(243, 31);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Dispose Approval";
+            // 
+            // SelectNew
+            // 
+            this.SelectNew.HeaderText = "Select";
+            this.SelectNew.Name = "SelectNew";
+            this.SelectNew.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.SelectNew.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // SelectRevoke
+            // 
+            this.SelectRevoke.HeaderText = "Select";
+            this.SelectRevoke.Name = "SelectRevoke";
+            this.SelectRevoke.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.SelectRevoke.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // SelectDispose
+            // 
+            this.SelectDispose.HeaderText = "Select";
+            this.SelectDispose.Name = "SelectDispose";
+            this.SelectDispose.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.SelectDispose.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -800,8 +1017,8 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.tab);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.tab);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -827,6 +1044,15 @@
             this.tabCheckExpiredBorrow.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOverDue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tabNew.ResumeLayout(false);
+            this.tabNew.PerformLayout();
+            this.tabRevoke.ResumeLayout(false);
+            this.tabRevoke.PerformLayout();
+            this.tabDispose.ResumeLayout(false);
+            this.tabDispose.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRevoke)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvNew)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDispose)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -905,5 +1131,23 @@
         private System.Windows.Forms.DataGridView dgvOverDue;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ToolStripMenuItem superDataToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabNew;
+        private System.Windows.Forms.DataGridView dgvNew;
+        private System.Windows.Forms.TabPage tabRevoke;
+        private System.Windows.Forms.DataGridView dgvRevoke;
+        private System.Windows.Forms.TabPage tabDispose;
+        private System.Windows.Forms.DataGridView dgvDispose;
+        private System.Windows.Forms.Button btnSelectAllRevoke;
+        private System.Windows.Forms.Button btnApproveRevoke;
+        private System.Windows.Forms.Button btnSelectAllNew;
+        private System.Windows.Forms.Button btnAppNew;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button btnAllDispose;
+        private System.Windows.Forms.Button btnAppDispose;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn SelectNew;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn SelectRevoke;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn SelectDispose;
     }
 }

@@ -28,9 +28,9 @@ namespace QLTS_LG
         public Main()
         {
             InitializeComponent();
-           
+
         }
-        
+
 
 
         public void Search_Item(int SoDanhMuc)
@@ -87,6 +87,41 @@ namespace QLTS_LG
             daBorrow.Fill(dtBorrow);
             dataGridView3.DataSource = dtBorrow;
 
+            string strNew = "select a.So_BB, a.Ma_TS, a.Approved, b.Ten_TS, b.[S/N], b.FA_Tag, b.IT_Tag, d.Ten_loai, b.Ma_tinh_trang, c.Ten_tinh_trang from Nhap_Moi as a " +
+                "inner join Tai_san as b on a.Ma_TS = b.Ma_TS " +
+                "inner join Status as c on c.Ma_tinh_trang = b.Ma_tinh_trang " +
+                "inner join Loai_TS_cap2 as d on d.Ma_loai = b.Ma_Loai_TS_cap2 " +
+                " where a.Approved = 'false' ";
+            SqlCommand cmdNew = new SqlCommand();
+            cmdNew.Connection = con;
+            cmdNew.CommandType = CommandType.Text;
+            cmdNew.CommandText = strNew;
+            SqlDataAdapter daNew = new SqlDataAdapter(cmdNew);
+            DataTable dtNew = new DataTable();
+            daNew.Fill(dtNew);
+            dgvNew.DataSource = dtNew;
+
+            string strRevoke = "select * from Nhan_tra_TS where Approved = 'false'";
+            SqlCommand cmdRevoke = new SqlCommand();
+            cmdRevoke.Connection = con;
+            cmdRevoke.CommandType = CommandType.Text;
+            cmdRevoke.CommandText = strRevoke;
+            SqlDataAdapter daRevoke = new SqlDataAdapter(cmdRevoke);
+            DataTable dtRevoke = new DataTable();
+            daRevoke.Fill(dtRevoke);
+            dgvRevoke.DataSource = dtRevoke;
+
+            string strDispose = "select * from Huy_TS where Approved = 'false'";
+            SqlCommand cmdDispose = new SqlCommand();
+            cmdDispose.Connection = con;
+            cmdDispose.CommandType = CommandType.Text;
+            cmdDispose.CommandText = strDispose;
+            SqlDataAdapter daDispose = new SqlDataAdapter(cmdDispose);
+            DataTable dtDispose = new DataTable();
+            daDispose.Fill(dtDispose);
+            dgvDispose.DataSource = dtDispose;
+
+
             CheckOverDue();
 
             string strLoadOverDue = "SELECT * FROM Muon_vat_tu WHERE [Qua_han?] = 'true'";
@@ -99,22 +134,22 @@ namespace QLTS_LG
 
             username1 = Login.username;
 
-            if(username1 == "an.do")
+            if (username1 == "an.do")
             {
                 superDataToolStripMenuItem.Visible = true;
             }
-            
-            if(per.CheckPermission() == "user")
+
+            if (per.CheckPermission() == "user")
             {
                 panelBorrow.Visible = false;
                 panelOut.Visible = false;
                 panelRepair.Visible = false;
                 menuAddUser.Enabled = false;
                 menuDeviceType.Visible = false;
-                
+
             }
 
-            if(per.CheckPermission() == "guest")
+            if (per.CheckPermission() == "guest")
             {
                 panelBorrow.Visible = false;
                 panelOut.Visible = false;
@@ -123,7 +158,7 @@ namespace QLTS_LG
                 menuDeviceType.Visible = false;
                 menuJob.Visible = false;
             }
-            
+
         }
         public void SearchBB(int DMBB)
         {
@@ -137,7 +172,7 @@ namespace QLTS_LG
         private void Main_Load(object sender, EventArgs e)
         {
             OutStorageLoad();
-          
+
         }
 
         private void addNewMenu_Click(object sender, EventArgs e)
@@ -161,7 +196,7 @@ namespace QLTS_LG
                 this.Hide();
                 login.ShowDialog();
             }
-            
+
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -185,7 +220,7 @@ namespace QLTS_LG
 
         private void menuAddNew_Click(object sender, EventArgs e)
         {
-            
+
             AddNewItem frm = new AddNewItem();
             //this.Hide();
             frm.ShowDialog();
@@ -237,7 +272,7 @@ namespace QLTS_LG
 
         private void menuReCall_Click(object sender, EventArgs e)
         {
-            
+
             Revoke frm = new Revoke();
             //this.Hide();
             frm.ShowDialog();
@@ -245,7 +280,7 @@ namespace QLTS_LG
 
         private void menuDistribute_Click(object sender, EventArgs e)
         {
-            
+
             Distribute frm = new Distribute();
             //this.Hide();
             frm.ShowDialog();
@@ -328,7 +363,7 @@ namespace QLTS_LG
             //this.Close();
             Disposal frm = new Disposal();
             frm.ShowDialog();
-            
+
 
         }
 
@@ -342,92 +377,92 @@ namespace QLTS_LG
 
         private void btnApproveRepair_Click(object sender, EventArgs e)
         {
-            //try
-            //{
-            AutoStickDuplicatedMTS();
-
-            foreach (DataGridViewRow row in dataGridView2.Rows)
+            try
             {
-                Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
-                if (CheckRow)
+                AutoStickDuplicatedMTS();
+
+                foreach (DataGridViewRow row in dataGridView2.Rows)
                 {
-                    string strUpdate = "UPDATE Sua_chua SET Approved = 'true' WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
-                    SqlCommand cmdUpdate = new SqlCommand();
-                    cmdUpdate.CommandType = CommandType.Text;
-                    cmdUpdate.CommandText = strUpdate;
-                    cmdUpdate.Connection = con;
-                    con.Open();
-                    cmdUpdate.ExecuteNonQuery();
-                    con.Close();
+                    Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
+                    if (CheckRow)
+                    {
+                        string strUpdate = "UPDATE Sua_chua SET Approved = 'true' WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
+                        SqlCommand cmdUpdate = new SqlCommand();
+                        cmdUpdate.CommandType = CommandType.Text;
+                        cmdUpdate.CommandText = strUpdate;
+                        cmdUpdate.Connection = con;
+                        con.Open();
+                        cmdUpdate.ExecuteNonQuery();
+                        con.Close();
+
+
+                    }
+                }
+
+                foreach (DataGridViewRow row in dataGridView2.Rows)
+                {
+                    Boolean ChkRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
+
+
+                    if (ChkRow == true)
+                    {
+                        string VTX = row.Cells["Vat_tu_xuat"].Value.ToString();
+                        if (VTX != "")
+                        {
+                            string strRepair = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out) VALUES (@Ma_TS, @ID_User, @Date)";
+                            SqlCommand cmdRepair = new SqlCommand();
+                            cmdRepair.Connection = con;
+                            cmdRepair.CommandType = CommandType.Text;
+                            cmdRepair.CommandText = strRepair;
+                            cmdRepair.Parameters.AddWithValue("@Ma_TS", row.Cells["Vat_tu_xuat"].Value.ToString());
+                            cmdRepair.Parameters.AddWithValue("@ID_User", row.Cells["ID_nguoi_y/c"].Value.ToString());
+                            cmdRepair.Parameters.AddWithValue("@Date", row.Cells["Ngay_update"].Value.ToString());
+
+                            con.Open();
+                            cmdRepair.ExecuteNonQuery();
+                            con.Close();
+                        }
+                        else if (VTX == "")
+                        {
+
+                        }
+                    }
 
 
                 }
-            }
 
-            foreach (DataGridViewRow row in dataGridView2.Rows)
-            {
-                Boolean ChkRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
-
-
-                if (ChkRow == true)
+                foreach (DataGridViewRow row in dataGridView2.Rows)
                 {
-                    string VTX = row.Cells["Vat_tu_xuat"].Value.ToString();
-                    if (VTX != "")
+                    Boolean ChkRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
+                    if (ChkRow)
                     {
-                        string strRepair = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out) VALUES (@Ma_TS, @ID_User, @Date)";
-                        SqlCommand cmdRepair = new SqlCommand();
-                        cmdRepair.Connection = con;
-                        cmdRepair.CommandType = CommandType.Text;
-                        cmdRepair.CommandText = strRepair;
-                        cmdRepair.Parameters.AddWithValue("@Ma_TS", row.Cells["Vat_tu_xuat"].Value.ToString());
-                        cmdRepair.Parameters.AddWithValue("@ID_User", row.Cells["ID_nguoi_y/c"].Value.ToString());
-                        cmdRepair.Parameters.AddWithValue("@Date", row.Cells["Ngay_update"].Value.ToString());
-
+                        string strRepair2 = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out) VALUES (@Ma_TS, @ID_User, @Date)";
+                        SqlCommand cmdRepair2 = new SqlCommand();
+                        cmdRepair2.Connection = con;
+                        cmdRepair2.CommandType = CommandType.Text;
+                        cmdRepair2.CommandText = strRepair2;
+                        cmdRepair2.Parameters.AddWithValue("@Ma_TS", row.Cells["Ma_TS"].Value.ToString());
+                        cmdRepair2.Parameters.AddWithValue("@ID_User", row.Cells["ID_nguoi_y/c"].Value.ToString());
+                        cmdRepair2.Parameters.AddWithValue("@Date", row.Cells["Ngay_update"].Value.ToString());
                         con.Open();
-                        cmdRepair.ExecuteNonQuery();
+                        cmdRepair2.ExecuteNonQuery();
                         con.Close();
                     }
-                    else if (VTX == "")
-                    {
-
-                    }
                 }
-                
+                string tableName = "Ngoai_Kho";
+                string fieldName = "Ma_TS";
+
+                AntiDuplicated antiDuplicated = new AntiDuplicated();
+                antiDuplicated.DeleteDuplicatedRow(tableName, fieldName);
+
+                OutStorageLoad();
 
             }
-
-            foreach (DataGridViewRow row in dataGridView2.Rows)
+            catch (Exception ex)
             {
-                Boolean ChkRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
-                if (ChkRow)
-                {
-                    string strRepair2 = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out) VALUES (@Ma_TS, @ID_User, @Date)";
-                    SqlCommand cmdRepair2 = new SqlCommand();
-                    cmdRepair2.Connection = con;
-                    cmdRepair2.CommandType = CommandType.Text;
-                    cmdRepair2.CommandText = strRepair2;
-                    cmdRepair2.Parameters.AddWithValue("@Ma_TS", row.Cells["Ma_TS"].Value.ToString());
-                    cmdRepair2.Parameters.AddWithValue("@ID_User", row.Cells["ID_nguoi_y/c"].Value.ToString());
-                    cmdRepair2.Parameters.AddWithValue("@Date", row.Cells["Ngay_update"].Value.ToString());
-                    con.Open();
-                    cmdRepair2.ExecuteNonQuery();
-                    con.Close();
-                }
+                MessageBox.Show(ex.Message);
+                //throw;
             }
-            string tableName = "Ngoai_Kho";
-            string fieldName = "Ma_TS";
-
-            AntiDuplicated antiDuplicated = new AntiDuplicated();
-            antiDuplicated.DeleteDuplicatedRow(tableName, fieldName);
-
-            OutStorageLoad();
-
-            //}
-            //catch(Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //throw;
-            //}
         }
 
         private void menuLending_Click(object sender, EventArgs e)
@@ -497,31 +532,42 @@ namespace QLTS_LG
 
         private void btnApproveLend_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dataGridView3.Rows)
+            try
             {
-                string strBrr = "UPDATE Muon_vat_tu SET Approved= 'true' WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
-                SqlCommand cmdBrrUpdate = new SqlCommand();
-                cmdBrrUpdate.Connection = con;
-                cmdBrrUpdate.CommandType = CommandType.Text;
-                cmdBrrUpdate.CommandText = strBrr;
-                con.Open();
-                cmdBrrUpdate.ExecuteNonQuery();
-                con.Close();
+                foreach (DataGridViewRow row in dataGridView3.Rows)
+                {
+                    Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectBorrow"].Value);
+                    if (CheckRow)
+                    {
 
-                string strXuat = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out) VALUES (@MTS, @IDUser, @Date)";
-                SqlCommand cmdOut = new SqlCommand();
-                cmdOut.Connection = con;
-                cmdOut.CommandType = CommandType.Text;
-                cmdOut.CommandText = strXuat;
-                cmdOut.Parameters.AddWithValue("@MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value));
-                cmdOut.Parameters.AddWithValue("@IDUser", row.Cells["ID_nguoi_muon"].Value.ToString());
-                cmdOut.Parameters.AddWithValue("@Date", DateTime.Now.ToString());
-                con.Open();
-                cmdOut.ExecuteNonQuery();
-                con.Close();
+                        string strBrr = "UPDATE Muon_vat_tu SET Approved = 'true' WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
+                        SqlCommand cmdBrrUpdate = new SqlCommand();
+                        cmdBrrUpdate.Connection = con;
+                        cmdBrrUpdate.CommandType = CommandType.Text;
+                        cmdBrrUpdate.CommandText = strBrr;
+                        con.Open();
+                        cmdBrrUpdate.ExecuteNonQuery();
+                        con.Close();
 
+                        string strXuat = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out) VALUES (@MTS, @IDUser, @Date)";
+                        SqlCommand cmdOut = new SqlCommand();
+                        cmdOut.Connection = con;
+                        cmdOut.CommandType = CommandType.Text;
+                        cmdOut.CommandText = strXuat;
+                        cmdOut.Parameters.AddWithValue("@MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value));
+                        cmdOut.Parameters.AddWithValue("@IDUser", row.Cells["ID_nguoi_muon"].Value.ToString());
+                        cmdOut.Parameters.AddWithValue("@Date", DateTime.Now.ToString());
+                        con.Open();
+                        cmdOut.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+                OutStorageLoad();
             }
-            OutStorageLoad();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void tabCheckExpiredBorrow_Click(object sender, EventArgs e)
@@ -582,6 +628,61 @@ namespace QLTS_LG
         private void label5_Click(object sender, EventArgs e)
         {
             OutStorageLoad();
+        }
+
+        private void btnSelectAllNew_Click(object sender, EventArgs e)
+        {
+            auto.AutoSelectAll(dgvNew, "SelectNew");
+        }
+
+        private void btnSelectAllRevoke_Click(object sender, EventArgs e)
+        {
+            auto.AutoSelectAll(dgvRevoke, "SelectRevoke");
+        }
+
+        private void btnAllDispose_Click(object sender, EventArgs e)
+        {
+            auto.AutoSelectAll(dgvDispose, "SelectDispose");
+        }
+
+        private void btnAppNew_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                foreach (DataGridViewRow row in dgvNew.Rows)
+                {
+                    Boolean ChecRow = Convert.ToBoolean(row.Cells["SelectNew"].Value);
+                    if (ChecRow)
+                    {
+                        string strApproveNew = "update Nhap_Moi set Approved = 'true' where Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
+                        SqlCommand cmdAppNew = new SqlCommand();
+                        cmdAppNew.Connection = con;
+                        cmdAppNew.CommandType = CommandType.Text;
+                        cmdAppNew.CommandText = strApproveNew;
+                        con.Open();
+                        cmdAppNew.ExecuteNonQuery();
+                        con.Close();
+
+                        string strInStorage = "insert into Luu_kho (Ma_TS, Tinh_Trang, Ngay_update) values (@MTS, @Status, @Date)";
+                        SqlCommand cmdInNew = new SqlCommand();
+                        cmdInNew.Connection = con;
+                        cmdInNew.CommandType = CommandType.Text;
+                        cmdInNew.CommandText = strInStorage;
+                        cmdInNew.Parameters.AddWithValue("@MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value));
+                        cmdInNew.Parameters.AddWithValue("@Date", DateTime.Now.ToString());
+                        cmdInNew.Parameters.AddWithValue("@Status", row.Cells["Ma_tinh_trang"].Value.ToString());
+                        con.Open();
+                        cmdInNew.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+                OutStorageLoad();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
     }
 }

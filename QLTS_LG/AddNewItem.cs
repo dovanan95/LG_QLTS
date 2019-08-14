@@ -77,14 +77,15 @@ namespace QLTS_LG
             SqlCommand input = new SqlCommand();
             input.Connection = con;
             input.CommandType = CommandType.Text;
-            input.CommandText = "INSERT INTO Nhap_Moi (So_BB, Ma_TS) " +
-                                "VALUES(@So_BB, @Ma_TS)";
+            input.CommandText = "INSERT INTO Nhap_Moi (So_BB, Ma_TS, Approved) " +
+                                "VALUES(@So_BB, @Ma_TS, @App)";
             input.Parameters.AddWithValue("@So_BB", txtSoBB.Text.ToString());
             input.Parameters.AddWithValue("@Ma_TS", txtMaTS.Text.ToString());
+            input.Parameters.AddWithValue("@App", false);
             input.ExecuteNonQuery();
             con.Close();
 
-            con.Open();
+            /*con.Open();
             SqlCommand Save = new SqlCommand();
             Save.Connection = con;
             Save.CommandType = CommandType.Text;
@@ -93,7 +94,7 @@ namespace QLTS_LG
             Save.Parameters.AddWithValue("@Tinh_Trang", "NE");
             Save.Parameters.AddWithValue("@Ngay_update", DateTime.Now.ToString());
             Save.ExecuteNonQuery();
-            con.Close();
+            con.Close();*/
 
             ReloadData();
             //txtSoBB.ResetText();

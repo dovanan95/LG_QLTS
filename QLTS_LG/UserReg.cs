@@ -21,6 +21,7 @@ namespace QLTS_LG
 
         Cryptography Cryptography = new Cryptography();
         bool flag = false;
+        bool flag2 = false;
         public UserReg()
         {
             InitializeComponent();
@@ -36,6 +37,7 @@ namespace QLTS_LG
         private void UserReg_Load(object sender, EventArgs e)
         {
             LoadCombobox.LoadPermission(cbPermission);
+            pnlReg.Enabled = false;
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -53,6 +55,10 @@ namespace QLTS_LG
             txtUserName.ResetText();
             txtPass.ResetText();
             txtPassConfirm.ResetText();
+            txtID.ResetText();
+            txtID.Enabled = true;
+            flag2 = false;
+            pnlReg.Enabled = false;
         }
 
         private void btnReg_Click(object sender, EventArgs e)
@@ -87,7 +93,7 @@ namespace QLTS_LG
                 {
                     if (txtPass.Text.ToString() == txtPassConfirm.Text.ToString())
                     {
-                        string strReg = "insert into Login (ID_User, Password, permission) values (@ID, @pass, @per)";
+                        string strReg = "insert into Login (ID_User, Password, permission, ID) values (@ID, @pass, @per, @ID)";
                         SqlCommand cmdReg = new SqlCommand();
                         cmdReg.Connection = con;
                         cmdReg.CommandType = CommandType.Text;
@@ -95,6 +101,7 @@ namespace QLTS_LG
                         cmdReg.Parameters.AddWithValue("@ID", txtUserName.Text.ToString());
                         cmdReg.Parameters.AddWithValue("@pass", Cryptography.ComputeSha256Hash(txtPass.Text.ToString()));
                         cmdReg.Parameters.AddWithValue("@per", cbPermission.SelectedValue);
+                        cmdReg.Parameters.AddWithValue("@ID", txtID.Text.ToString());
                         con.Open();
                         cmdReg.ExecuteNonQuery();
                         con.Close();
@@ -170,6 +177,55 @@ namespace QLTS_LG
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnCheck_Click(object sender, EventArgs e)
+        {
+            string strCheckExist = "select ID from _User";
+            SqlCommand cmdCE = new SqlCommand(strCheckExist, con);
+            SqlDataReader rdrCE = null;
+
+          
+
+            con.Open();
+            rdrCE = cmdCE.ExecuteReader();
+            while(rdrCE.Read())
+            {
+                if(txtID.Text.ToUpper() == rdrCE["ID"].ToString())
+                {
+                    flag2 = true;
+                }
+
+            }
+            con.Close();
+
+            if (flag2 == true)
+            {
+                pnlReg.Enabled = true;
+                txtID.Enabled = false;
+            }
+            else if (flag2 == false)
+            {
+                DialogResult dialog = MessageBox.Show("Account is not exist!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                if(dialog == DialogResult.OK)
+                {
+                    txtID.ResetText();
+                    
+                }
+            }
+        }
+
+        private void txtID_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void txtID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                btnCheck_Click(this, new EventArgs());
+            }
         }
     }
 }
