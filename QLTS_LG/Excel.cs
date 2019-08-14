@@ -181,30 +181,35 @@ namespace QLTS_LG
                 MessageBox.Show(ex.Message);
             }
         }
-        public void Export_Excel3(SaveFileDialog saveFile, DataTable dataTable)
+        public void Export_Excel3(DataTable dataTable)
         {
+
+            SaveFileDialog sfd = new SaveFileDialog();
+
+            sfd.FileName = "Data.xlsx";
            
-
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.Description = "Save As";
-
             string folderPath = "D:\\Excel\\ ";
 
-
+            sfd.Filter = "(.xlsx)|.xlsx";
 
             if (Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
 
             }
-            //string folderPath = fbd.SelectedPath;
-            using (XLWorkbook wb = new XLWorkbook())
+
+            if (sfd.ShowDialog() == DialogResult.OK)
             {
-                wb.Worksheets.Add(dataTable, "Transaction");
-                //if (!String.IsNullOrWhiteSpace(saveFile.FileName))
-                wb.SaveAs(folderPath + "Data.xlsx");
+                //string folderPath = fbd.SelectedPath;
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+                    string folderPath2 = Path.GetDirectoryName(sfd.FileName);
+                    wb.Worksheets.Add(dataTable, "Transaction");
+                    //if (!String.IsNullOrWhiteSpace(saveFile.FileName))
+                    wb.SaveAs(sfd.FileName);
 
 
+                }
             }
         }
 

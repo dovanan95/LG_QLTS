@@ -153,7 +153,7 @@ namespace QLTS_LG
         private void btnExcel_Click(object sender, EventArgs e)
         {
             //excel.Export_Excel(saveFileDialog1, dgvTransaction);
-            excel.Export_Excel3(saveFileDialog1, dtTransaction);
+            excel.Export_Excel3(dtTransaction);
         }
     }
 }
