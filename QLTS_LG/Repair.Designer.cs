@@ -55,6 +55,8 @@
             this.txtIT_Tag = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtSpec = new System.Windows.Forms.TextBox();
             this.rdrNoUse = new System.Windows.Forms.RadioButton();
             this.rdrYesUse = new System.Windows.Forms.RadioButton();
             this.label16 = new System.Windows.Forms.Label();
@@ -91,8 +93,6 @@
             this.btnFinalTransfer = new System.Windows.Forms.Button();
             this.panel8 = new System.Windows.Forms.Panel();
             this.btnDel = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtSpec = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAddingDevice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAddOutDevice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListDevice)).BeginInit();
@@ -394,6 +394,24 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(453, 158);
             this.panel5.TabIndex = 8;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.Cornsilk;
+            this.label9.Location = new System.Drawing.Point(250, 52);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(36, 13);
+            this.label9.TabIndex = 29;
+            this.label9.Text = "Spec";
+            // 
+            // txtSpec
+            // 
+            this.txtSpec.Location = new System.Drawing.Point(296, 47);
+            this.txtSpec.Name = "txtSpec";
+            this.txtSpec.Size = new System.Drawing.Size(150, 20);
+            this.txtSpec.TabIndex = 28;
             // 
             // rdrNoUse
             // 
@@ -776,30 +794,12 @@
             this.btnDel.UseVisualStyleBackColor = true;
             this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.Cornsilk;
-            this.label9.Location = new System.Drawing.Point(250, 52);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(36, 13);
-            this.label9.TabIndex = 29;
-            this.label9.Text = "Spec";
-            // 
-            // txtSpec
-            // 
-            this.txtSpec.Location = new System.Drawing.Point(296, 47);
-            this.txtSpec.Name = "txtSpec";
-            this.txtSpec.Size = new System.Drawing.Size(150, 20);
-            this.txtSpec.TabIndex = 28;
-            // 
             // Repair
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(1284, 638);
+            this.ClientSize = new System.Drawing.Size(1374, 638);
             this.Controls.Add(this.pnlUseAddingDevice);
             this.Controls.Add(this.panel8);
             this.Controls.Add(this.dgvListFinal);

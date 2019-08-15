@@ -97,5 +97,35 @@ namespace QLTS_LG
             cmdUnit.ExecuteNonQuery();
             con.Close();
         }
+        public void LoadEmpStatus(ComboBox cbEmpStatus)
+        {
+            con.Open();
+            string strEmpLoad = "select * from Emp_Status";
+            SqlCommand cmdEmpLoad = new SqlCommand(strEmpLoad, con);
+            DataTable dtEmp = new DataTable();
+            SqlDataAdapter daEmp = new SqlDataAdapter(cmdEmpLoad);
+            daEmp.Fill(dtEmp);
+            cbEmpStatus.DataSource = dtEmp;
+            cbEmpStatus.DisplayMember = "Emp_Name";
+            cbEmpStatus.ValueMember = "ECode";
+            cbEmpStatus.Enabled = true;
+            cmdEmpLoad.ExecuteNonQuery();
+            con.Close();
+        }
+        public void LoadORG(ComboBox cbORG)
+        {
+            con.Open();
+            string strORG = "select * from ORG_NAME";
+            SqlCommand cmdORG = new SqlCommand(strORG, con);
+            DataTable dtORG = new DataTable();
+            SqlDataAdapter daORG = new SqlDataAdapter(cmdORG);
+            daORG.Fill(dtORG);
+            cbORG.DataSource = dtORG;
+            cbORG.DisplayMember = "Org_name";
+            cbORG.ValueMember = "Org_code";
+            cbORG.Enabled = true;
+            cmdORG.ExecuteNonQuery();
+            con.Close();
+        }
     }
 }

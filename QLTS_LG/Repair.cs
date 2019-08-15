@@ -22,6 +22,7 @@ namespace QLTS_LG
         DataTable Table = new DataTable();
         CopyGridView CopyGrid = new CopyGridView();
         AutoComplete AutoComplete = new AutoComplete();
+        UserUpdate update = new UserUpdate();
 
 
         public Repair()
@@ -485,7 +486,7 @@ namespace QLTS_LG
 
         private void btnUserSearch_Click(object sender, EventArgs e)
         {
-            string Search_User = "SELECT * FROM _User WHERE _User.ID='" + txtIDSearch.Text.ToString() + "'";
+            /*string Search_User = "SELECT * FROM _User WHERE _User.ID='" + txtIDSearch.Text.ToString() + "' and _User.Emp_Status = 'EMP'";
             SqlDataAdapter daSearch = new SqlDataAdapter(Search_User, con);
             DataTable dtSearch = new DataTable();
             daSearch.Fill(dtSearch);
@@ -502,9 +503,10 @@ namespace QLTS_LG
             }
             else
             {
-                MessageBox.Show("Khong co thong tin!", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Chua co du lieu hoac nguoi dung da nghi viec!", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btnUpdate.Enabled = true;
-            }
+            }*/
+            update.SearchUser(txtIDSearch, txtUserID, txtUserName, txtPhone, txtMail, txtDept, chkOSP, btnUpdate);
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)

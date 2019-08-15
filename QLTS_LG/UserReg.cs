@@ -18,6 +18,7 @@ namespace QLTS_LG
         SqlConnection con = new SqlConnection(connectionString);
         SqlConnection con2 = new SqlConnection(connectionString);
         LoadComboboxData LoadCombobox = new LoadComboboxData();
+        User_Management management = new User_Management();
 
         Cryptography Cryptography = new Cryptography();
         bool flag = false;
@@ -176,7 +177,8 @@ namespace QLTS_LG
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-
+            User_Management management = new User_Management();
+            management.ShowDialog();
         }
 
         private void btnCheck_Click(object sender, EventArgs e)
@@ -210,7 +212,7 @@ namespace QLTS_LG
                 if(dialog == DialogResult.OK)
                 {
                     txtID.ResetText();
-                    
+                    management.ShowDialog();
                 }
             }
         }

@@ -101,7 +101,7 @@ namespace QLTS_LG
             daNew.Fill(dtNew);
             dgvNew.DataSource = dtNew;
 
-            string strRevoke = "select * from Nhan_tra_TS where Approved = 'false'";
+            string strRevoke = "select * from Nhan_tra_TS as a where a.Approved = 'false'";
             SqlCommand cmdRevoke = new SqlCommand();
             cmdRevoke.Connection = con;
             cmdRevoke.CommandType = CommandType.Text;
@@ -146,7 +146,10 @@ namespace QLTS_LG
                 panelRepair.Visible = false;
                 menuAddUser.Enabled = false;
                 menuDeviceType.Visible = false;
-
+                menuHRM.Visible = false;
+                pnlDispose.Visible = false;
+                pnlNew.Visible = false;
+                pnlRevoke.Visible = false;
             }
 
             if (per.CheckPermission() == "guest")
@@ -157,6 +160,10 @@ namespace QLTS_LG
                 menuAddUser.Visible = false;
                 menuDeviceType.Visible = false;
                 menuJob.Visible = false;
+                menuDataModify.Visible = false;
+                pnlRevoke.Visible = false;
+                pnlNew.Visible = false;
+                pnlDispose.Visible = false;
             }
 
         }
@@ -683,6 +690,98 @@ namespace QLTS_LG
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+        private void btnApproveRevoke_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                foreach (DataGridViewRow row in dgvRevoke.Rows)
+                {
+                    Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectRevoke"].Value);
+                    if (CheckRow)
+                    {
+                        string strAppRevoke = "update Nhan_tra_TS set Approved = 'true' where Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
+                        SqlCommand cmdAppRevoke = new SqlCommand();
+                        cmdAppRevoke.Connection = con;
+                        cmdAppRevoke.CommandType = CommandType.Text;
+                        cmdAppRevoke.CommandText = strAppRevoke;
+                        con.Open();
+                        cmdAppRevoke.ExecuteNonQuery();
+                        con.Close();
+
+                        string strRevoke = "insert into Luu_kho (Ma_TS, Tinh_Trang, Ngay_update) values (@MTS, @Status, @Date)";
+                        SqlCommand cmdRevoke = new SqlCommand();
+                        cmdRevoke.Connection = con;
+                        cmdRevoke.CommandType = CommandType.Text;
+                        cmdRevoke.CommandText = strRevoke;
+                        cmdRevoke.Parameters.AddWithValue("@MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value));
+                        cmdRevoke.Parameters.AddWithValue("@Status", row.Cells["Ma_tinh_trang"].Value.ToString());
+                        cmdRevoke.Parameters.AddWithValue("@Date", DateTime.Now.ToString());
+                        con.Open();
+                        cmdRevoke.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+
+                OutStorageLoad();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        private void btnAppDispose_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                foreach (DataGridViewRow row in dgvDispose.Rows)
+                {
+                    Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectDispose"].Value);
+                    if (CheckRow)
+                    {
+                        string strApp = "update Huy_TS set Approved = 'true' where Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
+                        SqlCommand cmdApp = new SqlCommand();
+                        cmdApp.Connection = con;
+                        cmdApp.CommandType = CommandType.Text;
+                        cmdApp.CommandText = strApp;
+                        con.Open();
+                        cmdApp.ExecuteNonQuery();
+                        con.Close();
+
+                        string strDispose = "DELETE FROM Luu_kho WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
+                        SqlCommand cmdDispose = new SqlCommand();
+                        cmdDispose.Connection = con;
+                        cmdDispose.CommandType = CommandType.Text;
+                        cmdDispose.CommandText = strDispose;
+                        con.Open();
+                        cmdDispose.ExecuteNonQuery();
+                        con.Close();
+
+                        string strUpdate = "update Tai_san set Ma_tinh_trang = 'DIS' where Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
+                        SqlCommand cmdUpdate = new SqlCommand();
+                        cmdUpdate.Connection = con;
+                        cmdUpdate.CommandType = CommandType.Text;
+                        cmdUpdate.CommandText = strUpdate;
+                        con.Open();
+                        cmdUpdate.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+                OutStorageLoad();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void menuHRM_Click(object sender, EventArgs e)
+        {
+            User_Management management = new User_Management();
+            management.ShowDialog();
         }
     }
 }

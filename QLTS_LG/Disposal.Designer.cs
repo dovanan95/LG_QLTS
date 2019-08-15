@@ -61,7 +61,7 @@
             // btnBack
             // 
             this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBack.Location = new System.Drawing.Point(314, 58);
+            this.btnBack.Location = new System.Drawing.Point(314, 75);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(75, 23);
             this.btnBack.TabIndex = 0;
@@ -74,7 +74,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label1.Location = new System.Drawing.Point(15, 20);
+            this.label1.Location = new System.Drawing.Point(15, 33);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 15);
             this.label1.TabIndex = 1;
@@ -83,7 +83,7 @@
             // txtSoBB
             // 
             this.txtSoBB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSoBB.Location = new System.Drawing.Point(107, 20);
+            this.txtSoBB.Location = new System.Drawing.Point(107, 29);
             this.txtSoBB.Name = "txtSoBB";
             this.txtSoBB.Size = new System.Drawing.Size(201, 21);
             this.txtSoBB.TabIndex = 2;
@@ -107,9 +107,9 @@
             this.btnFinished.BackColor = System.Drawing.SystemColors.Control;
             this.btnFinished.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFinished.ForeColor = System.Drawing.Color.Crimson;
-            this.btnFinished.Location = new System.Drawing.Point(107, 58);
+            this.btnFinished.Location = new System.Drawing.Point(107, 75);
             this.btnFinished.Name = "btnFinished";
-            this.btnFinished.Size = new System.Drawing.Size(137, 23);
+            this.btnFinished.Size = new System.Drawing.Size(201, 23);
             this.btnFinished.TabIndex = 5;
             this.btnFinished.Text = "Lập Biên Bản";
             this.btnFinished.UseVisualStyleBackColor = false;
@@ -118,7 +118,7 @@
             // btnCreate
             // 
             this.btnCreate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCreate.Location = new System.Drawing.Point(314, 19);
+            this.btnCreate.Location = new System.Drawing.Point(314, 29);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(75, 23);
             this.btnCreate.TabIndex = 4;
@@ -158,9 +158,9 @@
             // btnTransfer
             // 
             this.btnTransfer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTransfer.Location = new System.Drawing.Point(221, 93);
+            this.btnTransfer.Location = new System.Drawing.Point(199, 93);
             this.btnTransfer.Name = "btnTransfer";
-            this.btnTransfer.Size = new System.Drawing.Size(75, 23);
+            this.btnTransfer.Size = new System.Drawing.Size(97, 23);
             this.btnTransfer.TabIndex = 16;
             this.btnTransfer.Text = ">>";
             this.btnTransfer.UseVisualStyleBackColor = true;
@@ -180,9 +180,9 @@
             // btnSearch
             // 
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(140, 93);
+            this.btnSearch.Location = new System.Drawing.Point(82, 93);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnSearch.Size = new System.Drawing.Size(111, 23);
             this.btnSearch.TabIndex = 5;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;

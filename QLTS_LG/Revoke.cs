@@ -28,6 +28,9 @@ namespace QLTS_LG
         DataTable Table = new DataTable();
         AntiDuplicated AntiDuplicated = new AntiDuplicated();
 
+        UserUpdate update = new UserUpdate();
+
+
         bool flag = false;
 
         public Revoke()
@@ -227,7 +230,7 @@ namespace QLTS_LG
                                 if (row.Cells["Ma_TS"].Value.ToString() == rdrSelect_TS["Ma_TS"].ToString())
                                 {
                                     string strStatusCode = rdrSelect_TS["Ma_tinh_trang"].ToString();
-                                    string strReceived = "INSERT INTO Nhan_tra_TS (So_BB_nhan, Ma_TS, ID_Nguoi_tra, Ma_tinh_trang, Remark) VALUES (@BB_No, @Ma_TS, @User_ID, @Status, @Remark)";
+                                    string strReceived = "INSERT INTO Nhan_tra_TS (So_BB_nhan, Ma_TS, ID_Nguoi_tra, Ma_tinh_trang, Remark, Approved) VALUES (@BB_No, @Ma_TS, @User_ID, @Status, @Remark, @App)";
                                     SqlCommand cmdReceived = new SqlCommand();
                                     cmdReceived.Connection = con2;
                                     cmdReceived.CommandType = CommandType.Text;
@@ -236,6 +239,7 @@ namespace QLTS_LG
                                     cmdReceived.Parameters.AddWithValue("@Ma_TS", Convert.ToInt32(row.Cells["Ma_TS"].Value));
                                     cmdReceived.Parameters.AddWithValue("@User_ID", txtUserID2.Text.ToString());
                                     cmdReceived.Parameters.AddWithValue("@Status", strStatusCode);
+                                    cmdReceived.Parameters.AddWithValue("@App", false);
                                     if (row.Cells["Remark"].Value != null)
                                     {
                                         cmdReceived.Parameters.AddWithValue("@Remark", row.Cells["Remark"].Value.ToString());
@@ -248,7 +252,7 @@ namespace QLTS_LG
                                     cmdReceived.ExecuteNonQuery();
                                     con2.Close();
 
-                                    string strIn_Storage = "INSERT INTO Luu_kho (Ma_TS, Tinh_Trang, Ngay_update) VALUES (@Ma_TS, @Status, @DATE)";
+                                    /*string strIn_Storage = "INSERT INTO Luu_kho (Ma_TS, Tinh_Trang, Ngay_update) VALUES (@Ma_TS, @Status, @DATE)";
                                     SqlCommand cmdIn_Storage = new SqlCommand();
                                     cmdIn_Storage.Connection = con2;
                                     cmdIn_Storage.CommandType = CommandType.Text;
@@ -258,7 +262,7 @@ namespace QLTS_LG
                                     cmdIn_Storage.Parameters.AddWithValue("@DATE", DateTime.Now.ToString());
                                     con2.Open();
                                     cmdIn_Storage.ExecuteNonQuery();
-                                    con2.Close();
+                                    con2.Close();*/
 
 
                                 }
@@ -485,7 +489,7 @@ namespace QLTS_LG
 
         private void btnUserSearch_Click(object sender, EventArgs e)
         {
-            string Search_User = "SELECT * FROM _User WHERE _User.ID='" + txtIDSearch.Text.ToString() + "'";
+            /*string Search_User = "SELECT * FROM _User WHERE _User.ID='" + txtIDSearch.Text.ToString() + "' and _User.Emp_Status = 'EMP'";
             SqlDataAdapter daSearch = new SqlDataAdapter(Search_User, con);
             DataTable dtSearch = new DataTable();
             daSearch.Fill(dtSearch);
@@ -502,9 +506,10 @@ namespace QLTS_LG
             }
             else
             {
-                MessageBox.Show("Khong co thong tin!", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("No information or User resigned!", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btnUpdate.Enabled = true;
-            }
+            }*/
+            update.SearchUser(txtIDSearch, txtUserID2, txtUser_Name, txtPhone, txtMail, txtDept, chkOSP, btnUpdate);
         }
 
         private void btnUpdateUser_Click(object sender, EventArgs e)

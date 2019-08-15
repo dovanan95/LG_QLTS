@@ -128,18 +128,19 @@ namespace QLTS_LG
                     Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
                     if (CheckRow)
                     {
-                        string strHuy = "INSERT INTO Huy_TS (BB_Huy, Ma_TS) VALUES (@BB, @MTS)";
+                        string strHuy = "INSERT INTO Huy_TS (BB_Huy, Ma_TS, Approved) VALUES (@BB, @MTS, @App)";
                         SqlCommand cmdHuy = new SqlCommand();
                         cmdHuy.Connection = con;
                         cmdHuy.CommandType = CommandType.Text;
                         cmdHuy.CommandText = strHuy;
                         cmdHuy.Parameters.AddWithValue("@BB", txtSoBB.Text.ToString());
                         cmdHuy.Parameters.AddWithValue("@MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value));
+                        cmdHuy.Parameters.AddWithValue("@App", false);
                         con.Open();
                         cmdHuy.ExecuteNonQuery();
                         con.Close();
 
-                        string strDispose = "DELETE FROM Luu_kho WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
+                        /*string strDispose = "DELETE FROM Luu_kho WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
                         SqlCommand cmdDispose = new SqlCommand();
                         cmdDispose.Connection = con;
                         cmdDispose.CommandType = CommandType.Text;
@@ -155,7 +156,7 @@ namespace QLTS_LG
                         cmdUpdate.CommandText = strUpdate;
                         con.Open();
                         cmdUpdate.ExecuteNonQuery();
-                        con.Close();
+                        con.Close();*/
                     }
                 }
 

@@ -28,6 +28,8 @@ namespace QLTS_LG
         SqlDataAdapter DataAdapter = new SqlDataAdapter();
         DataTable Table = new DataTable();
 
+        UserUpdate update = new UserUpdate();
+
         public void LoadDataStatus()
         {
             con.Open();
@@ -261,7 +263,7 @@ namespace QLTS_LG
 
         private void btnUserSearch_Click(object sender, EventArgs e)
         {
-            string Search_User = "SELECT * FROM _User WHERE _User.ID='" + txtIDSearch.Text.ToString() + "'";
+            /*string Search_User = "SELECT * FROM _User WHERE _User.ID='" + txtIDSearch.Text.ToString() + "' and _User.Emp_Status = 'EMP'";
             SqlDataAdapter daSearch = new SqlDataAdapter(Search_User, con);
             DataTable dtSearch = new DataTable();
             daSearch.Fill(dtSearch);
@@ -278,20 +280,28 @@ namespace QLTS_LG
             }
             else
             {
-                MessageBox.Show("Khong co thong tin!", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Chua co du lieu hoac nguoi dung da nghi viec!", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btnUpdate.Enabled = true;
-            }
+                txtIDSearch.ResetText();
+                txtUserID2.ResetText();
+                txtPhone.ResetText();
+                txtUser_Name.ResetText();
+                txtMail.ResetText();
+                txtDept.ResetText();
+            }*/
+
+            update.SearchUser(txtIDSearch, txtUserID2, txtUser_Name, txtPhone, txtMail, txtDept, chkOSP, btnUpdate);
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            UserUpdate update = new UserUpdate();
+            
             update.UpdateUser(txtUserID2, txtUser_Name, txtPhone, txtMail, txtDept, chkOSP);
         }
 
         private void tnInsertUser_Click(object sender, EventArgs e)
         {
-            UserUpdate update = new UserUpdate();
+            
             update.InsertUser(txtUserID2, txtUser_Name, txtPhone, txtMail, txtDept, chkOSP);
         }
 

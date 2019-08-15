@@ -20,7 +20,7 @@ namespace QLTS_LG
 
         public void UpdateUser(TextBox txtUserID, TextBox txtUserName, TextBox txtPhone, TextBox txtMail, TextBox txtDept, CheckBox chkOSP)
         {
-            string strUpdate = "UPDATE _User SET ID=@ID, Name=@Name, Phone=@Phone, Mail=@Mail, Dept=@Dept, OSP=@OSP WHERE ID= '" + txtUserID + "'";
+            string strUpdate = "UPDATE _User SET ID=@ID, Name=@Name, Phone=@Phone, Mail=@Mail, Dept=@Dept, OSP=@OSP WHERE ID= '" + txtUserID.Text.ToString() + "'";
             SqlCommand cmdUpdate = new SqlCommand();
             cmdUpdate.Connection = con;
             cmdUpdate.CommandType = CommandType.Text;
@@ -46,7 +46,7 @@ namespace QLTS_LG
 
         public void SearchUser(TextBox txtIDSearch, TextBox txtUserID,  TextBox txtUserName, TextBox txtPhone, TextBox txtMail, TextBox txtDept, CheckBox chkOSP, Button btnUpdate)
         {
-            string Search_User = "SELECT * FROM _User WHERE _User.ID='" + txtIDSearch.Text.ToString() + "'";
+            string Search_User = "SELECT * FROM _User WHERE _User.ID='" + txtIDSearch.Text.ToString() + "' and _User.Emp_Status = 'EMP'";
             SqlDataAdapter daSearch = new SqlDataAdapter(Search_User, con);
             DataTable dtSearch = new DataTable();
             daSearch.Fill(dtSearch);
@@ -63,8 +63,14 @@ namespace QLTS_LG
             }
             else
             {
-                MessageBox.Show("Khong co thong tin!", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("No information or User resigned!!!", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btnUpdate.Enabled = true;
+                txtIDSearch.ResetText();
+                txtUserID.ResetText();
+                txtPhone.ResetText();
+                txtUserName.ResetText();
+                txtMail.ResetText();
+                txtDept.ResetText();
             }
         }
         public void InsertUser(TextBox txtUserID, TextBox txtUserName, TextBox txtPhone, TextBox txtMail, TextBox txtDept, CheckBox chkOSP)
