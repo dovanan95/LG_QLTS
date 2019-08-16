@@ -416,6 +416,10 @@
     <None Include="Resources\share-default.jpg" />
     <None Include="Resources\LG전자.jpg" />
     <None Include="Resources\IT_2.jpg" />
+    <None Include="Resources\map-of-the-world-1005413_960_720.jpg" />
+    <None Include="Resources\flag-wave-250.png" />
+    <None Include="Resources\800px-Flag_of_Vietnam.svg.png" />
+    <None Include="Resources\HONGNHUNG.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -77,6 +77,8 @@ namespace QLTS_LG
                 con2.Open();
                 cmdExe.ExecuteNonQuery();
                 con2.Close();
+
+                MessageBox.Show("Execute Successfully", "SQL", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch(Exception ex)
             {

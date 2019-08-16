@@ -176,5 +176,22 @@ namespace QLTS_LG
             Main main = new Main();
             //main.ShowDialog();
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            int para = dgvUnit.CurrentCell.RowIndex;
+            string Code = dgvUnit.Rows[para].Cells["unit_id"].Value.ToString();
+
+            string strXoa = "delete from Unit where unit_id = '" + Code + "'";
+            SqlCommand cmdXoa = new SqlCommand();
+            cmdXoa.Connection = con;
+            cmdXoa.CommandType = CommandType.Text;
+            cmdXoa.CommandText = strXoa;
+            con.Open();
+            cmdXoa.ExecuteNonQuery();
+            con.Close();
+
+            LoadTypeDevice();
+        }
     }
 }

@@ -49,6 +49,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.dgvUnit = new System.Windows.Forms.DataGridView();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.tab3.SuspendLayout();
             this.tabDevice.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -227,6 +228,7 @@
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.BackColor = System.Drawing.Color.SteelBlue;
+            this.splitContainer2.Panel1.Controls.Add(this.btnDelete);
             this.splitContainer2.Panel1.Controls.Add(this.btnBacktoMenu);
             this.splitContainer2.Panel1.Controls.Add(this.txtUnit);
             this.splitContainer2.Panel1.Controls.Add(this.label3);
@@ -269,7 +271,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(214, 138);
+            this.btnAdd.Location = new System.Drawing.Point(134, 138);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 0;
@@ -285,6 +287,16 @@
             this.dgvUnit.Name = "dgvUnit";
             this.dgvUnit.Size = new System.Drawing.Size(829, 454);
             this.dgvUnit.TabIndex = 0;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(215, 138);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 4;
+            this.btnDelete.Text = "Xóa";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // Classification
             // 
@@ -338,5 +350,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnBacktoMenu;
+        private System.Windows.Forms.Button btnDelete;
     }
 }

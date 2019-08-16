@@ -146,7 +146,7 @@ namespace QLTS_LG
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("No Information!!!", "Transaction", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

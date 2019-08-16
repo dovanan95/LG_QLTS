@@ -51,9 +51,9 @@ namespace QLTS_LG
                     command.Parameters.AddWithValue("@Ten_TS", txtTenTS.Text.ToString());
                     command.Parameters.AddWithValue("@Ma_Loai_TS_cap1", cbTypeLV1.SelectedValue.ToString());
                     command.Parameters.AddWithValue("@Ma_Loai_TS_cap2", cbTypeLV2.SelectedValue.ToString());
-                    command.Parameters.AddWithValue("@SN", txtSN.Text.ToString());
-                    command.Parameters.AddWithValue("@FA_Tag", txtFATag.Text.ToString());
-                    command.Parameters.AddWithValue("@IT_Tag", txtITTag.Text.ToString());
+                    command.Parameters.AddWithValue("@SN", txtSN.Text.ToUpper());
+                    command.Parameters.AddWithValue("@FA_Tag", txtFATag.Text.ToUpper());
+                    command.Parameters.AddWithValue("@IT_Tag", txtITTag.Text.ToUpper());
                     command.Parameters.AddWithValue("@Model", txtModel.Text.ToString());
                     command.Parameters.AddWithValue("@Spec", txtSpec.Text.ToString());
                     command.Parameters.AddWithValue("@Ma_tinh_trang", cbStatus.SelectedValue.ToString());
@@ -332,18 +332,18 @@ namespace QLTS_LG
                 rdrCheck = cmdCheck.ExecuteReader();
                 while (rdrCheck.Read())
                 {
-                    if (txtFATag.Text.ToString() == rdrCheck["FA_Tag"].ToString() && rdrCheck["FA_Tag"].ToString() != "")
+                    if (txtFATag.Text.ToUpper() == rdrCheck["FA_Tag"].ToString() && rdrCheck["FA_Tag"].ToString() != "")
                     {
                         flag = true;
                         break;
                        
                     }
-                    if(txtITTag.Text.ToString() == rdrCheck["IT_Tag"].ToString() && rdrCheck["IT_Tag"].ToString() != "")
+                    if(txtITTag.Text.ToUpper() == rdrCheck["IT_Tag"].ToString() && rdrCheck["IT_Tag"].ToString() != "")
                     {
                         flag_2 = true;
                         break;
                     }
-                    if(txtSN.Text.ToString() == rdrCheck["S/N"].ToString() && rdrCheck["S/N"].ToString() != "")
+                    if(txtSN.Text.ToUpper() == rdrCheck["S/N"].ToString() && rdrCheck["S/N"].ToString() != "")
                     {
                         flag_3 = true;
                         break;

@@ -783,5 +783,17 @@ namespace QLTS_LG
             User_Management management = new User_Management();
             management.ShowDialog();
         }
+
+        private void oRGNAMEMANAGEMENTToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ORG_NAME org = new ORG_NAME();
+            org.ShowDialog();
+        }
+
+        private void organizationManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ORG_NAME org = new ORG_NAME();
+            org.ShowDialog();
+        }
     }
 }

@@ -67,6 +67,18 @@ namespace QLTS_LG
                     daMail.Fill(dtMail);
                     dgvHRM.DataSource = dtMail;
                 }
+                else if (txtID.Text.ToString() == "" && txtMail.Text.ToString() == "")
+                {
+                    DataTable dtSearch = new DataTable();
+                    SqlCommand cmdSearch = new SqlCommand();
+                    cmdSearch.Connection = con;
+                    cmdSearch.CommandType = CommandType.Text;
+                    cmdSearch.CommandText = strSearch;
+
+                    SqlDataAdapter daSearch = new SqlDataAdapter(cmdSearch);
+                    daSearch.Fill(dtSearch);
+                    dgvHRM.DataSource = dtSearch;
+                }
             }
             catch(Exception ex)
             {

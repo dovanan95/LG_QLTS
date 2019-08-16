@@ -63,9 +63,39 @@ namespace QLTS_LG.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _800px_Flag_of_Vietnam_svg {
+            get {
+                object obj = ResourceManager.GetObject("800px-Flag_of_Vietnam.svg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CQZuP {
             get {
                 object obj = ResourceManager.GetObject("CQZuP", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap flag_wave_250 {
+            get {
+                object obj = ResourceManager.GetObject("flag-wave-250", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap HONGNHUNG {
+            get {
+                object obj = ResourceManager.GetObject("HONGNHUNG", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -106,6 +136,16 @@ namespace QLTS_LG.Properties {
         internal static System.Drawing.Bitmap LG전자 {
             get {
                 object obj = ResourceManager.GetObject("LG전자", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap map_of_the_world_1005413_960_720 {
+            get {
+                object obj = ResourceManager.GetObject("map-of-the-world-1005413_960_720", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

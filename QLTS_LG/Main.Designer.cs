@@ -59,6 +59,7 @@
             this.menuDispose = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDataModify = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDeviceType = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuHRM = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.menuIntro = new System.Windows.Forms.ToolStripMenuItem();
             this.menuContact = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,31 +99,33 @@
             this.dgvOverDue = new System.Windows.Forms.DataGridView();
             this.label6 = new System.Windows.Forms.Label();
             this.tabNew = new System.Windows.Forms.TabPage();
-            this.label8 = new System.Windows.Forms.Label();
+            this.pnlNew = new System.Windows.Forms.Panel();
             this.btnSelectAllNew = new System.Windows.Forms.Button();
             this.btnAppNew = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
             this.dgvNew = new System.Windows.Forms.DataGridView();
             this.SelectNew = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabRevoke = new System.Windows.Forms.TabPage();
-            this.btnApproveRevoke = new System.Windows.Forms.Button();
+            this.pnlRevoke = new System.Windows.Forms.Panel();
             this.btnSelectAllRevoke = new System.Windows.Forms.Button();
+            this.btnApproveRevoke = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.dgvRevoke = new System.Windows.Forms.DataGridView();
             this.SelectRevoke = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabDispose = new System.Windows.Forms.TabPage();
-            this.label9 = new System.Windows.Forms.Label();
+            this.pnlDispose = new System.Windows.Forms.Panel();
             this.btnAllDispose = new System.Windows.Forms.Button();
             this.btnAppDispose = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
             this.dgvDispose = new System.Windows.Forms.DataGridView();
             this.SelectDispose = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.menuHRM = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pnlNew = new System.Windows.Forms.Panel();
-            this.pnlRevoke = new System.Windows.Forms.Panel();
-            this.pnlDispose = new System.Windows.Forms.Panel();
-            this.oRGNAMEMANAGEMENTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.organizationManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtExpired = new System.Windows.Forms.Label();
+            this.lblExpired = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -137,20 +140,21 @@
             this.tabCheckExpiredBorrow.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOverDue)).BeginInit();
             this.tabNew.SuspendLayout();
+            this.pnlNew.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNew)).BeginInit();
             this.tabRevoke.SuspendLayout();
+            this.pnlRevoke.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRevoke)).BeginInit();
             this.tabDispose.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDispose)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.pnlNew.SuspendLayout();
-            this.pnlRevoke.SuspendLayout();
             this.pnlDispose.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDispose)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.menuStrip1.BackColor = System.Drawing.Color.Silver;
             this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuCauHinh,
@@ -383,7 +387,8 @@
             // 
             this.menuDataModify.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuDeviceType,
-            this.menuHRM});
+            this.menuHRM,
+            this.organizationManagementToolStripMenuItem});
             this.menuDataModify.Name = "menuDataModify";
             this.menuDataModify.Size = new System.Drawing.Size(137, 25);
             this.menuDataModify.Text = "Quản Lý Dữ Liệu";
@@ -391,9 +396,16 @@
             // menuDeviceType
             // 
             this.menuDeviceType.Name = "menuDeviceType";
-            this.menuDeviceType.Size = new System.Drawing.Size(202, 26);
+            this.menuDeviceType.Size = new System.Drawing.Size(266, 26);
             this.menuDeviceType.Text = "Phân Loại Tài Sản";
             this.menuDeviceType.Click += new System.EventHandler(this.phânLoạiBiênBảnToolStripMenuItem_Click);
+            // 
+            // menuHRM
+            // 
+            this.menuHRM.Name = "menuHRM";
+            this.menuHRM.Size = new System.Drawing.Size(266, 26);
+            this.menuHRM.Text = "Quản Lý Nhân Sự";
+            this.menuHRM.Click += new System.EventHandler(this.menuHRM_Click);
             // 
             // menuAbout
             // 
@@ -554,7 +566,7 @@
             this.tab.Controls.Add(this.tabRevoke);
             this.tab.Controls.Add(this.tabDispose);
             this.tab.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tab.Location = new System.Drawing.Point(12, 114);
+            this.tab.Location = new System.Drawing.Point(12, 133);
             this.tab.Name = "tab";
             this.tab.SelectedIndex = 0;
             this.tab.Size = new System.Drawing.Size(1296, 428);
@@ -797,15 +809,14 @@
             this.tabNew.TabIndex = 4;
             this.tabNew.Text = "Nhập Mới";
             // 
-            // label8
+            // pnlNew
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(969, 48);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(313, 31);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Input Storage Approval";
+            this.pnlNew.Controls.Add(this.btnSelectAllNew);
+            this.pnlNew.Controls.Add(this.btnAppNew);
+            this.pnlNew.Location = new System.Drawing.Point(6, 39);
+            this.pnlNew.Name = "pnlNew";
+            this.pnlNew.Size = new System.Drawing.Size(245, 45);
+            this.pnlNew.TabIndex = 4;
             // 
             // btnSelectAllNew
             // 
@@ -826,6 +837,16 @@
             this.btnAppNew.Text = "Approve";
             this.btnAppNew.UseVisualStyleBackColor = true;
             this.btnAppNew.Click += new System.EventHandler(this.btnAppNew_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(969, 48);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(313, 31);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Input Storage Approval";
             // 
             // dgvNew
             // 
@@ -860,15 +881,14 @@
             this.tabRevoke.TabIndex = 5;
             this.tabRevoke.Text = "Nhập Kho";
             // 
-            // btnApproveRevoke
+            // pnlRevoke
             // 
-            this.btnApproveRevoke.Location = new System.Drawing.Point(3, 4);
-            this.btnApproveRevoke.Name = "btnApproveRevoke";
-            this.btnApproveRevoke.Size = new System.Drawing.Size(114, 34);
-            this.btnApproveRevoke.TabIndex = 2;
-            this.btnApproveRevoke.Text = "Approve";
-            this.btnApproveRevoke.UseVisualStyleBackColor = true;
-            this.btnApproveRevoke.Click += new System.EventHandler(this.btnApproveRevoke_Click);
+            this.pnlRevoke.Controls.Add(this.btnSelectAllRevoke);
+            this.pnlRevoke.Controls.Add(this.btnApproveRevoke);
+            this.pnlRevoke.Location = new System.Drawing.Point(6, 38);
+            this.pnlRevoke.Name = "pnlRevoke";
+            this.pnlRevoke.Size = new System.Drawing.Size(234, 41);
+            this.pnlRevoke.TabIndex = 4;
             // 
             // btnSelectAllRevoke
             // 
@@ -879,6 +899,16 @@
             this.btnSelectAllRevoke.Text = "Select All";
             this.btnSelectAllRevoke.UseVisualStyleBackColor = true;
             this.btnSelectAllRevoke.Click += new System.EventHandler(this.btnSelectAllRevoke_Click);
+            // 
+            // btnApproveRevoke
+            // 
+            this.btnApproveRevoke.Location = new System.Drawing.Point(3, 4);
+            this.btnApproveRevoke.Name = "btnApproveRevoke";
+            this.btnApproveRevoke.Size = new System.Drawing.Size(114, 34);
+            this.btnApproveRevoke.TabIndex = 2;
+            this.btnApproveRevoke.Text = "Approve";
+            this.btnApproveRevoke.UseVisualStyleBackColor = true;
+            this.btnApproveRevoke.Click += new System.EventHandler(this.btnApproveRevoke_Click);
             // 
             // label7
             // 
@@ -923,15 +953,14 @@
             this.tabDispose.TabIndex = 6;
             this.tabDispose.Text = "Hủy";
             // 
-            // label9
+            // pnlDispose
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(1039, 44);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(243, 31);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "Dispose Approval";
+            this.pnlDispose.Controls.Add(this.btnAllDispose);
+            this.pnlDispose.Controls.Add(this.btnAppDispose);
+            this.pnlDispose.Location = new System.Drawing.Point(6, 32);
+            this.pnlDispose.Name = "pnlDispose";
+            this.pnlDispose.Size = new System.Drawing.Size(249, 43);
+            this.pnlDispose.TabIndex = 4;
             // 
             // btnAllDispose
             // 
@@ -952,6 +981,16 @@
             this.btnAppDispose.Text = "Approve";
             this.btnAppDispose.UseVisualStyleBackColor = true;
             this.btnAppDispose.Click += new System.EventHandler(this.btnAppDispose_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(1039, 44);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(243, 31);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Dispose Approval";
             // 
             // dgvDispose
             // 
@@ -993,21 +1032,22 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Bell MT", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.GhostWhite;
-            this.label4.Location = new System.Drawing.Point(286, 556);
+            this.label4.Location = new System.Drawing.Point(287, 573);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(772, 25);
             this.label4.TabIndex = 15;
             this.label4.Text = "© 2019 Copyright of Do Van An - Information Technology Department - LG Electronic" +
     "s";
             // 
-            // menuHRM
+            // pictureBox2
             // 
-            this.menuHRM.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.oRGNAMEMANAGEMENTToolStripMenuItem});
-            this.menuHRM.Name = "menuHRM";
-            this.menuHRM.Size = new System.Drawing.Size(202, 26);
-            this.menuHRM.Text = "Quản Lý Nhân Sự";
-            this.menuHRM.Click += new System.EventHandler(this.menuHRM_Click);
+            this.pictureBox2.Image = global::QLTS_LG.Properties.Resources._800px_Flag_of_Vietnam_svg;
+            this.pictureBox2.Location = new System.Drawing.Point(1286, 0);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(43, 25);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 16;
+            this.pictureBox2.TabStop = false;
             // 
             // pictureBox1
             // 
@@ -1022,45 +1062,42 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // pnlNew
+            // organizationManagementToolStripMenuItem
             // 
-            this.pnlNew.Controls.Add(this.btnSelectAllNew);
-            this.pnlNew.Controls.Add(this.btnAppNew);
-            this.pnlNew.Location = new System.Drawing.Point(6, 39);
-            this.pnlNew.Name = "pnlNew";
-            this.pnlNew.Size = new System.Drawing.Size(245, 45);
-            this.pnlNew.TabIndex = 4;
+            this.organizationManagementToolStripMenuItem.Name = "organizationManagementToolStripMenuItem";
+            this.organizationManagementToolStripMenuItem.Size = new System.Drawing.Size(266, 26);
+            this.organizationManagementToolStripMenuItem.Text = "Organization Management";
+            this.organizationManagementToolStripMenuItem.Click += new System.EventHandler(this.organizationManagementToolStripMenuItem_Click);
             // 
-            // pnlRevoke
+            // txtExpired
             // 
-            this.pnlRevoke.Controls.Add(this.btnSelectAllRevoke);
-            this.pnlRevoke.Controls.Add(this.btnApproveRevoke);
-            this.pnlRevoke.Location = new System.Drawing.Point(6, 38);
-            this.pnlRevoke.Name = "pnlRevoke";
-            this.pnlRevoke.Size = new System.Drawing.Size(234, 41);
-            this.pnlRevoke.TabIndex = 4;
+            this.txtExpired.AutoSize = true;
+            this.txtExpired.ForeColor = System.Drawing.Color.Red;
+            this.txtExpired.Location = new System.Drawing.Point(22, 75);
+            this.txtExpired.Name = "txtExpired";
+            this.txtExpired.Size = new System.Drawing.Size(0, 13);
+            this.txtExpired.TabIndex = 17;
             // 
-            // pnlDispose
+            // lblExpired
             // 
-            this.pnlDispose.Controls.Add(this.btnAllDispose);
-            this.pnlDispose.Controls.Add(this.btnAppDispose);
-            this.pnlDispose.Location = new System.Drawing.Point(6, 32);
-            this.pnlDispose.Name = "pnlDispose";
-            this.pnlDispose.Size = new System.Drawing.Size(249, 43);
-            this.pnlDispose.TabIndex = 4;
-            // 
-            // oRGNAMEMANAGEMENTToolStripMenuItem
-            // 
-            this.oRGNAMEMANAGEMENTToolStripMenuItem.Name = "oRGNAMEMANAGEMENTToolStripMenuItem";
-            this.oRGNAMEMANAGEMENTToolStripMenuItem.Size = new System.Drawing.Size(272, 26);
-            this.oRGNAMEMANAGEMENTToolStripMenuItem.Text = "ORG NAME MANAGEMENT";
+            this.lblExpired.AutoSize = true;
+            this.lblExpired.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblExpired.ForeColor = System.Drawing.Color.Red;
+            this.lblExpired.Location = new System.Drawing.Point(19, 62);
+            this.lblExpired.Name = "lblExpired";
+            this.lblExpired.Size = new System.Drawing.Size(88, 20);
+            this.lblExpired.TabIndex = 18;
+            this.lblExpired.Text = "Loading...";
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.ClientSize = new System.Drawing.Size(1329, 590);
+            this.BackColor = System.Drawing.Color.Black;
+            this.ClientSize = new System.Drawing.Size(1329, 607);
+            this.Controls.Add(this.lblExpired);
+            this.Controls.Add(this.txtExpired);
+            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
@@ -1092,17 +1129,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvOverDue)).EndInit();
             this.tabNew.ResumeLayout(false);
             this.tabNew.PerformLayout();
+            this.pnlNew.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvNew)).EndInit();
             this.tabRevoke.ResumeLayout(false);
             this.tabRevoke.PerformLayout();
+            this.pnlRevoke.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRevoke)).EndInit();
             this.tabDispose.ResumeLayout(false);
             this.tabDispose.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDispose)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.pnlNew.ResumeLayout(false);
-            this.pnlRevoke.ResumeLayout(false);
             this.pnlDispose.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDispose)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1203,6 +1241,9 @@
         private System.Windows.Forms.Panel pnlNew;
         private System.Windows.Forms.Panel pnlRevoke;
         private System.Windows.Forms.Panel pnlDispose;
-        private System.Windows.Forms.ToolStripMenuItem oRGNAMEMANAGEMENTToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.ToolStripMenuItem organizationManagementToolStripMenuItem;
+        private System.Windows.Forms.Label txtExpired;
+        private System.Windows.Forms.Label lblExpired;
     }
 }

@@ -42,7 +42,7 @@
             // 
             // btnQuerry
             // 
-            this.btnQuerry.Location = new System.Drawing.Point(919, 165);
+            this.btnQuerry.Location = new System.Drawing.Point(941, 164);
             this.btnQuerry.Name = "btnQuerry";
             this.btnQuerry.Size = new System.Drawing.Size(75, 23);
             this.btnQuerry.TabIndex = 0;
@@ -71,7 +71,7 @@
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(919, 194);
+            this.btnBack.Location = new System.Drawing.Point(941, 193);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(75, 23);
             this.btnBack.TabIndex = 3;
@@ -84,7 +84,7 @@
             this.btnExecute.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnExecute.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExecute.ForeColor = System.Drawing.Color.Crimson;
-            this.btnExecute.Location = new System.Drawing.Point(838, 165);
+            this.btnExecute.Location = new System.Drawing.Point(860, 164);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(75, 23);
             this.btnExecute.TabIndex = 4;
@@ -94,7 +94,7 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(838, 194);
+            this.btnClear.Location = new System.Drawing.Point(860, 193);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 5;
@@ -104,10 +104,10 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::QLTS_LG.Properties.Resources.IT_2;
-            this.pictureBox1.Location = new System.Drawing.Point(1000, 162);
+            this.pictureBox1.Image = global::QLTS_LG.Properties.Resources.flag_wave_250;
+            this.pictureBox1.Location = new System.Drawing.Point(1022, 162);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(150, 67);
+            this.pictureBox1.Size = new System.Drawing.Size(128, 67);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
@@ -117,6 +117,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.BackgroundImage = global::QLTS_LG.Properties.Resources.IT_2;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1184, 593);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnBack);
