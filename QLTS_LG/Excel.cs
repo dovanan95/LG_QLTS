@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Excell = Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
 using System.IO;
 using OfficeOpenXml;
@@ -21,7 +20,7 @@ namespace QLTS_LG
 {
     class Excel
     {
-        public void Export_Excel(SaveFileDialog SaveFile, DataGridView gridView)
+        /*public void Export_Excel(SaveFileDialog SaveFile, DataGridView gridView)
         {
             try
             {
@@ -54,13 +53,13 @@ namespace QLTS_LG
                     }*/
 
                     // Paste clipboard results to worksheet range
-                    Excell.Range CR = (Excell.Range)xlWorksheet.Cells[1, 1];
-                    CR.Select();
-                    xlWorksheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
+                    //Excell.Range CR = (Excell.Range)xlWorksheet.Cells[1, 1];
+                    //CR.Select();
+                    //xlWorksheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
 
                     // For some reason column A is always blank in the worksheet. ¯\_(ツ)_/¯
                     // Delete blank column A and select cell A1
-                    Excell.Range delRNG = xlWorksheet.get_Range("A:A").Cells;
+                    /*Excell.Range delRNG = xlWorksheet.get_Range("A:A").Cells;
                     delRNG.Delete(Type.Missing);
                     xlWorksheet.get_Range("A1").Select();
 
@@ -180,8 +179,8 @@ namespace QLTS_LG
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-        public void Export_Excel3(DataTable dataTable)
+        }*/
+        public void Export_Excel(DataTable dataTable)
         {
 
             SaveFileDialog sfd = new SaveFileDialog();
