@@ -182,33 +182,39 @@ namespace QLTS_LG
         }*/
         public void Export_Excel(DataTable dataTable)
         {
-
-            SaveFileDialog sfd = new SaveFileDialog();
-
-            sfd.FileName = "Data.xlsx";
-           
-            string folderPath = "D:\\Excel\\ ";
-
-            sfd.Filter = "(.xlsx)|.xlsx";
-
-            if (Directory.Exists(folderPath))
+            try
             {
-                Directory.CreateDirectory(folderPath);
+                SaveFileDialog sfd = new SaveFileDialog();
 
-            }
+                sfd.FileName = "Data.xlsx";
 
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                //string folderPath = fbd.SelectedPath;
-                using (XLWorkbook wb = new XLWorkbook())
+                string folderPath = "D:\\Excel\\ ";
+
+                sfd.Filter = "(.xlsx)|.xlsx";
+
+                if (Directory.Exists(folderPath))
                 {
-                    string folderPath2 = Path.GetDirectoryName(sfd.FileName);
-                    wb.Worksheets.Add(dataTable, "Transaction");
-                    //if (!String.IsNullOrWhiteSpace(saveFile.FileName))
-                    wb.SaveAs(sfd.FileName);
-
+                    Directory.CreateDirectory(folderPath);
 
                 }
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    //string folderPath = fbd.SelectedPath;
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        string folderPath2 = Path.GetDirectoryName(sfd.FileName);
+                        wb.Worksheets.Add(dataTable, "Transaction");
+                        //if (!String.IsNullOrWhiteSpace(saveFile.FileName))
+                        wb.SaveAs(sfd.FileName);
+
+
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 

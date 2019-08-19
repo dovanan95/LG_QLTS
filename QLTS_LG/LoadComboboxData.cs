@@ -127,5 +127,20 @@ namespace QLTS_LG
             cmdORG.ExecuteNonQuery();
             con.Close();
         }
+        public void LoadModel(ComboBox cbModel)
+        {
+            con.Open();
+            string strModel = "select * from Model";
+            SqlCommand cmdModel = new SqlCommand(strModel, con);
+            DataTable dtModel = new DataTable();
+            SqlDataAdapter daModel = new SqlDataAdapter(cmdModel);
+            daModel.Fill(dtModel);
+            cbModel.DataSource = dtModel;
+            cbModel.DisplayMember = "model";
+            cbModel.ValueMember = "model";
+            cbModel.Enabled = true;
+            cmdModel.ExecuteNonQuery();
+            con.Close();
+        }
     }
 }

@@ -17,7 +17,8 @@ namespace QLTS_LG
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
         SqlConnection con = new SqlConnection(connectionString);
         SqlConnection con2 = new SqlConnection(connectionString);
-
+        DataTable dtQuerry = new DataTable();
+        Excel excel = new Excel();
 
         public SuperAdmin()
         {
@@ -30,7 +31,7 @@ namespace QLTS_LG
             {
                 string strQuerry = txtQuerry.Text.ToString();
                 SqlDataAdapter daQuerry = new SqlDataAdapter(strQuerry, con);
-                DataTable dtQuerry = new DataTable();
+                
                 daQuerry.Fill(dtQuerry);
                 dgvQuerry.DataSource = dtQuerry;
             }
@@ -38,6 +39,7 @@ namespace QLTS_LG
             {
                 MessageBox.Show(ex.Message);
             }
+            
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -85,6 +87,11 @@ namespace QLTS_LG
                 MessageBox.Show(ex.Message);
             }
             
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            excel.Export_Excel(dtQuerry);
         }
     }
 }

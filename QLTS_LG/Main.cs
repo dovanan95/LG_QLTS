@@ -87,7 +87,7 @@ namespace QLTS_LG
             daBorrow.Fill(dtBorrow);
             dataGridView3.DataSource = dtBorrow;
 
-            string strNew = "select a.So_BB, a.Ma_TS, a.Approved, b.Ten_TS, b.[S/N], b.FA_Tag, b.IT_Tag, d.Ten_loai, b.Ma_tinh_trang, c.Ten_tinh_trang from Nhap_Moi as a " +
+            string strNew = "select a.So_BB, a.Ma_TS, a.Approved, b.Ten_TS, b.[S/N], b.FA_Tag, b.IT_Tag, b.Model, d.Ten_loai, b.Ma_tinh_trang, c.Ten_tinh_trang from Nhap_Moi as a " +
                 "inner join Tai_san as b on a.Ma_TS = b.Ma_TS " +
                 "inner join Status as c on c.Ma_tinh_trang = b.Ma_tinh_trang " +
                 "inner join Loai_TS_cap2 as d on d.Ma_loai = b.Ma_Loai_TS_cap2 " +
@@ -150,6 +150,7 @@ namespace QLTS_LG
                 pnlDispose.Visible = false;
                 pnlNew.Visible = false;
                 pnlRevoke.Visible = false;
+                menuDataModify.Visible = false;
             }
 
             if (per.CheckPermission() == "guest")

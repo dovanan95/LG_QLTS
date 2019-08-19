@@ -17,6 +17,8 @@ namespace QLTS_LG
         SqlDataAdapter DataAdapter = new SqlDataAdapter();
         DataTable Table = new DataTable();
 
+        public static string Clear = "MAITHIHONGNHUNG";
+
         AutoCompleteStringCollection AutoCompleteString = new AutoCompleteStringCollection();
         public AutoCompleteStringCollection AutoCompleteData1(string strAuto)
         {

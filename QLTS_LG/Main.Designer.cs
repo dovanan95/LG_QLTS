@@ -60,6 +60,7 @@
             this.menuDataModify = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDeviceType = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHRM = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuORG = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.menuIntro = new System.Windows.Forms.ToolStripMenuItem();
             this.menuContact = new System.Windows.Forms.ToolStripMenuItem();
@@ -123,7 +124,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.organizationManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtExpired = new System.Windows.Forms.Label();
             this.lblExpired = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -388,7 +388,7 @@
             this.menuDataModify.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuDeviceType,
             this.menuHRM,
-            this.organizationManagementToolStripMenuItem});
+            this.menuORG});
             this.menuDataModify.Name = "menuDataModify";
             this.menuDataModify.Size = new System.Drawing.Size(137, 25);
             this.menuDataModify.Text = "Quản Lý Dữ Liệu";
@@ -406,6 +406,13 @@
             this.menuHRM.Size = new System.Drawing.Size(266, 26);
             this.menuHRM.Text = "Quản Lý Nhân Sự";
             this.menuHRM.Click += new System.EventHandler(this.menuHRM_Click);
+            // 
+            // menuORG
+            // 
+            this.menuORG.Name = "menuORG";
+            this.menuORG.Size = new System.Drawing.Size(266, 26);
+            this.menuORG.Text = "Organization Management";
+            this.menuORG.Click += new System.EventHandler(this.organizationManagementToolStripMenuItem_Click);
             // 
             // menuAbout
             // 
@@ -1062,13 +1069,6 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // organizationManagementToolStripMenuItem
-            // 
-            this.organizationManagementToolStripMenuItem.Name = "organizationManagementToolStripMenuItem";
-            this.organizationManagementToolStripMenuItem.Size = new System.Drawing.Size(266, 26);
-            this.organizationManagementToolStripMenuItem.Text = "Organization Management";
-            this.organizationManagementToolStripMenuItem.Click += new System.EventHandler(this.organizationManagementToolStripMenuItem_Click);
-            // 
             // txtExpired
             // 
             this.txtExpired.AutoSize = true;
@@ -1242,7 +1242,7 @@
         private System.Windows.Forms.Panel pnlRevoke;
         private System.Windows.Forms.Panel pnlDispose;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.ToolStripMenuItem organizationManagementToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuORG;
         private System.Windows.Forms.Label txtExpired;
         private System.Windows.Forms.Label lblExpired;
     }

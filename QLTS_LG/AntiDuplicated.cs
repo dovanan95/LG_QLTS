@@ -14,6 +14,7 @@ namespace QLTS_LG
     {
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
         SqlConnection con = new SqlConnection(connectionString);
+        SqlConnection con2 = new SqlConnection(connectionString);
         SqlDataAdapter DataAdapter = new SqlDataAdapter();
         DataTable Table = new DataTable();
 
@@ -47,10 +48,55 @@ namespace QLTS_LG
             cmdClear.CommandType = CommandType.Text;
             cmdClear.CommandText = strClearDup;
             //cmdClear.Parameters.AddWithValue("@fieldName", fieldName);
-           // cmdClear.Parameters.AddWithValue("@tableName", tableName);
+            // cmdClear.Parameters.AddWithValue("@tableName", tableName);
             con.Open();
             cmdClear.ExecuteNonQuery();
             con.Close();
+        }
+        public void CheckModel(ComboBox cbModel, ComboBox cbType2)
+        {
+            try
+            {
+                bool flag = true;
+
+                string strInputToModel = "insert into Model(model, type_code) values (@model, @type)";
+                SqlCommand cmdInput = new SqlCommand();
+                cmdInput.Connection = con2;
+                cmdInput.CommandType = CommandType.Text;
+                cmdInput.CommandText = strInputToModel;
+                cmdInput.Parameters.AddWithValue("@model", cbModel.Text.ToString().Trim());
+                cmdInput.Parameters.AddWithValue("@type", Convert.ToInt32(cbType2.SelectedValue));
+                string strRead = "select * from Model";
+                SqlCommand cmdRead = new SqlCommand(strRead, con);
+                SqlDataReader rdrRead = null;
+
+                con.Open();
+                rdrRead = cmdRead.ExecuteReader();
+                while (rdrRead.Read())
+                {
+                    if (cbModel.Text.ToString().Trim() == rdrRead["model"].ToString())
+                    {
+                        flag = false;
+
+                    }
+                }
+                con.Close();
+
+
+                if (flag == true)
+                {
+                    con2.Open();
+                    cmdInput.ExecuteNonQuery();
+                    con2.Close();
+                    flag = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
     }
 }

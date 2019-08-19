@@ -43,7 +43,6 @@
             this.txtSN = new System.Windows.Forms.TextBox();
             this.txtITTag = new System.Windows.Forms.TextBox();
             this.txtFATag = new System.Windows.Forms.TextBox();
-            this.txtModel = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -65,6 +64,7 @@
             this.pnlInfo = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
             this.cbUnit = new System.Windows.Forms.ComboBox();
+            this.btnNewAssetID = new System.Windows.Forms.Button();
             this.pnlControl = new System.Windows.Forms.Panel();
             this.btnCloseBB = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -75,8 +75,9 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label13 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label15 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnNewAssetID = new System.Windows.Forms.Button();
+            this.cbModel = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.loaiTScap1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.qLTSDataSet)).BeginInit();
@@ -222,17 +223,6 @@
             this.txtFATag.Text = "==FA Tag==";
             this.txtFATag.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // txtModel
-            // 
-            this.txtModel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtModel.Location = new System.Drawing.Point(135, 260);
-            this.txtModel.Multiline = true;
-            this.txtModel.Name = "txtModel";
-            this.txtModel.Size = new System.Drawing.Size(183, 24);
-            this.txtModel.TabIndex = 12;
-            this.txtModel.Text = "==Model==";
-            this.txtModel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -294,7 +284,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label8.Location = new System.Drawing.Point(71, 268);
+            this.label8.Location = new System.Drawing.Point(71, 312);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(51, 16);
             this.label8.TabIndex = 18;
@@ -303,7 +293,7 @@
             // txtSpec
             // 
             this.txtSpec.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSpec.Location = new System.Drawing.Point(135, 302);
+            this.txtSpec.Location = new System.Drawing.Point(135, 261);
             this.txtSpec.Multiline = true;
             this.txtSpec.Name = "txtSpec";
             this.txtSpec.Size = new System.Drawing.Size(183, 30);
@@ -316,7 +306,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label9.Location = new System.Drawing.Point(78, 316);
+            this.label9.Location = new System.Drawing.Point(78, 275);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(44, 16);
             this.label9.TabIndex = 20;
@@ -426,6 +416,7 @@
             // 
             this.pnlInfo.BackColor = System.Drawing.Color.DimGray;
             this.pnlInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlInfo.Controls.Add(this.cbModel);
             this.pnlInfo.Controls.Add(this.label14);
             this.pnlInfo.Controls.Add(this.cbUnit);
             this.pnlInfo.Controls.Add(this.label1);
@@ -448,7 +439,6 @@
             this.pnlInfo.Controls.Add(this.txtSpec);
             this.pnlInfo.Controls.Add(this.label9);
             this.pnlInfo.Controls.Add(this.label8);
-            this.pnlInfo.Controls.Add(this.txtModel);
             this.pnlInfo.Location = new System.Drawing.Point(12, 72);
             this.pnlInfo.Name = "pnlInfo";
             this.pnlInfo.Size = new System.Drawing.Size(334, 545);
@@ -475,6 +465,19 @@
             this.cbUnit.Name = "cbUnit";
             this.cbUnit.Size = new System.Drawing.Size(183, 28);
             this.cbUnit.TabIndex = 31;
+            // 
+            // btnNewAssetID
+            // 
+            this.btnNewAssetID.BackgroundImage = global::QLTS_LG.Properties.Resources.CQZuP;
+            this.btnNewAssetID.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNewAssetID.Image = global::QLTS_LG.Properties.Resources.CQZuP;
+            this.btnNewAssetID.Location = new System.Drawing.Point(135, 54);
+            this.btnNewAssetID.Name = "btnNewAssetID";
+            this.btnNewAssetID.Size = new System.Drawing.Size(87, 26);
+            this.btnNewAssetID.TabIndex = 30;
+            this.btnNewAssetID.Text = "New Code";
+            this.btnNewAssetID.UseVisualStyleBackColor = true;
+            this.btnNewAssetID.Click += new System.EventHandler(this.button2_Click);
             // 
             // pnlControl
             // 
@@ -559,11 +562,23 @@
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.label15);
             this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Location = new System.Drawing.Point(1128, 294);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(144, 323);
             this.panel2.TabIndex = 39;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label15.Location = new System.Drawing.Point(32, 146);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(84, 24);
+            this.label15.TabIndex = 33;
+            this.label15.Text = "INSERT";
             // 
             // pictureBox1
             // 
@@ -575,18 +590,15 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // btnNewAssetID
+            // cbModel
             // 
-            this.btnNewAssetID.BackgroundImage = global::QLTS_LG.Properties.Resources.CQZuP;
-            this.btnNewAssetID.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewAssetID.Image = global::QLTS_LG.Properties.Resources.CQZuP;
-            this.btnNewAssetID.Location = new System.Drawing.Point(135, 54);
-            this.btnNewAssetID.Name = "btnNewAssetID";
-            this.btnNewAssetID.Size = new System.Drawing.Size(87, 26);
-            this.btnNewAssetID.TabIndex = 30;
-            this.btnNewAssetID.Text = "New Code";
-            this.btnNewAssetID.UseVisualStyleBackColor = true;
-            this.btnNewAssetID.Click += new System.EventHandler(this.button2_Click);
+            this.cbModel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbModel.FormattingEnabled = true;
+            this.cbModel.Location = new System.Drawing.Point(135, 306);
+            this.cbModel.Name = "cbModel";
+            this.cbModel.Size = new System.Drawing.Size(183, 28);
+            this.cbModel.TabIndex = 33;
+            this.cbModel.SelectedIndexChanged += new System.EventHandler(this.cbModel_SelectedIndexChanged);
             // 
             // AddNewItem
             // 
@@ -613,6 +625,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -632,7 +645,6 @@
         private System.Windows.Forms.TextBox txtSN;
         private System.Windows.Forms.TextBox txtITTag;
         private System.Windows.Forms.TextBox txtFATag;
-        private System.Windows.Forms.TextBox txtModel;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -668,5 +680,7 @@
         private System.Windows.Forms.ComboBox cbUnit;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ComboBox cbModel;
     }
 }
