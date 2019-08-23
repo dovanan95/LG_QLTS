@@ -28,8 +28,11 @@ namespace QLTS_LG
         DataTable Table = new DataTable();
         AntiDuplicated AntiDuplicated = new AntiDuplicated();
 
+        Permission IT_OP = new Permission();
+
         UserUpdate update = new UserUpdate();
 
+        //string ITOP = Permission.ITOP;
 
         bool flag = false;
 
@@ -169,7 +172,7 @@ namespace QLTS_LG
                 }
                 else
                 {
-                    string strInsertBB = "INSERT INTO Bien_Ban (So_Bien_Ban, Ma_loai_BB, DATE, [User ID]) VALUES (@So_Bien_Ban, @Ma_loai_BB, @DATE, @ID)";
+                    string strInsertBB = "INSERT INTO Bien_Ban (So_Bien_Ban, Ma_loai_BB, DATE, [User ID], IT_OP) VALUES (@So_Bien_Ban, @Ma_loai_BB, @DATE, @ID, @ITOP)";
                     SqlCommand cmdInsertBB = new SqlCommand();
                     cmdInsertBB.Connection = con;
                     cmdInsertBB.CommandType = CommandType.Text;
@@ -178,6 +181,7 @@ namespace QLTS_LG
                     cmdInsertBB.Parameters.AddWithValue("@Ma_loai_BB", "IN");
                     cmdInsertBB.Parameters.AddWithValue("@DATE", DateTime.Now.ToString());
                     cmdInsertBB.Parameters.AddWithValue("@ID", txtUserID2.Text.ToString());
+                    cmdInsertBB.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
                     con.Open();
                     cmdInsertBB.ExecuteNonQuery();
                     con.Close();
@@ -230,7 +234,7 @@ namespace QLTS_LG
                                 if (row.Cells["Ma_TS"].Value.ToString() == rdrSelect_TS["Ma_TS"].ToString())
                                 {
                                     string strStatusCode = rdrSelect_TS["Ma_tinh_trang"].ToString();
-                                    string strReceived = "INSERT INTO Nhan_tra_TS (So_BB_nhan, Ma_TS, ID_Nguoi_tra, Ma_tinh_trang, Remark, Approved) VALUES (@BB_No, @Ma_TS, @User_ID, @Status, @Remark, @App)";
+                                    string strReceived = "INSERT INTO Nhan_tra_TS (So_BB_nhan, Ma_TS, ID_Nguoi_tra, Ma_tinh_trang, Remark, Approved, IT_OP) VALUES (@BB_No, @Ma_TS, @User_ID, @Status, @Remark, @App, @ITOP)";
                                     SqlCommand cmdReceived = new SqlCommand();
                                     cmdReceived.Connection = con2;
                                     cmdReceived.CommandType = CommandType.Text;
@@ -240,6 +244,7 @@ namespace QLTS_LG
                                     cmdReceived.Parameters.AddWithValue("@User_ID", txtUserID2.Text.ToString());
                                     cmdReceived.Parameters.AddWithValue("@Status", strStatusCode);
                                     cmdReceived.Parameters.AddWithValue("@App", false);
+                                    cmdReceived.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
                                     if (row.Cells["Remark"].Value != null)
                                     {
                                         cmdReceived.Parameters.AddWithValue("@Remark", row.Cells["Remark"].Value.ToString());
@@ -509,7 +514,7 @@ namespace QLTS_LG
                 MessageBox.Show("No information or User resigned!", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btnUpdate.Enabled = true;
             }*/
-            update.SearchUser(txtIDSearch, txtUserID2, txtUser_Name, txtPhone, txtMail, txtDept, chkOSP, btnUpdate);
+            update.SearchUser(txtIDSearch, txtUserID2, txtUser_Name, txtPhone, txtMail, txtDept, chkOSP, btnUpdateUser);
         }
 
         private void btnUpdateUser_Click(object sender, EventArgs e)

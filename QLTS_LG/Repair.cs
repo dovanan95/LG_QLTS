@@ -23,7 +23,7 @@ namespace QLTS_LG
         CopyGridView CopyGrid = new CopyGridView();
         AutoComplete AutoComplete = new AutoComplete();
         UserUpdate update = new UserUpdate();
-
+        Permission IT_OP = new Permission();
 
         public Repair()
         {
@@ -309,7 +309,7 @@ namespace QLTS_LG
         {
             try
             {
-                string strBB = "INSERT INTO Bien_Ban (So_Bien_ban, Ma_loai_BB, DATE, [User ID]) VALUES (@SoBB, @Type, @Date, @ID)";
+                string strBB = "INSERT INTO Bien_Ban (So_Bien_ban, Ma_loai_BB, DATE, [User ID], IT_OP) VALUES (@SoBB, @Type, @Date, @ID, @ITOP)";
                 SqlCommand cmdBB = new SqlCommand();
                 cmdBB.CommandType = CommandType.Text;
                 cmdBB.CommandText = strBB;
@@ -318,6 +318,7 @@ namespace QLTS_LG
                 cmdBB.Parameters.AddWithValue("@Type", "REP");
                 cmdBB.Parameters.AddWithValue("@Date", DateTime.Now.ToString());
                 cmdBB.Parameters.AddWithValue("@ID", txtUserID.Text.ToString());
+                cmdBB.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
                 con.Open();
                 cmdBB.ExecuteNonQuery();
                 con.Close();
@@ -329,8 +330,8 @@ namespace QLTS_LG
                         Boolean CheckRow = Convert.ToBoolean(rowRepair.Cells["Select"].Value);
                         if (CheckRow)
                         {
-                            string strInsertToRepair = "INSERT INTO Sua_chua (BB_sua, Ma_TS, Vat_tu_xuat, [ID_nguoi_y/c], Status, Ngay_update, Approved)" +
-                        "VALUES (@BBsua, @MaTS, @VTX, @ID, @Status, @Date, @App)";
+                            string strInsertToRepair = "INSERT INTO Sua_chua (BB_sua, Ma_TS, Vat_tu_xuat, [ID_nguoi_y/c], Status, Ngay_update, Approved, IT_OP)" +
+                        "VALUES (@BBsua, @MaTS, @VTX, @ID, @Status, @Date, @App, @ITOP)";
                             SqlCommand cmdInsertToRePair = new SqlCommand();
                             cmdInsertToRePair.Connection = con;
                             cmdInsertToRePair.CommandType = CommandType.Text;
@@ -342,6 +343,7 @@ namespace QLTS_LG
                             cmdInsertToRePair.Parameters.AddWithValue("@Status", "OK");
                             cmdInsertToRePair.Parameters.AddWithValue("@Date", DateTime.Now.ToString());
                             cmdInsertToRePair.Parameters.AddWithValue("@App", false);
+                            cmdInsertToRePair.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
                             con.Open();
                             cmdInsertToRePair.ExecuteNonQuery();
                             con.Close();
@@ -399,8 +401,8 @@ namespace QLTS_LG
                         Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
                         if (CheckRow)
                         {
-                            string strInsertToRepair = "INSERT INTO Sua_chua (BB_sua, Ma_TS, [ID_nguoi_y/c], Status, Ngay_update, Approved)" +
-                        "VALUES (@BBsua, @MaTS, @ID, @Status, @Date, @App)";
+                            string strInsertToRepair = "INSERT INTO Sua_chua (BB_sua, Ma_TS, [ID_nguoi_y/c], Status, Ngay_update, Approved, IT_OP)" +
+                        "VALUES (@BBsua, @MaTS, @ID, @Status, @Date, @App, @ITOP)";
                             SqlCommand cmdInsertToRePair = new SqlCommand();
                             cmdInsertToRePair.Connection = con;
                             cmdInsertToRePair.CommandType = CommandType.Text;
@@ -412,6 +414,7 @@ namespace QLTS_LG
                             cmdInsertToRePair.Parameters.AddWithValue("@Status", "OK");
                             cmdInsertToRePair.Parameters.AddWithValue("@Date", DateTime.Now.ToString());
                             cmdInsertToRePair.Parameters.AddWithValue("@App", false);
+                            cmdInsertToRePair.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
                             con.Open();
                             cmdInsertToRePair.ExecuteNonQuery();
                             con.Close();

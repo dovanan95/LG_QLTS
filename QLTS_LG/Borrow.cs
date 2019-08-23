@@ -21,6 +21,9 @@ namespace QLTS_LG
         SqlDataAdapter DataAdapter = new SqlDataAdapter();
         DataTable Table = new DataTable();
         UserUpdate UserFunc = new UserUpdate();
+        Permission IT_OP = new Permission();
+
+        //string ITOP = Permission.ITOP;
 
         public Borrow()
         {
@@ -162,7 +165,7 @@ namespace QLTS_LG
         {
             try
             {
-                string strInsertBB = "INSERT INTO Bien_Ban(So_Bien_ban, Ma_loai_BB, Reason, DATE, [User ID]) VALUES (@So_BB, @Code, @Reason, @Date, @ID)";
+                string strInsertBB = "INSERT INTO Bien_Ban(So_Bien_ban, Ma_loai_BB, Reason, DATE, [User ID], IT_OP) VALUES (@So_BB, @Code, @Reason, @Date, @ID, @ITOP)";
                 SqlCommand cmdInBB = new SqlCommand();
                 cmdInBB.Connection = con;
                 cmdInBB.CommandType = CommandType.Text;
@@ -172,6 +175,7 @@ namespace QLTS_LG
                 cmdInBB.Parameters.AddWithValue("@Reason", txtReason.Text.ToString());
                 cmdInBB.Parameters.AddWithValue("@Date", DateTime.Now.ToString());
                 cmdInBB.Parameters.AddWithValue("@ID", txtUserID.Text.ToString());
+                cmdInBB.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
                 con.Open();
                 cmdInBB.ExecuteNonQuery();
                 con.Close();
@@ -183,8 +187,8 @@ namespace QLTS_LG
                         Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
                         if (CheckRow)
                         {
-                            string strInBorrow = "INSERT INTO Muon_vat_tu(So_BB, Ma_TS, Reason, Due_date, [Qua_han?], ID_nguoi_muon, Approved, Borrow_code)" +
-                                " VALUES(@SoBB, @MTS, @Reason, @Due, @Expired_check, @IDUser, @App, @Brr_code)";
+                            string strInBorrow = "INSERT INTO Muon_vat_tu(So_BB, Ma_TS, Reason, Due_date, [Qua_han?], ID_nguoi_muon, Approved, Borrow_code, IT_OP)" +
+                                " VALUES(@SoBB, @MTS, @Reason, @Due, @Expired_check, @IDUser, @App, @Brr_code, @ITOP)";
                             SqlCommand cmdBrr = new SqlCommand();
                             cmdBrr.Connection = con;
                             cmdBrr.CommandType = CommandType.Text;
@@ -197,6 +201,7 @@ namespace QLTS_LG
                             cmdBrr.Parameters.AddWithValue("@IDUser", txtUserID.Text.ToString());
                             cmdBrr.Parameters.AddWithValue("@App", false);
                             cmdBrr.Parameters.AddWithValue("@Brr_code", "ST");
+                            cmdBrr.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
                             con.Open();
                             cmdBrr.ExecuteNonQuery();
                             con.Close();
@@ -210,8 +215,8 @@ namespace QLTS_LG
                         Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
                         if (CheckRow)
                         {
-                            string strInBorrow = "INSERT INTO Muon_vat_tu(So_BB, Ma_TS, Reason,  [Qua_han?], ID_nguoi_muon, Approved, Borrow_code)" +
-                                " VALUES(@SoBB, @MTS, @Reason,  @Expired_check, @IDUser, @App, @Brr_code)";
+                            string strInBorrow = "INSERT INTO Muon_vat_tu(So_BB, Ma_TS, Reason,  [Qua_han?], ID_nguoi_muon, Approved, Borrow_code, IT_OP)" +
+                                " VALUES(@SoBB, @MTS, @Reason,  @Expired_check, @IDUser, @App, @Brr_code, @ITOP)";
                             SqlCommand cmdBrr = new SqlCommand();
                             cmdBrr.Connection = con;
                             cmdBrr.CommandType = CommandType.Text;
@@ -224,6 +229,7 @@ namespace QLTS_LG
                             cmdBrr.Parameters.AddWithValue("@IDUser", txtUserID.Text.ToString());
                             cmdBrr.Parameters.AddWithValue("@App", false);
                             cmdBrr.Parameters.AddWithValue("@Brr_code", "LT");
+                            cmdBrr.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
                             con.Open();
                             cmdBrr.ExecuteNonQuery();
                             con.Close();

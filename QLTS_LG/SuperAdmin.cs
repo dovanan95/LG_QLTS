@@ -29,6 +29,7 @@ namespace QLTS_LG
         {
             try
             {
+                dtQuerry.Clear();
                 string strQuerry = txtQuerry.Text.ToString();
                 SqlDataAdapter daQuerry = new SqlDataAdapter(strQuerry, con);
                 
@@ -63,8 +64,11 @@ namespace QLTS_LG
         private void btnClear_Click(object sender, EventArgs e)
         {
             txtQuerry.ResetText();
+            dtQuerry.Clear();
             dgvQuerry.DataSource = null;
             dgvQuerry.Rows.Clear();
+            dgvQuerry.Refresh();
+            
         }
 
         private void btnExecute_Click(object sender, EventArgs e)

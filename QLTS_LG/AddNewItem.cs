@@ -25,6 +25,10 @@ namespace QLTS_LG
         DataTable dtLoaiTS1 = new DataTable();
         DataTable dtLoaiTS2 = new DataTable();
         DataTable dtStatus = new DataTable();
+        Permission IT_OP = new Permission();
+
+
+
 
         bool flag = false;
 
@@ -60,11 +64,15 @@ namespace QLTS_LG
                     command.Parameters.AddWithValue("@SN", txtSN.Text.ToUpper());
                     command.Parameters.AddWithValue("@FA_Tag", txtFATag.Text.ToUpper());
                     command.Parameters.AddWithValue("@IT_Tag", txtITTag.Text.ToUpper());
-                    if (cbModel.SelectedValue != null)
+                    if (cbModel.SelectedValue != null && cbModel.Text.ToString() != "")
                     {
                         command.Parameters.AddWithValue("@Model", cbModel.SelectedValue.ToString());
                     }
                     else if (cbModel.SelectedValue == null)
+                    {
+                        command.Parameters.AddWithValue("@Model", cbModel.Text.ToString());
+                    }
+                    else if(cbModel.SelectedValue != null && cbModel.Text.ToString() == "")
                     {
                         command.Parameters.AddWithValue("@Model", cbModel.Text.ToString());
                     }
@@ -87,15 +95,17 @@ namespace QLTS_LG
 
             try
             {
+                ;
                 con.Open();
                 SqlCommand input = new SqlCommand();
                 input.Connection = con;
                 input.CommandType = CommandType.Text;
-                input.CommandText = "INSERT INTO Nhap_Moi (So_BB, Ma_TS, Approved) " +
-                                    "VALUES(@So_BB, @Ma_TS, @App)";
+                input.CommandText = "INSERT INTO Nhap_Moi (So_BB, Ma_TS, Approved, IT_OP) " +
+                                    "VALUES(@So_BB, @Ma_TS, @App, @ITOP)";
                 input.Parameters.AddWithValue("@So_BB", txtSoBB.Text.ToString());
                 input.Parameters.AddWithValue("@Ma_TS", txtMaTS.Text.ToString());
                 input.Parameters.AddWithValue("@App", false);
+                input.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
                 input.ExecuteNonQuery();
                 con.Close();
             }
@@ -191,7 +201,7 @@ namespace QLTS_LG
             cbTypeLV2.DataSource = dtLoaiTS2;
             cbTypeLV2.DisplayMember = "Ten_loai";
             cbTypeLV2.ValueMember = "Ma_loai";
-            cbTypeLV2.Enabled = true;
+            //cbTypeLV2.Enabled = true;
             cmd.ExecuteNonQuery();
             con.Close();
         }
@@ -272,7 +282,7 @@ namespace QLTS_LG
         private void AddNewItem_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the 'qLTSDataSet.Loai_TS_cap1' table. You can move, or remove it, as needed.
-            this.loai_TS_cap1TableAdapter.Fill(this.qLTSDataSet.Loai_TS_cap1);
+            //this.loai_TS_cap1TableAdapter.Fill(this.qLTSDataSet.Loai_TS_cap1);
 
             //this.reportViewer1.RefreshReport();
 
@@ -304,10 +314,11 @@ namespace QLTS_LG
             SqlCommand command2 = new SqlCommand();
             command2.Connection = con;
             command2.CommandType = CommandType.Text;
-            command2.CommandText = "INSERT INTO Bien_Ban (So_Bien_Ban, Ma_loai_BB, DATE) VALUES (@So_Bien_Ban, @Ma_loai_BB, @DATE)";
+            command2.CommandText = "INSERT INTO Bien_Ban (So_Bien_Ban, Ma_loai_BB, DATE, IT_OP) VALUES (@So_Bien_Ban, @Ma_loai_BB, @DATE, @ITOP)";
             command2.Parameters.AddWithValue("@So_Bien_Ban", txtSoBB.Text.ToString());
             command2.Parameters.AddWithValue("@Ma_loai_BB", "NE");
             command2.Parameters.AddWithValue("@DATE", DateTime.Now.ToString());
+            command2.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
 
             SqlDataAdapter SoBB = new SqlDataAdapter("SELECT So_Bien_ban FROM Bien_Ban", con);
             DataTable dtBB = new DataTable();
@@ -424,6 +435,7 @@ namespace QLTS_LG
             autoGen.AutoGenCode();
             txtMaTS.Text = autoGen.code;
             btnAddNew.Enabled = true;
+            cbTypeLV2.Enabled = false;
             loaddata.LoadModel(cbModel);
             txtFATag.ResetText();
             txtITTag.ResetText();
@@ -541,8 +553,9 @@ namespace QLTS_LG
                 txtITTag.ResetText();
                 txtSN.Enabled = false;
                 txtSN.ResetText();
-                cbModel.Enabled = true;
+                cbModel.Enabled = false;
                 //txtModel.ResetText();
+                cbModel.ResetText();
 
                 con.Open();
                 string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "'";
@@ -570,6 +583,7 @@ namespace QLTS_LG
                 txtITTag.ResetText();
                 txtFATag.Enabled = false;
                 txtFATag.ResetText();
+                cbModel.ResetText();
 
                 con.Open();
                 string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "'";
@@ -584,6 +598,7 @@ namespace QLTS_LG
                 cbTypeLV2.DisplayMember = "Ten_loai";
                 cbTypeLV2.ValueMember = "Ma_loai";
                 cbTypeLV2.Enabled = true;
+                
                 cmdLoad.ExecuteNonQuery();
                 con.Close();
             }
@@ -610,6 +625,8 @@ namespace QLTS_LG
                 cmdLoad.ExecuteNonQuery();
                 con.Close();
             }
+
+            cbTypeLV2.Enabled = true;
         }
 
         private void pnlInfo_Paint(object sender, PaintEventArgs e)
@@ -703,7 +720,7 @@ namespace QLTS_LG
                 cbTypeLV2.DataSource = dtType2;
                 cbTypeLV2.DisplayMember = "Ten_loai";
                 cbTypeLV2.ValueMember = "Ma_loai";
-                cbTypeLV2.Enabled = true;
+                //cbTypeLV2.Enabled = true;
                 cmdType2.ExecuteNonQuery();
                 con2.Close();
             }

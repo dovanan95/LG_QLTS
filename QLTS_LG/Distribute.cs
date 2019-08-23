@@ -28,6 +28,8 @@ namespace QLTS_LG
         SqlDataAdapter DataAdapter = new SqlDataAdapter();
         DataTable Table = new DataTable();
 
+        Permission IT_OP = new Permission();
+
         UserUpdate update = new UserUpdate();
 
         public void LoadDataStatus()
@@ -207,7 +209,7 @@ namespace QLTS_LG
         {
             try
             {
-                string strInsertBB = "INSERT INTO Bien_Ban(So_Bien_ban, Ma_loai_BB, DATE, Reason, [User ID]) VALUES(@So_BB, @Type_Code, @DATE, @Reason, @ID)";
+                string strInsertBB = "INSERT INTO Bien_Ban(So_Bien_ban, Ma_loai_BB, DATE, Reason, [User ID], IT_OP) VALUES(@So_BB, @Type_Code, @DATE, @Reason, @ID, @ITOP)";
                 SqlCommand cmdBB = new SqlCommand();
                 cmdBB.Connection = con;
                 cmdBB.CommandType = CommandType.Text;
@@ -217,6 +219,7 @@ namespace QLTS_LG
                 cmdBB.Parameters.AddWithValue("@DATE", DateTime.Now.ToString());
                 cmdBB.Parameters.AddWithValue("@Reason", txtReason.Text.ToString());
                 cmdBB.Parameters.AddWithValue("@ID", txtUserID2.Text.ToString());
+                cmdBB.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
                 con.Open();
                 cmdBB.ExecuteNonQuery();
                 con.Close();
@@ -226,7 +229,7 @@ namespace QLTS_LG
                     Boolean checkRow = Convert.ToBoolean(item.Cells[0].Value);
                     if (checkRow == true)
                     {
-                        string strInsert = "INSERT INTO Xuat_Kho (So_BB_xuat, Ma_TS, ID_nguoi_nhan, Approved) VALUES (@SoBB, @Ma_TS, @ID, @Approved)";
+                        string strInsert = "INSERT INTO Xuat_Kho (So_BB_xuat, Ma_TS, ID_nguoi_nhan, Approved, IT_OP) VALUES (@SoBB, @Ma_TS, @ID, @Approved, @ITOP)";
                         SqlCommand cmdInsert = new SqlCommand();
                         cmdInsert.Connection = con;
                         cmdInsert.CommandType = CommandType.Text;
@@ -235,6 +238,7 @@ namespace QLTS_LG
                         cmdInsert.Parameters.AddWithValue("@Ma_TS", Convert.ToInt32(item.Cells[1].Value));
                         cmdInsert.Parameters.AddWithValue("@ID", txtUserID2.Text.ToString());
                         cmdInsert.Parameters.AddWithValue("@Approved", false);
+                        cmdInsert.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
                         con.Open();
                         cmdInsert.ExecuteNonQuery();
                         con.Close();

@@ -52,13 +52,14 @@
             this.txtID = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnModify = new System.Windows.Forms.Button();
+            this.chkOSP = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHRM)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(370, 463);
+            this.btnBack.Location = new System.Drawing.Point(370, 492);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(75, 23);
             this.btnBack.TabIndex = 0;
@@ -68,12 +69,15 @@
             // 
             // dgvHRM
             // 
+            this.dgvHRM.AllowUserToAddRows = false;
             this.dgvHRM.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.dgvHRM.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvHRM.Location = new System.Drawing.Point(507, 12);
             this.dgvHRM.Name = "dgvHRM";
-            this.dgvHRM.Size = new System.Drawing.Size(777, 563);
+            this.dgvHRM.Size = new System.Drawing.Size(861, 627);
             this.dgvHRM.TabIndex = 1;
+            this.dgvHRM.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHRM_CellClick);
+            this.dgvHRM.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHRM_CellContentClick);
             // 
             // panel1
             // 
@@ -81,6 +85,7 @@
             this.panel1.BackgroundImage = global::QLTS_LG.Properties.Resources.map_of_the_world_1005413_960_720;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.chkOSP);
             this.panel1.Controls.Add(this.btnDelete);
             this.panel1.Controls.Add(this.btnInsert);
             this.panel1.Controls.Add(this.btnSave);
@@ -104,35 +109,38 @@
             this.panel1.Controls.Add(this.btnModify);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(489, 563);
+            this.panel1.Size = new System.Drawing.Size(489, 627);
             this.panel1.TabIndex = 2;
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(208, 463);
+            this.btnDelete.Location = new System.Drawing.Point(208, 492);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 20;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnInsert
             // 
-            this.btnInsert.Location = new System.Drawing.Point(289, 420);
+            this.btnInsert.Location = new System.Drawing.Point(289, 449);
             this.btnInsert.Name = "btnInsert";
             this.btnInsert.Size = new System.Drawing.Size(75, 23);
             this.btnInsert.TabIndex = 19;
             this.btnInsert.Text = "Insert";
             this.btnInsert.UseVisualStyleBackColor = true;
+            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(289, 463);
+            this.btnSave.Location = new System.Drawing.Point(289, 492);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 18;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // label8
             // 
@@ -286,7 +294,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(208, 420);
+            this.btnSearch.Location = new System.Drawing.Point(208, 449);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(75, 23);
             this.btnSearch.TabIndex = 2;
@@ -296,19 +304,33 @@
             // 
             // btnModify
             // 
-            this.btnModify.Location = new System.Drawing.Point(370, 420);
+            this.btnModify.Location = new System.Drawing.Point(370, 449);
             this.btnModify.Name = "btnModify";
             this.btnModify.Size = new System.Drawing.Size(75, 23);
             this.btnModify.TabIndex = 1;
             this.btnModify.Text = "Modify";
             this.btnModify.UseVisualStyleBackColor = true;
+            this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
+            // 
+            // chkOSP
+            // 
+            this.chkOSP.AutoSize = true;
+            this.chkOSP.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.chkOSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkOSP.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.chkOSP.Location = new System.Drawing.Point(135, 404);
+            this.chkOSP.Name = "chkOSP";
+            this.chkOSP.Size = new System.Drawing.Size(64, 24);
+            this.chkOSP.TabIndex = 21;
+            this.chkOSP.Text = "OSP";
+            this.chkOSP.UseVisualStyleBackColor = false;
             // 
             // User_Management
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(1296, 587);
+            this.ClientSize = new System.Drawing.Size(1378, 645);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.dgvHRM);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -347,5 +369,6 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.CheckBox chkOSP;
     }
 }

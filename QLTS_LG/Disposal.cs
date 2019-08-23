@@ -19,6 +19,9 @@ namespace QLTS_LG
         SqlDataAdapter DataAdapter = new SqlDataAdapter();
         DataTable Table = new DataTable();
         LoadComboboxData LoadCombobox = new LoadComboboxData();
+        Permission IT_OP = new Permission();
+
+        
 
         public Disposal()
         {
@@ -111,7 +114,7 @@ namespace QLTS_LG
         {
             try
             {
-                string strBB = "INSERT INTO Bien_Ban (So_Bien_ban, Ma_loai_BB, DATE) VALUES (@SoBB, @Type, @Date)";
+                string strBB = "INSERT INTO Bien_Ban (So_Bien_ban, Ma_loai_BB, DATE, IT_OP) VALUES (@SoBB, @Type, @Date, @ITOP)";
                 SqlCommand cmdBB = new SqlCommand();
                 cmdBB.Connection = con;
                 cmdBB.CommandType = CommandType.Text;
@@ -119,6 +122,7 @@ namespace QLTS_LG
                 cmdBB.Parameters.AddWithValue("@SoBB", txtSoBB.Text.ToString());
                 cmdBB.Parameters.AddWithValue("@Type", "DIS");
                 cmdBB.Parameters.AddWithValue("@Date", DateTime.Now.ToString());
+                cmdBB.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
                 con.Open();
                 cmdBB.ExecuteNonQuery();
                 con.Close();
@@ -128,7 +132,7 @@ namespace QLTS_LG
                     Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
                     if (CheckRow)
                     {
-                        string strHuy = "INSERT INTO Huy_TS (BB_Huy, Ma_TS, Approved) VALUES (@BB, @MTS, @App)";
+                        string strHuy = "INSERT INTO Huy_TS (BB_Huy, Ma_TS, Approved, IT_OP) VALUES (@BB, @MTS, @App, @ITOP)";
                         SqlCommand cmdHuy = new SqlCommand();
                         cmdHuy.Connection = con;
                         cmdHuy.CommandType = CommandType.Text;
@@ -136,6 +140,7 @@ namespace QLTS_LG
                         cmdHuy.Parameters.AddWithValue("@BB", txtSoBB.Text.ToString());
                         cmdHuy.Parameters.AddWithValue("@MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value));
                         cmdHuy.Parameters.AddWithValue("@App", false);
+                        cmdHuy.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
                         con.Open();
                         cmdHuy.ExecuteNonQuery();
                         con.Close();

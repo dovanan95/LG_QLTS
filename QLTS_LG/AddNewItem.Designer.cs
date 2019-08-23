@@ -62,6 +62,7 @@
             this.btnNewBBNo = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.pnlInfo = new System.Windows.Forms.Panel();
+            this.cbModel = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
             this.cbUnit = new System.Windows.Forms.ComboBox();
             this.btnNewAssetID = new System.Windows.Forms.Button();
@@ -77,7 +78,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label15 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.cbModel = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.loaiTScap1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.qLTSDataSet)).BeginInit();
@@ -130,7 +130,7 @@
             this.dataGridView1.GridColor = System.Drawing.Color.LightSkyBlue;
             this.dataGridView1.Location = new System.Drawing.Point(352, 72);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(770, 545);
+            this.dataGridView1.Size = new System.Drawing.Size(973, 572);
             this.dataGridView1.TabIndex = 3;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
@@ -441,9 +441,19 @@
             this.pnlInfo.Controls.Add(this.label8);
             this.pnlInfo.Location = new System.Drawing.Point(12, 72);
             this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(334, 545);
+            this.pnlInfo.Size = new System.Drawing.Size(334, 572);
             this.pnlInfo.TabIndex = 32;
             this.pnlInfo.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlInfo_Paint);
+            // 
+            // cbModel
+            // 
+            this.cbModel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbModel.FormattingEnabled = true;
+            this.cbModel.Location = new System.Drawing.Point(135, 306);
+            this.cbModel.Name = "cbModel";
+            this.cbModel.Size = new System.Drawing.Size(183, 28);
+            this.cbModel.TabIndex = 33;
+            this.cbModel.SelectedIndexChanged += new System.EventHandler(this.cbModel_SelectedIndexChanged);
             // 
             // label14
             // 
@@ -488,7 +498,7 @@
             this.pnlControl.Controls.Add(this.button3);
             this.pnlControl.Controls.Add(this.btnUpdate);
             this.pnlControl.Controls.Add(this.btnDelete);
-            this.pnlControl.Location = new System.Drawing.Point(1128, 72);
+            this.pnlControl.Location = new System.Drawing.Point(1326, 72);
             this.pnlControl.Name = "pnlControl";
             this.pnlControl.Size = new System.Drawing.Size(144, 216);
             this.pnlControl.TabIndex = 33;
@@ -506,7 +516,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1133, 7);
+            this.button1.Location = new System.Drawing.Point(1346, 8);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(105, 23);
             this.button1.TabIndex = 35;
@@ -520,7 +530,7 @@
             this.label12.BackColor = System.Drawing.Color.Maroon;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.SystemColors.Info;
-            this.label12.Location = new System.Drawing.Point(1020, 8);
+            this.label12.Location = new System.Drawing.Point(1233, 8);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(107, 20);
             this.label12.TabIndex = 36;
@@ -543,7 +553,7 @@
             this.panel1.Controls.Add(this.btnCloseBB);
             this.panel1.Location = new System.Drawing.Point(12, 19);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1260, 47);
+            this.panel1.Size = new System.Drawing.Size(1458, 47);
             this.panel1.TabIndex = 37;
             // 
             // label13
@@ -551,7 +561,7 @@
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.GhostWhite;
-            this.label13.Location = new System.Drawing.Point(240, 657);
+            this.label13.Location = new System.Drawing.Point(320, 656);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(831, 25);
             this.label13.TabIndex = 38;
@@ -564,9 +574,9 @@
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel2.Controls.Add(this.label15);
             this.panel2.Controls.Add(this.pictureBox1);
-            this.panel2.Location = new System.Drawing.Point(1128, 294);
+            this.panel2.Location = new System.Drawing.Point(1326, 294);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(144, 323);
+            this.panel2.Size = new System.Drawing.Size(144, 350);
             this.panel2.TabIndex = 39;
             // 
             // label15
@@ -590,22 +600,12 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // cbModel
-            // 
-            this.cbModel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbModel.FormattingEnabled = true;
-            this.cbModel.Location = new System.Drawing.Point(135, 306);
-            this.cbModel.Name = "cbModel";
-            this.cbModel.Size = new System.Drawing.Size(183, 28);
-            this.cbModel.TabIndex = 33;
-            this.cbModel.SelectedIndexChanged += new System.EventHandler(this.cbModel_SelectedIndexChanged);
-            // 
             // AddNewItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(1284, 701);
+            this.ClientSize = new System.Drawing.Size(1482, 701);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.panel1);
