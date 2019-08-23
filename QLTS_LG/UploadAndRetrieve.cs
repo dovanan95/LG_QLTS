@@ -80,7 +80,7 @@ namespace QLTS_LG
         {
             try
             {
-
+                //openFileDialog1.FileName = txtSoBB.Text.ToString();
                 //Save file path
                 string folderPath = "D:\\EP Approval\\";
                 if (!Directory.Exists(folderPath))

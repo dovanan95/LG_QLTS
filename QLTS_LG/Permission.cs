@@ -16,7 +16,7 @@ namespace QLTS_LG
         SqlDataAdapter DataAdapter = new SqlDataAdapter();
         DataTable Table = new DataTable();
 
-        public static string ITOP { get; set; }
+        //public static string ITOP { get; set; }
 
         public string CheckPermission()
         {
@@ -36,7 +36,7 @@ namespace QLTS_LG
             DataTable dtIT = new DataTable();
             daIT.Fill(dtIT);
             string IT_User = dtIT.Rows[0][0].ToString();
-            ITOP = IT_User;
+            //ITOP = IT_User;
             return IT_User;
         }
     }
