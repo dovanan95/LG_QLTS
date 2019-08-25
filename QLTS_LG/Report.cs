@@ -66,9 +66,13 @@ namespace QLTS_LG
 
                 DataSet ds = new DataSet();
                 daGTD.Fill(ds);
+
+                DataSet ds2 = new DataSet();
+                daGTD.Fill(ds2);
+
                 crystalReport.SetDataSource(ds.Tables[0]);
-
-
+                crystalReport.Subreports["device"].SetDataSource(ds.Tables[0]);
+                crystalReport.Subreports["material"].SetDataSource(ds2.Tables[0]);
 
                 frm.crystalReportViewer1.ReportSource = crystalReport;
                 frm.ShowDialog();
