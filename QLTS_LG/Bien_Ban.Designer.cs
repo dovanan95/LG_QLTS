@@ -29,9 +29,15 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Bien_Ban));
-            this.crystalReportViewer1 = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.CrystalReport11 = new QLTS_LG.CrystalReport1();
+            this.crystalReportViewer1 = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
+            this.device1 = new QLTS_LG.device();
+            this.CrystalReport12 = new QLTS_LG.CrystalReport1();
             this.SuspendLayout();
+            // 
+            // CrystalReport11
+            // 
+            this.CrystalReport11.InitReport += new System.EventHandler(this.CrystalReport11_InitReport);
             // 
             // crystalReportViewer1
             // 
@@ -45,10 +51,6 @@
             this.crystalReportViewer1.Size = new System.Drawing.Size(1070, 541);
             this.crystalReportViewer1.TabIndex = 0;
             this.crystalReportViewer1.Load += new System.EventHandler(this.crystalReportViewer1_Load);
-            // 
-            // CrystalReport11
-            // 
-            this.CrystalReport11.InitReport += new System.EventHandler(this.CrystalReport11_InitReport);
             // 
             // Bien_Ban
             // 
@@ -67,5 +69,7 @@
 
         public CrystalDecisions.Windows.Forms.CrystalReportViewer crystalReportViewer1;
         private CrystalReport1 CrystalReport11;
+        private device device1;
+        private CrystalReport1 CrystalReport12;
     }
 }

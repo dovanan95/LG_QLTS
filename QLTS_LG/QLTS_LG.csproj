@@ -157,6 +157,12 @@
       <DependentUpon>CrystalReport1.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="device.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>device.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Disposal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +188,12 @@
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="material.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>material.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ORG_NAME.cs">
       <SubType>Form</SubType>
@@ -296,6 +308,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReport1.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="device.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>device.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Disposal.resx">
       <DependentUpon>Disposal.cs</DependentUpon>
     </EmbeddedResource>
@@ -307,6 +323,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="material.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>material.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ORG_NAME.resx">
       <DependentUpon>ORG_NAME.cs</DependentUpon>

@@ -78,6 +78,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label15 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.loaiTScap1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.qLTSDataSet)).BeginInit();
@@ -416,6 +418,8 @@
             // 
             this.pnlInfo.BackColor = System.Drawing.Color.DimGray;
             this.pnlInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlInfo.Controls.Add(this.button4);
+            this.pnlInfo.Controls.Add(this.button2);
             this.pnlInfo.Controls.Add(this.cbModel);
             this.pnlInfo.Controls.Add(this.label14);
             this.pnlInfo.Controls.Add(this.cbUnit);
@@ -600,6 +604,24 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(135, 531);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 34;
+            this.button2.Text = "Thêm Mới";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(216, 531);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 35;
+            this.button4.Text = "Back";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
             // AddNewItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -682,5 +704,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.ComboBox cbModel;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button2;
     }
 }
