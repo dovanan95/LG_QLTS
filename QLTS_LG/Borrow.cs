@@ -270,6 +270,10 @@ namespace QLTS_LG
                 MessageBox.Show(ex.Message);
 
             }
+            finally
+            {
+                con.Close();
+            }
         }
 
         private void rdLT_CheckedChanged(object sender, EventArgs e)

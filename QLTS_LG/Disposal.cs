@@ -182,6 +182,10 @@ namespace QLTS_LG
                 lblStatus.Text = "NG";
                 lblStatus.ForeColor = System.Drawing.Color.Red;
             }
+            finally
+            {
+                con.Close();
+            }
         }
 
         private void cbType_SelectedIndexChanged(object sender, EventArgs e)

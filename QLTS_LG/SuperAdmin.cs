@@ -40,7 +40,10 @@ namespace QLTS_LG
             {
                 MessageBox.Show(ex.Message);
             }
-            
+            finally
+            {
+                con.Close();
+            }
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -89,6 +92,10 @@ namespace QLTS_LG
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con2.Close();
             }
             
         }

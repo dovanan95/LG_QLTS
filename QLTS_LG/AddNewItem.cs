@@ -90,6 +90,10 @@ namespace QLTS_LG
             {
                 MessageBox.Show(ex.Message);
             }
+            finally
+            {
+                con.Close();
+            }
             //con.Close();
 
 
@@ -112,6 +116,10 @@ namespace QLTS_LG
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
             }
             /*con.Open();
             SqlCommand Save = new SqlCommand();
@@ -159,6 +167,10 @@ namespace QLTS_LG
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
             }
         }
 
@@ -490,29 +502,40 @@ namespace QLTS_LG
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //txtMaTS.Enabled = false;
-            int AsCodeIndex = dataGridView1.CurrentCell.RowIndex;
-            string strAssetCode = dataGridView1.Rows[AsCodeIndex].Cells["Ma_TS"].Value.ToString();
-            string strUpdate = "UPDATE Tai_san SET Ten_TS = @Ten_TS, Ma_Loai_TS_cap1 = @Ma_Loai_TS_cap1, " +
-                "Ma_Loai_TS_cap2 = @Ma_Loai_TS_cap2, [S/N] = @SN, FA_Tag = @FA_Tag, IT_Tag = @IT_Tag, Model = @Model, Spec = @Spec " +
-                "WHERE Ma_TS = '" + strAssetCode + "'";
-            SqlCommand cmdUpdate = new SqlCommand();
-            cmdUpdate.Connection = con;
-            cmdUpdate.CommandType = CommandType.Text;
-            cmdUpdate.CommandText = strUpdate;
-            cmdUpdate.Parameters.AddWithValue("@Ten_TS", txtTenTS.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@Ma_Loai_TS_cap1", cbTypeLV1.SelectedValue);
-            cmdUpdate.Parameters.AddWithValue("@Ma_Loai_TS_cap2", cbTypeLV2.SelectedValue);
-            cmdUpdate.Parameters.AddWithValue("@SN", txtSN.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@FA_Tag", txtFATag.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@IT_Tag", txtITTag.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@Model", cbModel.SelectedValue.ToString());
-            cmdUpdate.Parameters.AddWithValue("@Spec", txtSpec.Text.ToString());
-            con.Open();
-            cmdUpdate.ExecuteNonQuery();
-            con.Close();
+            try
+            {
+                //txtMaTS.Enabled = false;
+                int AsCodeIndex = dataGridView1.CurrentCell.RowIndex;
+                string strAssetCode = dataGridView1.Rows[AsCodeIndex].Cells["Ma_TS"].Value.ToString();
+                string strUpdate = "UPDATE Tai_san SET Ten_TS = @Ten_TS, Ma_Loai_TS_cap1 = @Ma_Loai_TS_cap1, " +
+                    "Ma_Loai_TS_cap2 = @Ma_Loai_TS_cap2, [S/N] = @SN, FA_Tag = @FA_Tag, IT_Tag = @IT_Tag, Model = @Model, Spec = @Spec " +
+                    "WHERE Ma_TS = '" + strAssetCode + "'";
+                SqlCommand cmdUpdate = new SqlCommand();
+                cmdUpdate.Connection = con;
+                cmdUpdate.CommandType = CommandType.Text;
+                cmdUpdate.CommandText = strUpdate;
+                cmdUpdate.Parameters.AddWithValue("@Ten_TS", txtTenTS.Text.ToString());
+                cmdUpdate.Parameters.AddWithValue("@Ma_Loai_TS_cap1", cbTypeLV1.SelectedValue);
+                cmdUpdate.Parameters.AddWithValue("@Ma_Loai_TS_cap2", cbTypeLV2.SelectedValue);
+                cmdUpdate.Parameters.AddWithValue("@SN", txtSN.Text.ToString());
+                cmdUpdate.Parameters.AddWithValue("@FA_Tag", txtFATag.Text.ToString());
+                cmdUpdate.Parameters.AddWithValue("@IT_Tag", txtITTag.Text.ToString());
+                cmdUpdate.Parameters.AddWithValue("@Model", cbModel.SelectedValue.ToString());
+                cmdUpdate.Parameters.AddWithValue("@Spec", txtSpec.Text.ToString());
+                con.Open();
+                cmdUpdate.ExecuteNonQuery();
+                con.Close();
 
-            ReloadData();
+                ReloadData();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -728,6 +751,21 @@ namespace QLTS_LG
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void btnBack2_Click(object sender, EventArgs e)
+        {
+
+            btnCloseBB_Click(this, new EventArgs());
+            //Main frm = new Main();
+            this.Hide();
+            //frm.ShowDialog();
+            this.Close();
+        }
+
+        private void btnNewItem2_Click(object sender, EventArgs e)
+        {
+            btnAddNew_Click(this, new EventArgs());
         }
     }
 }

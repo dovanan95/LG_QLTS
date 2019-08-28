@@ -62,6 +62,8 @@
             this.btnNewBBNo = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.pnlInfo = new System.Windows.Forms.Panel();
+            this.btnBack2 = new System.Windows.Forms.Button();
+            this.btnNewItem2 = new System.Windows.Forms.Button();
             this.cbModel = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
             this.cbUnit = new System.Windows.Forms.ComboBox();
@@ -78,8 +80,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label15 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.loaiTScap1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.qLTSDataSet)).BeginInit();
@@ -418,8 +418,8 @@
             // 
             this.pnlInfo.BackColor = System.Drawing.Color.DimGray;
             this.pnlInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnlInfo.Controls.Add(this.button4);
-            this.pnlInfo.Controls.Add(this.button2);
+            this.pnlInfo.Controls.Add(this.btnBack2);
+            this.pnlInfo.Controls.Add(this.btnNewItem2);
             this.pnlInfo.Controls.Add(this.cbModel);
             this.pnlInfo.Controls.Add(this.label14);
             this.pnlInfo.Controls.Add(this.cbUnit);
@@ -448,6 +448,26 @@
             this.pnlInfo.Size = new System.Drawing.Size(334, 572);
             this.pnlInfo.TabIndex = 32;
             this.pnlInfo.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlInfo_Paint);
+            // 
+            // btnBack2
+            // 
+            this.btnBack2.Location = new System.Drawing.Point(216, 531);
+            this.btnBack2.Name = "btnBack2";
+            this.btnBack2.Size = new System.Drawing.Size(75, 23);
+            this.btnBack2.TabIndex = 35;
+            this.btnBack2.Text = "Back";
+            this.btnBack2.UseVisualStyleBackColor = true;
+            this.btnBack2.Click += new System.EventHandler(this.btnBack2_Click);
+            // 
+            // btnNewItem2
+            // 
+            this.btnNewItem2.Location = new System.Drawing.Point(135, 531);
+            this.btnNewItem2.Name = "btnNewItem2";
+            this.btnNewItem2.Size = new System.Drawing.Size(75, 23);
+            this.btnNewItem2.TabIndex = 34;
+            this.btnNewItem2.Text = "Thêm Mới";
+            this.btnNewItem2.UseVisualStyleBackColor = true;
+            this.btnNewItem2.Click += new System.EventHandler(this.btnNewItem2_Click);
             // 
             // cbModel
             // 
@@ -604,30 +624,12 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(135, 531);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 34;
-            this.button2.Text = "Thêm Mới";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(216, 531);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 35;
-            this.button4.Text = "Back";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
             // AddNewItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(1482, 701);
+            this.ClientSize = new System.Drawing.Size(1284, 701);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.panel1);
@@ -704,7 +706,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.ComboBox cbModel;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnBack2;
+        private System.Windows.Forms.Button btnNewItem2;
     }
 }

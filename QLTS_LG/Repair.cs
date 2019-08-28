@@ -485,6 +485,10 @@ namespace QLTS_LG
                 lblStatus.Text = "NG";
                 lblStatus.ForeColor = System.Drawing.Color.Red;
             }
+            finally
+            {
+                con.Close();
+            }
         }
 
         private void btnUserSearch_Click(object sender, EventArgs e)

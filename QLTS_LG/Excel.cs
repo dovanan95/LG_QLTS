@@ -216,6 +216,7 @@ namespace QLTS_LG
             {
                 MessageBox.Show(ex.Message);
             }
+         
         }
 
     }

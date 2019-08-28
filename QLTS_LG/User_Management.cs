@@ -129,6 +129,10 @@ namespace QLTS_LG
                 MessageBox.Show("Data duplicated or connection down!!!");
                 //MessageBox.Show(ex.Message);
             }
+            finally
+            {
+                con.Close();
+            }
         }
 
         private void dgvHRM_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -191,6 +195,10 @@ namespace QLTS_LG
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
             }
         }
         public void Reload()

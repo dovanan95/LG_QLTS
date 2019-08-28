@@ -98,6 +98,10 @@ namespace QLTS_LG
             {
                 MessageBox.Show(ex.Message);
             }
+            finally
+            {
+                con.Close();
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)

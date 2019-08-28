@@ -172,7 +172,11 @@ namespace QLTS_LG
             {
                 MessageBox.Show(ex.Message);
             }
-
+            finally
+            {
+                con.Close();
+                con2.Close();
+            }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
