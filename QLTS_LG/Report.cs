@@ -23,6 +23,8 @@ namespace QLTS_LG
         device rptDevice = new device();
         material rptMaterial = new material();
 
+        ReportDocument rpObj = new ReportDocument();
+
         Bien_Ban frm = new Bien_Ban();
 
         public void BienBanXuatKho(string SoBB)
@@ -66,7 +68,7 @@ namespace QLTS_LG
                 string Type = dtReason.Rows[0]["Ma_loai_BB"].ToString();
 
                 text17.Text = Type;
-               
+                con.Open();
                 string strGridviewTransferData = 
                     "select a.Ma_TS, a.Ten_TS, c.Ten_loai, a.[S/N], a.FA_Tag, a.IT_Tag, a.Model, d.unit_name, e.Ten_tinh_trang " +
                     "from Tai_san as a " +
@@ -75,16 +77,21 @@ namespace QLTS_LG
                     "inner join Unit as d on d.unit_id = a.Unit " +
                     "inner join Status as e on e.Ma_tinh_Trang  = a.Ma_tinh_trang " +
                     "where b.So_BB_xuat = '" + SoBB + "' and a.Ma_Loai_TS_cap1 = 'DE'";
-
-                
-                SqlDataAdapter daGTD = new SqlDataAdapter(strGridviewTransferData, con);
+                SqlCommand cmdGTD = new SqlCommand();
+                cmdGTD.Connection = con;
+                cmdGTD.CommandType = CommandType.Text;
+                cmdGTD.CommandText = strGridviewTransferData;
+                cmdGTD.ExecuteNonQuery();
+                SqlDataAdapter daGTD = new SqlDataAdapter(cmdGTD);
                 DataTable dtGTD = new DataTable();
                 dtGTD.TableName = "GTD";
                 daGTD.Fill(dtGTD);
 
                 DataSet ds = new DataSet();
                 daGTD.Fill(ds, "device");
+                con.Close();
 
+                con2.Open();
                 string strGridviewTransferDataForAdditional = 
                     "select a.Ma_TS, a.Ten_TS, c.Ten_loai, a.[S/N], a.FA_Tag, a.IT_Tag, a.Model, d.unit_name, e.Ten_tinh_trang " +
                     "from Tai_san as a " +
@@ -94,11 +101,16 @@ namespace QLTS_LG
                     "inner join Status as e on e.Ma_tinh_Trang  = a.Ma_tinh_trang " +
                     "where not a.Ma_Loai_TS_cap1 = 'DE' and b.So_BB_xuat = '" + SoBB + "'";
 
-                SqlDataAdapter daGTD2 = new SqlDataAdapter(strGridviewTransferDataForAdditional, con2);
+                SqlCommand cmdGTD2 = new SqlCommand();
+                cmdGTD2.Connection = con2;
+                cmdGTD2.CommandType = CommandType.Text;
+                cmdGTD2.CommandText = strGridviewTransferDataForAdditional;
+                cmdGTD2.ExecuteNonQuery();
+                SqlDataAdapter daGTD2 = new SqlDataAdapter(cmdGTD2);
                 
                 DataSet ds2 = new DataSet();
                 daGTD2.Fill(ds2, "material");
-
+                con2.Close();
                 //crystalReport.SetDataSource(ds.Tables[0]);
                 //crystalReport.SetDataSource(ds2.Tables[0]);
 
@@ -112,7 +124,9 @@ namespace QLTS_LG
                 //material.SetDataSource(ds2.Tables["material"]);
                 rptDevice.SetDataSource(ds.Tables["device"]);
                 rptMaterial.SetDataSource(ds2.Tables["material"]);
+                
 
+                rpObj.Load(@"D:\Study\Project\QLTS_LG v2\QLTS_LG\CrystalReport1.rpt");
                 
 
                 //crystalReport.Subreports["device.rpt"].SetDataSource(ds.Tables[0]);
@@ -128,7 +142,9 @@ namespace QLTS_LG
 
                 //crystalReport.Database.Tables["device"].SetDataSource(ds.Tables[0]);
                 //crystalReport.Database.Tables["material"].SetDataSource(ds2.Tables[0]);
+                frm.crystalReportViewer1.ReportSource = rpObj;
                 frm.crystalReportViewer1.ReportSource = crystalReport;
+                frm.crystalReportViewer1.Refresh();
                                                 
                 frm.ShowDialog();
             }
