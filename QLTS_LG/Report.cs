@@ -114,7 +114,16 @@ namespace QLTS_LG
                 //crystalReport.SetDataSource(ds.Tables[0]);
                 //crystalReport.SetDataSource(ds2.Tables[0]);
 
-             
+
+                string test = "select a.Ma_TS, a.Ten_TS, a.[S/N], a.FA_Tag, a.IT_Tag from Tai_san as a " +
+                    "inner join Xuat_Kho as b on a.Ma_TS = b.Ma_TS " +
+                    "where b.So_BB_xuat = '" + SoBB + "'";
+
+                DataSet dsTest = new DataSet();
+                SqlDataAdapter daTest = new SqlDataAdapter(test, con);
+                daTest.Fill(dsTest, "test");
+                crystalReport.SetDataSource(dsTest.Tables["test"]);
+
                 if(ds.Tables[0].Rows.Count == 0 || ds2.Tables[0].Rows.Count == 0)
                 {
                     MessageBox.Show("No data!!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
@@ -122,12 +131,14 @@ namespace QLTS_LG
 
                 //device.SetDataSource(ds.Tables["device"]);
                 //material.SetDataSource(ds2.Tables["material"]);
-                rptDevice.SetDataSource(ds.Tables["device"]);
+                //rptDevice.SetDataSource(ds.Tables["device"]);
+                rptDevice.SetDataSource(dsTest.Tables["test"]);
                 rptMaterial.SetDataSource(ds2.Tables["material"]);
                 
 
                 rpObj.Load(@"D:\Study\Project\QLTS_LG v2\QLTS_LG\CrystalReport1.rpt");
-                
+                rpObj.Load(@"D:\Study\Project\QLTS_LG v2\QLTS_LG\device.rpt");
+                rpObj.Load(@"D:\Study\Project\QLTS_LG v2\QLTS_LG\material.rpt");
 
                 //crystalReport.Subreports["device.rpt"].SetDataSource(ds.Tables[0]);
                 //crystalReport.Subreports["material.rpt"].SetDataSource(ds2.Tables[0]);

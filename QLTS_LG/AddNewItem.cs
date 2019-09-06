@@ -11,11 +11,12 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.IO;
 
+
 namespace QLTS_LG
 {
     public partial class AddNewItem : Form
     {
-
+        
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
         SqlConnection con = new SqlConnection(connectionString);
         SqlConnection con2 = new SqlConnection(connectionString);
@@ -447,6 +448,7 @@ namespace QLTS_LG
             autoGen.AutoGenCode();
             txtMaTS.Text = autoGen.code;
             btnAddNew.Enabled = true;
+            btnNewItem2.Enabled = true;
             cbTypeLV2.Enabled = false;
             loaddata.LoadModel(cbModel);
             txtFATag.ResetText();
@@ -766,6 +768,7 @@ namespace QLTS_LG
         private void btnNewItem2_Click(object sender, EventArgs e)
         {
             btnAddNew_Click(this, new EventArgs());
+            btnNewItem2.Enabled = false;
         }
     }
 }
