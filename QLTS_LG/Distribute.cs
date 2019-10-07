@@ -11,6 +11,8 @@ using System.Configuration;
 using System.Data.SqlClient;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
+using System.Drawing.Printing;
+
 
 namespace QLTS_LG
 {
@@ -103,6 +105,7 @@ namespace QLTS_LG
             this.Hide();
             this.Close();
             Main frm = new Main();
+            frm.OutStorageLoad();
             //frm.ShowDialog();
         }
 
@@ -409,56 +412,9 @@ namespace QLTS_LG
 
         private void btnReport_Click(object sender, EventArgs e)
         {
-            /*try
-            {
-                string strUser = "select * from _User as a inner join Xuat_Kho as b on a.ID = b.ID_nguoi_nhan where b.So_BB_xuat = '" + txtSoBB.Text.ToString() + "'";
-                SqlDataAdapter daUser = new SqlDataAdapter(strUser, con);
-                DataTable dtUser = new DataTable();
-                daUser.Fill(dtUser);
-
-                Bien_Ban frm = new Bien_Ban();
-                CrystalReport1 crystalReport = new CrystalReport1();
-                TextObject text = (TextObject)crystalReport.ReportDefinition.Sections["Section2"].ReportObjects["Text1"];
-                text.Text = txtSoBB.Text;
-                TextObject text2 = (TextObject)crystalReport.ReportDefinition.Sections["Section2"].ReportObjects["Text13"];
-                //text2.Text = txtUserID2.Text;
-                text2.Text = dtUser.Rows[0]["ID"].ToString();
-                TextObject text3 = (TextObject)crystalReport.ReportDefinition.Sections["Section2"].ReportObjects["Text12"];
-                //text3.Text = txtUser_Name.Text;
-                text3.Text = dtUser.Rows[0]["Name"].ToString();
-                TextObject text4 = (TextObject)crystalReport.ReportDefinition.Sections["Section2"].ReportObjects["Text14"];
-                //text4.Text = txtMail.Text;
-                text4.Text = dtUser.Rows[0]["Mail"].ToString();
-                TextObject text5 = (TextObject)crystalReport.ReportDefinition.Sections["Section2"].ReportObjects["Text15"];
-                //text5.Text = txtDept.Text;
-                text5.Text = dtUser.Rows[0]["Dept"].ToString();
-                TextObject text6 = (TextObject)crystalReport.ReportDefinition.Sections["Section2"].ReportObjects["Text16"];
-                //text6.Text = txtPhone.Text;
-                text6.Text = dtUser.Rows[0]["Phone"].ToString();
-
-                string strGridviewTransferData = "select a.Ma_TS, b.Ten_TS, b.[S/N] from Xuat_Kho as a " +
-                    "inner join Tai_san as b on a.Ma_TS = b.Ma_TS " +
-                    "where So_BB_xuat = '" + txtSoBB.Text.ToString() + "'";
-                SqlDataAdapter daGTD = new SqlDataAdapter(strGridviewTransferData, con);
-                DataTable dtGTD = new DataTable();
-                dtGTD.TableName = "GTD";
-                daGTD.Fill(dtGTD);
-
-                DataSet ds = new DataSet();
-                daGTD.Fill(ds);
-                crystalReport.SetDataSource(ds.Tables[0]);
-
-
-
-                frm.crystalReportViewer1.ReportSource = crystalReport;
-                frm.ShowDialog();
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }*/
             Report report = new Report();
-            report.BienBanXuatKho(txtSoBB.Text.ToString());
+            //report.BienBanXuatKho(txtSoBB.Text.ToString());
+            report.TestBB(txtSoBB.Text.ToString());
         }
     }
 }

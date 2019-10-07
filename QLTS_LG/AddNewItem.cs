@@ -16,7 +16,7 @@ namespace QLTS_LG
 {
     public partial class AddNewItem : Form
     {
-        
+
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
         SqlConnection con = new SqlConnection(connectionString);
         SqlConnection con2 = new SqlConnection(connectionString);
@@ -73,7 +73,7 @@ namespace QLTS_LG
                     {
                         command.Parameters.AddWithValue("@Model", cbModel.Text.ToString());
                     }
-                    else if(cbModel.SelectedValue != null && cbModel.Text.ToString() == "")
+                    else if (cbModel.SelectedValue != null && cbModel.Text.ToString() == "")
                     {
                         command.Parameters.AddWithValue("@Model", cbModel.Text.ToString());
                     }
@@ -100,7 +100,7 @@ namespace QLTS_LG
 
             try
             {
-                ;
+
                 con.Open();
                 SqlCommand input = new SqlCommand();
                 input.Connection = con;
@@ -185,6 +185,7 @@ namespace QLTS_LG
             pnlInfo.Enabled = false;
             //cbStatus.Enabled = false;
             btnAddNew.Enabled = false;
+
 
         }
 
@@ -319,112 +320,120 @@ namespace QLTS_LG
 
         private void btnAddNew_Click(object sender, EventArgs e)
         {
-            //Load Model
 
-            
-            //Nhap gia tri vao table Bien_Ban
-            //con.Open();
-            SqlCommand command2 = new SqlCommand();
-            command2.Connection = con;
-            command2.CommandType = CommandType.Text;
-            command2.CommandText = "INSERT INTO Bien_Ban (So_Bien_Ban, Ma_loai_BB, DATE, IT_OP) VALUES (@So_Bien_Ban, @Ma_loai_BB, @DATE, @ITOP)";
-            command2.Parameters.AddWithValue("@So_Bien_Ban", txtSoBB.Text.ToString());
-            command2.Parameters.AddWithValue("@Ma_loai_BB", "NE");
-            command2.Parameters.AddWithValue("@DATE", DateTime.Now.ToString());
-            command2.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
-
-            SqlDataAdapter SoBB = new SqlDataAdapter("SELECT So_Bien_ban FROM Bien_Ban", con);
-            DataTable dtBB = new DataTable();
-            SoBB.Fill(dtBB);
-            int dtBBLastItemIndex = dtBB.Rows.Count - 1;
-
-
-            if (dtBB.Rows.Count != 0)
+            if (CheckNewModel() == true)
             {
-                string LastItem = dtBB.Rows[dtBBLastItemIndex][0].ToString();
+                MessageBox.Show("Choose the right model Type or input new model!!!");
+                cbModel.ResetText();
+            }
 
-                //kiểm tra giá trị Số Biên Bản nhập vào có bị trùng
-                if (txtSoBB.Text.ToString() != LastItem)
+            else if (CheckNewModel() == false)
+            {
+
+                //Nhap gia tri vao table Bien_Ban
+                //con.Open();
+                SqlCommand command2 = new SqlCommand();
+                command2.Connection = con;
+                command2.CommandType = CommandType.Text;
+                command2.CommandText = "INSERT INTO Bien_Ban (So_Bien_Ban, Ma_loai_BB, DATE, IT_OP) VALUES (@So_Bien_Ban, @Ma_loai_BB, @DATE, @ITOP)";
+                command2.Parameters.AddWithValue("@So_Bien_Ban", txtSoBB.Text.ToString());
+                command2.Parameters.AddWithValue("@Ma_loai_BB", "NE");
+                command2.Parameters.AddWithValue("@DATE", DateTime.Now.ToString());
+                command2.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
+
+                SqlDataAdapter SoBB = new SqlDataAdapter("SELECT So_Bien_ban FROM Bien_Ban", con);
+                DataTable dtBB = new DataTable();
+                SoBB.Fill(dtBB);
+                int dtBBLastItemIndex = dtBB.Rows.Count - 1;
+
+
+                if (dtBB.Rows.Count != 0)
+                {
+                    string LastItem = dtBB.Rows[dtBBLastItemIndex][0].ToString();
+
+                    //kiểm tra giá trị Số Biên Bản nhập vào có bị trùng
+                    if (txtSoBB.Text.ToString() != LastItem)
+                    {
+                        con.Open();
+                        command2.ExecuteNonQuery();
+                        //txtSoBB.ResetText();
+                        con.Close();
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else if (dtBB.Rows.Count == 0)
                 {
                     con.Open();
                     command2.ExecuteNonQuery();
-                    //txtSoBB.ResetText();
                     con.Close();
                 }
+
+                CheckDup.CheckModel(cbModel, cbTypeLV2);
+
+                if (cbTypeLV1.SelectedValue.ToString().Trim() == "DE")
+                {
+
+                    string strCheck = "SELECT [S/N], FA_Tag, IT_Tag FROM Tai_san WHERE Ma_Loai_TS_cap1 = 'DE'";
+                    SqlDataAdapter daCheck = new SqlDataAdapter(strCheck, con);
+                    DataTable dtCheck = new DataTable();
+                    daCheck.Fill(dtCheck);
+
+                    SqlCommand cmdCheck = new SqlCommand(strCheck, con);
+                    SqlDataReader rdrCheck = null;
+
+                    con.Open();
+                    rdrCheck = cmdCheck.ExecuteReader();
+                    while (rdrCheck.Read())
+                    {
+                        if (txtFATag.Text.ToUpper() == rdrCheck["FA_Tag"].ToString() && rdrCheck["FA_Tag"].ToString() != "")
+                        {
+                            flag = true;
+                            break;
+
+                        }
+                        if (txtITTag.Text.ToUpper() == rdrCheck["IT_Tag"].ToString() && rdrCheck["IT_Tag"].ToString() != "")
+                        {
+                            flag_2 = true;
+                            break;
+                        }
+                        if (txtSN.Text.ToUpper() == rdrCheck["S/N"].ToString() && rdrCheck["S/N"].ToString() != "")
+                        {
+                            flag_3 = true;
+                            break;
+                        }
+                    }
+                    con.Close();
+
+                    if (flag == true || flag_2 == true || flag_3 == true)
+                    {
+                        MessageBox.Show("Giá trị nhập bị trùng. Vui lòng kiểm tra lại!", "Cảnh báo!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtFATag.ResetText();
+                        txtITTag.ResetText();
+                        txtSN.ResetText();
+                        flag = false;
+                        flag_2 = false;
+                        flag_3 = false;
+                    }
+
+                    if (txtITTag.Text == "" && txtFATag.Text == "" && txtSN.Text == "")
+                    {
+                        MessageBox.Show("Vui lòng nhập đầy đủ thông tin IT_Tag, FA_Tag, S/N!", "Cảnh báo!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        AddItem();
+                    }
+
+
+                }
                 else
                 {
 
-                }
-            }
-            else if (dtBB.Rows.Count == 0)
-            {
-                con.Open();
-                command2.ExecuteNonQuery();
-                con.Close();
-            }
-
-            CheckDup.CheckModel(cbModel, cbTypeLV2);
-
-            if (cbTypeLV1.SelectedValue.ToString().Trim() == "DE")
-            {
-
-                string strCheck = "SELECT [S/N], FA_Tag, IT_Tag FROM Tai_san WHERE Ma_Loai_TS_cap1 = 'DE'";
-                SqlDataAdapter daCheck = new SqlDataAdapter(strCheck, con);
-                DataTable dtCheck = new DataTable();
-                daCheck.Fill(dtCheck);
-
-                SqlCommand cmdCheck = new SqlCommand(strCheck, con);
-                SqlDataReader rdrCheck = null;
-
-                con.Open();
-                rdrCheck = cmdCheck.ExecuteReader();
-                while (rdrCheck.Read())
-                {
-                    if (txtFATag.Text.ToUpper() == rdrCheck["FA_Tag"].ToString() && rdrCheck["FA_Tag"].ToString() != "")
-                    {
-                        flag = true;
-                        break;
-
-                    }
-                    if (txtITTag.Text.ToUpper() == rdrCheck["IT_Tag"].ToString() && rdrCheck["IT_Tag"].ToString() != "")
-                    {
-                        flag_2 = true;
-                        break;
-                    }
-                    if (txtSN.Text.ToUpper() == rdrCheck["S/N"].ToString() && rdrCheck["S/N"].ToString() != "")
-                    {
-                        flag_3 = true;
-                        break;
-                    }
-                }
-                con.Close();
-
-                if (flag == true || flag_2 == true || flag_3 == true)
-                {
-                    MessageBox.Show("Giá trị nhập bị trùng. Vui lòng kiểm tra lại!", "Cảnh báo!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtFATag.ResetText();
-                    txtITTag.ResetText();
-                    txtSN.ResetText();
-                    flag = false;
-                    flag_2 = false;
-                    flag_3 = false;
-                }
-
-                if (txtITTag.Text == "" && txtFATag.Text == "" && txtSN.Text == "")
-                {
-                    MessageBox.Show("Vui lòng nhập đầy đủ thông tin IT_Tag, FA_Tag, S/N!", "Cảnh báo!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else
-                {
                     AddItem();
                 }
-
-
-            }
-            else
-            {
-
-                AddItem();
             }
 
         }
@@ -437,8 +446,9 @@ namespace QLTS_LG
                 btnCloseBB_Click(this, new EventArgs());
                 Main frm = new Main();
                 this.Hide();
-                //frm.ShowDialog();
+
                 this.Close();
+                frm.OutStorageLoad();
             }
         }
 
@@ -465,6 +475,7 @@ namespace QLTS_LG
             pnlInfo.Enabled = true;
             btnNewBBNo.Enabled = false;
             txtSoBB.Enabled = false;
+            cbTypeLV2.Enabled = false;
             //lblSoBB.Text = txtSoBB.Text;
         }
 
@@ -530,7 +541,7 @@ namespace QLTS_LG
 
                 ReloadData();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -623,7 +634,7 @@ namespace QLTS_LG
                 cbTypeLV2.DisplayMember = "Ten_loai";
                 cbTypeLV2.ValueMember = "Ma_loai";
                 cbTypeLV2.Enabled = true;
-                
+
                 cmdLoad.ExecuteNonQuery();
                 con.Close();
             }
@@ -687,42 +698,42 @@ namespace QLTS_LG
 
         private void cbTypeLV2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            try
+            {
+                string TypeLV2 = "";
+                string strTypeLV2 = "select Ma_loai from Loai_TS_cap2 where Ma_loai = '" + cbTypeLV2.SelectedValue.GetHashCode() + "'";
+                SqlDataAdapter daLoadTypeLV2 = new SqlDataAdapter(strTypeLV2, con);
+                DataTable dtTypeLV2 = new DataTable();
+                daLoadTypeLV2.Fill(dtTypeLV2);
+                if (dtTypeLV2.Rows.Count == 0)
+                {
+                    TypeLV2 = "";
+                }
+                else if (dtTypeLV2.Rows.Count != 0)
+                {
+                    TypeLV2 = dtTypeLV2.Rows[0][0].ToString();
+                }
+
+                string strModel = "select * from Model where type_code = '" + TypeLV2 + "'";
+
+                SqlDataAdapter daModel = new SqlDataAdapter(strModel, con);
+                DataTable dtModel = new DataTable();
+                daModel.Fill(dtModel);
+                cbModel.DataSource = dtModel;
+                cbModel.DisplayMember = "model";
+                cbModel.ValueMember = "model";
+                cbModel.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            /*try
-            {
 
-                //Save file path
-                string folderPath = @"\\10.224.50.100\\Share_all\\EP Approval\\";
-                if (!Directory.Exists(folderPath))
-                {
-                    Directory.CreateDirectory(folderPath);
-                }
-
-                string strInsertFile = "UPDATE Bien_Ban SET File_attach = @Path WHERE So_Bien_ban = @SoBB";
-                SqlCommand cmdUpdateFile = new SqlCommand();
-                cmdUpdateFile.Connection = con;
-                cmdUpdateFile.CommandType = CommandType.Text;
-                cmdUpdateFile.CommandText = strInsertFile;
-                cmdUpdateFile.Parameters.AddWithValue("@Path", folderPath + Path.GetFileName(this.openFileDialog1.FileName));
-                cmdUpdateFile.Parameters.AddWithValue("@SoBB", txtSoBB.Text.ToString());
-                con.Open();
-                cmdUpdateFile.ExecuteNonQuery();
-                con.Close();
-
-                //Upload file to server
-                string filelocation = openFileDialog1.FileName;
-                File.Copy(filelocation, Path.Combine(@"\\10.224.50.100\\Share_all\\EP Approval\\", Path.GetFileName(filelocation)), true);
-
-                MessageBox.Show("Finished!!!");
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }*/
             Upload.UploadToFileServer(txtSoBB, openFileDialog1);
         }
 
@@ -730,29 +741,28 @@ namespace QLTS_LG
         {
             try
             {
-                string strLoadModel = "select type_code from Model where model = '" + cbModel.SelectedValue.ToString().Trim() + "'";
-                SqlDataAdapter daModel = new SqlDataAdapter(strLoadModel, con);
-                DataTable dtModel = new DataTable();
-                daModel.Fill(dtModel);
-                string type_code = dtModel.Rows[0][0].ToString();
 
-                con2.Open();
+                /*
+                //con2.Open();
                 string strType2 = "select * from Loai_TS_cap2 where Ma_loai = '" + type_code + "'";
-                SqlCommand cmdType2 = new SqlCommand(strType2, con2);
-                SqlDataAdapter daType2 = new SqlDataAdapter(cmdType2);
+                //SqlCommand cmdType2 = new SqlCommand(strType2, con2);
+                //SqlDataAdapter daType2 = new SqlDataAdapter(cmdType2);
+                SqlDataAdapter daType2 = new SqlDataAdapter(strType2, con);
                 DataTable dtType2 = new DataTable();
                 daType2.Fill(dtType2);
                 cbTypeLV2.DataSource = dtType2;
                 cbTypeLV2.DisplayMember = "Ten_loai";
                 cbTypeLV2.ValueMember = "Ma_loai";
                 //cbTypeLV2.Enabled = true;
-                cmdType2.ExecuteNonQuery();
-                con2.Close();
+                //cmdType2.ExecuteNonQuery();
+                //con2.Close();
+                */
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+
         }
 
         private void btnBack2_Click(object sender, EventArgs e)
@@ -769,6 +779,38 @@ namespace QLTS_LG
         {
             btnAddNew_Click(this, new EventArgs());
             btnNewItem2.Enabled = false;
+        }
+        public bool CheckNewModel()
+        {
+            string strLoadModel = "";
+            bool flagModel = false;
+            string type_code = "";
+            SqlDataAdapter daModelChk = new SqlDataAdapter();
+            DataTable dtModelChk = new DataTable();
+
+            if (cbModel.SelectedValue == null)
+            {
+                CheckDup.CheckModel(cbModel, cbTypeLV2);
+                flagModel = false;
+            }
+            else if(cbModel.SelectedValue != null)
+            {
+                strLoadModel = "select type_code from Model where model = '" + cbModel.SelectedValue.ToString().Trim() + "'";
+                daModelChk = new SqlDataAdapter(strLoadModel, con);
+                daModelChk.Fill(dtModelChk);
+                type_code = dtModelChk.Rows[0][0].ToString();
+                if(cbTypeLV2.SelectedValue.ToString().Trim() == type_code)
+                {
+                    flagModel = false;
+                }
+                else if(cbTypeLV2.SelectedValue.ToString().Trim() != type_code)
+                {
+                    flagModel = true;
+                }
+            }
+ 
+            return flagModel;
+
         }
     }
 }

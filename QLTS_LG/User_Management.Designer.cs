@@ -32,6 +32,7 @@
             this.btnBack = new System.Windows.Forms.Button();
             this.dgvHRM = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkOSP = new System.Windows.Forms.CheckBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -52,7 +53,6 @@
             this.txtID = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnModify = new System.Windows.Forms.Button();
-            this.chkOSP = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHRM)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -111,6 +111,20 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(489, 627);
             this.panel1.TabIndex = 2;
+            // 
+            // chkOSP
+            // 
+            this.chkOSP.AutoSize = true;
+            this.chkOSP.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.chkOSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkOSP.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.chkOSP.Location = new System.Drawing.Point(135, 404);
+            this.chkOSP.Name = "chkOSP";
+            this.chkOSP.Size = new System.Drawing.Size(64, 24);
+            this.chkOSP.TabIndex = 21;
+            this.chkOSP.Text = "OSP";
+            this.chkOSP.UseVisualStyleBackColor = false;
+            this.chkOSP.CheckedChanged += new System.EventHandler(this.chkOSP_CheckedChanged);
             // 
             // btnDelete
             // 
@@ -311,19 +325,6 @@
             this.btnModify.Text = "Modify";
             this.btnModify.UseVisualStyleBackColor = true;
             this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
-            // 
-            // chkOSP
-            // 
-            this.chkOSP.AutoSize = true;
-            this.chkOSP.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.chkOSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkOSP.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.chkOSP.Location = new System.Drawing.Point(135, 404);
-            this.chkOSP.Name = "chkOSP";
-            this.chkOSP.Size = new System.Drawing.Size(64, 24);
-            this.chkOSP.TabIndex = 21;
-            this.chkOSP.Text = "OSP";
-            this.chkOSP.UseVisualStyleBackColor = false;
             // 
             // User_Management
             // 

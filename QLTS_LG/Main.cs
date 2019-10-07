@@ -32,7 +32,26 @@ namespace QLTS_LG
         }
 
 
-
+        public void CheckNotification()
+        {
+            int Number = dgvOverDue.Rows.Count;
+            if(Number == 2)
+            {
+                lblExpired.Text = "There is one device need to be returned to storage!!!";
+                lblExpired.ForeColor = System.Drawing.Color.Red;
+            }
+            else if(Number > 2)
+            {
+                Number++;
+                lblExpired.Text = "There are " + Number.ToString() + " devices need to be returned to storage!!!";
+                lblExpired.ForeColor = System.Drawing.Color.Red;
+            }
+            else if(Number == 0)
+            {
+                lblExpired.Text = "No devices need to be returned.";
+                lblExpired.ForeColor = System.Drawing.Color.Green;
+            }
+        }
         public void Search_Item(int SoDanhMuc)
         {
             this.Hide();
@@ -123,6 +142,7 @@ namespace QLTS_LG
 
 
             CheckOverDue();
+            CheckNotification();
 
             string strLoadOverDue = "SELECT * FROM Muon_vat_tu WHERE [Qua_han?] = 'true'";
             SqlDataAdapter daLoadOverDue = new SqlDataAdapter(strLoadOverDue, con);

@@ -41,6 +41,8 @@ namespace QLTS_LG
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            dtTransaction.Clear();
+
             string start_date = dateTimePicker1.Value.ToString();
             string end_date = dateTimePicker2.Value.ToString();
             string MTS = txtID.Text.ToString();
@@ -106,6 +108,8 @@ namespace QLTS_LG
             
             daTransaction.Fill(dtTransaction);
             dgvTransaction.DataSource = dtTransaction;
+
+            
         }
 
         private void btnCheck_Click(object sender, EventArgs e)

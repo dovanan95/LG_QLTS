@@ -42,7 +42,7 @@ namespace QLTS_LG
 
         private void txtID_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 btnSearch_Click(this, new EventArgs());
             }
@@ -86,7 +86,7 @@ namespace QLTS_LG
                     dgvHRM.DataSource = dtSearch;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -124,10 +124,10 @@ namespace QLTS_LG
 
                 Reload();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("Data duplicated or connection down!!!");
-                //MessageBox.Show(ex.Message);
+                //MessageBox.Show("Data duplicated or connection down!!!");
+                MessageBox.Show(ex.Message);
             }
             finally
             {
@@ -192,7 +192,7 @@ namespace QLTS_LG
 
                 Reload();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -210,7 +210,7 @@ namespace QLTS_LG
 
             string ID = strSearch + "where a.ID = '" + txtID.Text.ToString().Trim() + "'";
             SqlDataAdapter daID = new SqlDataAdapter(ID, con);
-            
+
             daID.Fill(dtIDUser);
             dgvHRM.DataSource = dtIDUser;
         }
@@ -245,13 +245,21 @@ namespace QLTS_LG
                     Reload();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            
 
-           
+
+
+        }
+
+        private void chkOSP_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chkOSP.Checked == true)
+            {
+                cbORG.SelectedValue = "000001";
+            }
         }
     }
 }

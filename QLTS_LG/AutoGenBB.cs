@@ -26,7 +26,7 @@ namespace QLTS_LG
 
             //string LastNumOfBB;
             var date_BBBG = DateTime.Now.ToString("yyyyMMdd");
-            SqlCommand cmd = new SqlCommand("SELECT So_Bien_ban FROM Bien_Ban", con); //lấy dữ liệu số biên bản bàn giao từ bảng Bien_Ban
+            SqlCommand cmd = new SqlCommand("SELECT TOP(1) So_Bien_ban FROM Bien_Ban order by So_Bien_ban DESC", con); //lấy dữ liệu số biên bản bàn giao từ bảng Bien_Ban
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dtSoBB = new DataTable();
             da.Fill(dtSoBB); //đổ dữ liệu vào table dtSoBB

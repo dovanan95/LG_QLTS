@@ -64,7 +64,7 @@ namespace QLTS_LG
             this.Hide();
             this.Close();
             Main main = new Main();
-            
+            main.OutStorageLoad();
             //main.ShowDialog();
         }
 

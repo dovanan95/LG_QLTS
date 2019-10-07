@@ -66,12 +66,23 @@ namespace QLTS_LG
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            txtQuerry.ResetText();
-            dtQuerry.Clear();
-            dgvQuerry.DataSource = null;
-            dgvQuerry.Rows.Clear();
-            dgvQuerry.Refresh();
-            
+            try
+            {
+                txtQuerry.ResetText();
+                
+                dtQuerry.Clear();
+                dgvQuerry.DataSource = null;
+                dgvQuerry.Rows.Clear();
+                dgvQuerry.Refresh();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
         }
 
         private void btnExecute_Click(object sender, EventArgs e)

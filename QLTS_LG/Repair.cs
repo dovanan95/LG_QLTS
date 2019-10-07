@@ -221,6 +221,7 @@ namespace QLTS_LG
             this.Close();
             Main frm = new Main();
             //frm.ShowDialog();
+            frm.OutStorageLoad();
         }
 
         private void btnTransfer_Click(object sender, EventArgs e)

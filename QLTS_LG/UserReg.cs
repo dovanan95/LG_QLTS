@@ -94,12 +94,12 @@ namespace QLTS_LG
                 {
                     if (txtPass.Text.ToString() == txtPassConfirm.Text.ToString())
                     {
-                        string strReg = "insert into Login (ID_User, Password, permission, ID) values (@ID, @pass, @per, @ID)";
+                        string strReg = "insert into Login (ID_User, Password, permission, ID) values (@ID_User, @pass, @per, @ID)";
                         SqlCommand cmdReg = new SqlCommand();
                         cmdReg.Connection = con;
                         cmdReg.CommandType = CommandType.Text;
                         cmdReg.CommandText = strReg;
-                        cmdReg.Parameters.AddWithValue("@ID", txtUserName.Text.ToString());
+                        cmdReg.Parameters.AddWithValue("@ID_User", txtUserName.Text.ToString());
                         cmdReg.Parameters.AddWithValue("@pass", Cryptography.ComputeSha256Hash(txtPass.Text.ToString()));
                         cmdReg.Parameters.AddWithValue("@per", cbPermission.SelectedValue);
                         cmdReg.Parameters.AddWithValue("@ID", txtID.Text.ToString());

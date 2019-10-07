@@ -127,6 +127,7 @@ namespace QLTS_LG
             this.Hide();
             Main frm = new Main();
             //frm.ShowDialog();
+            frm.OutStorageLoad();
         }
 
         private void bntNewBB_Click(object sender, EventArgs e)
