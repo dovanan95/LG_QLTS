@@ -24,6 +24,7 @@ namespace QLTS_LG
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
         SqlConnection con = new SqlConnection(connectionString);
         SqlConnection con2 = new SqlConnection(connectionString);
+        SqlConnection con3 = new SqlConnection(connectionString);
         SqlDataAdapter DataAdapter = new SqlDataAdapter();
         DataTable Table = new DataTable();
         AntiDuplicated AntiDuplicated = new AntiDuplicated();
@@ -33,6 +34,7 @@ namespace QLTS_LG
         UserUpdate update = new UserUpdate();
 
         //string ITOP = Permission.ITOP;
+        Report Report = new Report();
 
         bool flag = false;
 
@@ -647,6 +649,11 @@ namespace QLTS_LG
             {
                 btnSearch_Click(this, new EventArgs());
             }
+        }
+
+        private void lblReport_Click(object sender, EventArgs e)
+        {
+            Report.TestBB(txtSoBB.Text.ToString());
         }
     }
 }

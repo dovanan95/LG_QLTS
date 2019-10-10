@@ -248,7 +248,7 @@ namespace QLTS_LG
             LoadData();
             AutoComplete auto = new AutoComplete();
 
-            string strAuto = "SELECT [S/N] FROM Tai_san";
+            //tring strAuto = "SELECT [S/N] FROM Tai_san";
             //txtSN.AutoCompleteCustomSource = auto.AutoCompleteData1(strAuto);
             //AutoComplete1();
 

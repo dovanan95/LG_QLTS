@@ -93,6 +93,7 @@
             this.btnFinalTransfer = new System.Windows.Forms.Button();
             this.panel8 = new System.Windows.Forms.Panel();
             this.btnDel = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAddingDevice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAddOutDevice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListDevice)).BeginInit();
@@ -254,6 +255,7 @@
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.btnExport);
             this.panel3.Controls.Add(this.btnLap_Bien_Ban);
             this.panel3.Controls.Add(this.btnBacktoMainMenu);
             this.panel3.Location = new System.Drawing.Point(1216, 12);
@@ -267,7 +269,7 @@
             this.btnLap_Bien_Ban.ForeColor = System.Drawing.Color.Red;
             this.btnLap_Bien_Ban.Location = new System.Drawing.Point(3, 5);
             this.btnLap_Bien_Ban.Name = "btnLap_Bien_Ban";
-            this.btnLap_Bien_Ban.Size = new System.Drawing.Size(135, 69);
+            this.btnLap_Bien_Ban.Size = new System.Drawing.Size(135, 46);
             this.btnLap_Bien_Ban.TabIndex = 13;
             this.btnLap_Bien_Ban.Text = "Lập Biên Bản";
             this.btnLap_Bien_Ban.UseVisualStyleBackColor = true;
@@ -277,9 +279,9 @@
             // 
             this.btnBacktoMainMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBacktoMainMenu.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.btnBacktoMainMenu.Location = new System.Drawing.Point(3, 80);
+            this.btnBacktoMainMenu.Location = new System.Drawing.Point(3, 110);
             this.btnBacktoMainMenu.Name = "btnBacktoMainMenu";
-            this.btnBacktoMainMenu.Size = new System.Drawing.Size(135, 65);
+            this.btnBacktoMainMenu.Size = new System.Drawing.Size(135, 41);
             this.btnBacktoMainMenu.TabIndex = 12;
             this.btnBacktoMainMenu.Text = "Back";
             this.btnBacktoMainMenu.UseVisualStyleBackColor = true;
@@ -794,6 +796,18 @@
             this.btnDel.UseVisualStyleBackColor = true;
             this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
+            // btnExport
+            // 
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.ForeColor = System.Drawing.Color.Salmon;
+            this.btnExport.Location = new System.Drawing.Point(3, 59);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(135, 43);
+            this.btnExport.TabIndex = 14;
+            this.btnExport.Text = "Export";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // Repair
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -908,5 +922,6 @@
         private System.Windows.Forms.Button btnDel;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtSpec;
+        private System.Windows.Forms.Button btnExport;
     }
 }

@@ -76,6 +76,7 @@
             this.txtIDUser = new System.Windows.Forms.Label();
             this.btnUserSearch = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnReport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.panel1.SuspendLayout();
@@ -366,6 +367,7 @@
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ControlDark;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.btnReport);
             this.panel3.Controls.Add(this.btnClearDgv2);
             this.panel3.Controls.Add(this.btnSelectAll);
             this.panel3.Controls.Add(this.btnTransfer);
@@ -589,6 +591,18 @@
             this.panel2.Size = new System.Drawing.Size(1254, 56);
             this.panel2.TabIndex = 27;
             // 
+            // btnReport
+            // 
+            this.btnReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReport.ForeColor = System.Drawing.Color.Coral;
+            this.btnReport.Location = new System.Drawing.Point(3, 170);
+            this.btnReport.Name = "btnReport";
+            this.btnReport.Size = new System.Drawing.Size(148, 27);
+            this.btnReport.TabIndex = 28;
+            this.btnReport.Text = "Export";
+            this.btnReport.UseVisualStyleBackColor = true;
+            this.btnReport.Click += new System.EventHandler(this.lblReport_Click);
+            // 
             // Revoke
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -674,5 +688,6 @@
         private System.Windows.Forms.Button btnClearDgv2;
         private System.Windows.Forms.Button btnInsertRemark;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnReport;
     }
 }

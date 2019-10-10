@@ -144,7 +144,7 @@ namespace QLTS_LG
             CheckOverDue();
             CheckNotification();
 
-            string strLoadOverDue = "SELECT * FROM Muon_vat_tu WHERE [Qua_han?] = 'true'";
+            string strLoadOverDue = "SELECT * FROM Muon_vat_tu WHERE [Qua_han?] = 'true' and Ngay_tra_thuc is null";
             SqlDataAdapter daLoadOverDue = new SqlDataAdapter(strLoadOverDue, con);
             DataTable dtLoadOverDue = new DataTable();
             daLoadOverDue.Fill(dtLoadOverDue);
@@ -656,6 +656,7 @@ namespace QLTS_LG
         private void label5_Click(object sender, EventArgs e)
         {
             OutStorageLoad();
+            
         }
 
         private void btnSelectAllNew_Click(object sender, EventArgs e)

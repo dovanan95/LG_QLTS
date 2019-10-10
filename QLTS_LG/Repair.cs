@@ -24,7 +24,7 @@ namespace QLTS_LG
         AutoComplete AutoComplete = new AutoComplete();
         UserUpdate update = new UserUpdate();
         Permission IT_OP = new Permission();
-
+        Report Report = new Report();
         public Repair()
         {
             InitializeComponent();
@@ -226,7 +226,7 @@ namespace QLTS_LG
 
         private void btnTransfer_Click(object sender, EventArgs e)
         {
-
+           
             CopyGridView copyGrid = new CopyGridView();
             copyGrid.CopyDataGridView(dgvAddingDevice, dgvAddOutDevice);
         }
@@ -235,6 +235,7 @@ namespace QLTS_LG
         {
             try
             {
+               
                 if (rdrYesUse.Checked == true)
                 {
                     CopyGridView copyGrid = new CopyGridView();
@@ -272,6 +273,8 @@ namespace QLTS_LG
                         }
                     }
 
+
+                    btnFinalTransfer_Click(this, new EventArgs());
                 }
                 else if (rdrNoUse.Checked == true)
                 {
@@ -288,6 +291,7 @@ namespace QLTS_LG
                         }
                     }
                 }
+                
             }
             catch(Exception ex)
             {
@@ -534,6 +538,7 @@ namespace QLTS_LG
         {
             CopyGrid.CopyDataGridView(dgvListDevice, dgvListFinal);
             dgvAddOutDevice.Rows.Clear();
+            CheckGO();
         }
 
         private void rdrYesUse_CheckedChanged(object sender, EventArgs e)
@@ -662,6 +667,22 @@ namespace QLTS_LG
                 {
                     dgvListFinal.Rows.RemoveAt(row.Index);
                 }
+            }
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            Report.TestBB(txtSoBB.Text.ToString());
+        }
+        public void CheckGO()
+        {
+            if(dgvListDevice.Rows.Count > 0)
+            {
+                btnChoose.Enabled = false;
+            }
+            else if( dgvListDevice.Rows.Count == 0)
+            {
+                btnChoose.Enabled = true;
             }
         }
     }

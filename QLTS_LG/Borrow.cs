@@ -22,7 +22,7 @@ namespace QLTS_LG
         DataTable Table = new DataTable();
         UserUpdate UserFunc = new UserUpdate();
         Permission IT_OP = new Permission();
-
+        Report Report = new Report();
         //string ITOP = Permission.ITOP;
 
         public Borrow()
@@ -365,6 +365,11 @@ namespace QLTS_LG
             dgvQuerry.DataSource = dtStatus;
 
             btnTransfer.Enabled = true;
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Report.TestBB(txtSoBB.Text.ToString());
         }
     }
 }

@@ -28,6 +28,18 @@ namespace QLTS_LG
         Bien_Ban frm = new Bien_Ban();
 
 
+        private string Export = "Xuat_Kho";
+        private string Repair = "Sua_chua";
+        private string Borrow = "Muon_vat_tu";
+        private string Revoke = "Nhan_tra_TS";
+
+        private string Report_type = "";
+        private string Report_type_private = "";
+
+        private string strGridviewTransferData = "";
+        private string strGridviewTransferDataForAdditional = "";
+        private string strGridviewTransferDataforAdditionalofRepair = "";
+
         public void BienBanXuatKho(string SoBB)
         {
             try
@@ -42,7 +54,7 @@ namespace QLTS_LG
                 DataTable dtUser = new DataTable();
                 daUser.Fill(dtUser);
 
-                
+
 
                 TextObject text = (TextObject)crystalReport.ReportDefinition.Sections["Section2"].ReportObjects["Text1"];
                 text.Text = SoBB;
@@ -70,7 +82,7 @@ namespace QLTS_LG
 
                 text17.Text = Type;
                 con.Open();
-                string strGridviewTransferData = 
+                string strGridviewTransferData =
                     "select a.Ma_TS, a.Ten_TS, c.Ten_loai, a.[S/N], a.FA_Tag, a.IT_Tag, a.Model, d.unit_name, e.Ten_tinh_trang " +
                     "from Tai_san as a " +
                     "inner join Xuat_Kho as b on a.Ma_TS = b.Ma_TS " +
@@ -93,7 +105,7 @@ namespace QLTS_LG
                 con.Close();
 
                 con2.Open();
-                string strGridviewTransferDataForAdditional = 
+                string strGridviewTransferDataForAdditional =
                     "select a.Ma_TS, a.Ten_TS, c.Ten_loai, a.[S/N], a.FA_Tag, a.IT_Tag, a.Model, d.unit_name, e.Ten_tinh_trang " +
                     "from Tai_san as a " +
                     "inner join Xuat_Kho as b on a.Ma_TS = b.Ma_TS " +
@@ -108,7 +120,7 @@ namespace QLTS_LG
                 cmdGTD2.CommandText = strGridviewTransferDataForAdditional;
                 cmdGTD2.ExecuteNonQuery();
                 SqlDataAdapter daGTD2 = new SqlDataAdapter(cmdGTD2);
-                
+
                 DataSet ds2 = new DataSet();
                 daGTD2.Fill(ds2, "material");
                 con2.Close();
@@ -125,7 +137,7 @@ namespace QLTS_LG
                 daTest.Fill(dsTest, "test");
                 crystalReport.SetDataSource(ds2.Tables["material"]);
 
-                if(ds.Tables[0].Rows.Count == 0 || ds2.Tables[0].Rows.Count == 0)
+                if (ds.Tables[0].Rows.Count == 0 || ds2.Tables[0].Rows.Count == 0)
                 {
                     MessageBox.Show("No data!!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 }
@@ -135,7 +147,7 @@ namespace QLTS_LG
                 //rptDevice.SetDataSource(ds.Tables["device"]);
                 rptDevice.SetDataSource(dsTest.Tables["test"]);
                 rptMaterial.SetDataSource(dsTest.Tables["test"]);
-                
+
 
                 /*rpObj.Load(@"D:\Study\Project\QLTS_LG v2\QLTS_LG\CrystalReport1.rpt");
                 rpObj.Load(@"D:\Study\Project\QLTS_LG v2\QLTS_LG\device.rpt");
@@ -157,10 +169,10 @@ namespace QLTS_LG
                 //frm.crystalReportViewer1.ReportSource = rpObj;
                 //frm.crystalReportViewer1.ReportSource = crystalReport;
                 //frm.crystalReportViewer1.Refresh();
-                                                
+
                 frm.ShowDialog();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -186,23 +198,62 @@ namespace QLTS_LG
                 DataTable dtDlv = new DataTable();
                 daDlv.Fill(dtDlv);
 
-                string strGridviewTransferData =
+
+                string TypeReport = dtTypeBB.Rows[0]["Ten_loai"].ToString().Trim();
+                if (TypeReport == "IN_STORAGE")
+                {
+                    Report_type = Revoke;
+                    Report_type_private = "So_BB_nhan";
+                }
+                else if (TypeReport == "OUT_STORAGE")
+                {
+                    Report_type = Export;
+                    Report_type_private = "So_BB_xuat";
+                }
+                else if (TypeReport == "REPAIR")
+                {
+                    Report_type = Repair;
+                    Report_type_private = "BB_sua";
+                    
+                }
+                else if (TypeReport == "TEMP_OUT_STORAGE")
+                {
+                    Report_type = Borrow;
+                    Report_type_private = "So_BB";
+                    string DueDate = "select Due_date from Muon_vat_tu where So_BB = '" + SoBB + "'";
+                    SqlDataAdapter daExpired = new SqlDataAdapter(DueDate, con);
+                    DataTable dtExpired = new DataTable();
+                    daExpired.Fill(dtExpired);
+                    string Due_date = dtExpired.Rows[0][0].ToString();
+                    frm.Note = "Return Date:" + Due_date;
+                }
+
+                strGridviewTransferData =
                         "select a.Ma_TS, a.Ten_TS, c.Ten_loai, a.[S/N], a.FA_Tag, a.IT_Tag, a.Model, d.unit_name, e.Ten_tinh_trang " +
                         "from Tai_san as a " +
-                        "inner join Xuat_Kho as b on a.Ma_TS = b.Ma_TS " +
+                        "inner join " + Report_type + " as b on a.Ma_TS = b.Ma_TS " +
                         "inner join Loai_TS_cap2 as c on a.Ma_Loai_TS_cap2 = c.Ma_loai " +
                         "inner join Unit as d on d.unit_id = a.Unit " +
                         "inner join Status as e on e.Ma_tinh_Trang  = a.Ma_tinh_trang " +
-                        "where b.So_BB_xuat = '" + SoBB + "' and a.Ma_Loai_TS_cap1 = 'DE'";
+                        "where b." + Report_type_private + "= '" + SoBB + "' and a.Ma_Loai_TS_cap1 = 'DE'";
 
-                string strGridviewTransferDataForAdditional =
+                strGridviewTransferDataForAdditional =
                         "select a.Ma_TS, a.Ten_TS, c.Ten_loai, a.[S/N], a.Model, d.unit_name, e.Ten_tinh_trang " +
                         "from Tai_san as a " +
-                        "inner join Xuat_Kho as b on a.Ma_TS = b.Ma_TS " +
+                        "inner join " + Report_type + " as b on a.Ma_TS = b.Ma_TS " +
                         "inner join Loai_TS_cap2 as c on a.Ma_Loai_TS_cap2 = c.Ma_loai " +
                         "inner join Unit as d on d.unit_id = a.Unit " +
                         "inner join Status as e on e.Ma_tinh_Trang  = a.Ma_tinh_trang " +
-                        "where not a.Ma_Loai_TS_cap1 = 'DE' and b.So_BB_xuat = '" + SoBB + "'";
+                        "where not a.Ma_Loai_TS_cap1 = 'DE' and b." + Report_type_private + " = '" + SoBB + "'";
+
+                strGridviewTransferDataforAdditionalofRepair =
+                        "select a.Ma_TS, a.Ten_TS, c.Ten_loai, a.[S/N], a.Model, d.unit_name, e.Ten_tinh_trang " +
+                        "from Tai_san as a " +
+                        "inner join " + Report_type + " as b on a.Ma_TS = b.Vat_tu_xuat " +
+                        "inner join Loai_TS_cap2 as c on a.Ma_Loai_TS_cap2 = c.Ma_loai " +
+                        "inner join Unit as d on d.unit_id = a.Unit " +
+                        "inner join Status as e on e.Ma_tinh_Trang  = a.Ma_tinh_trang " +
+                        "where not a.Ma_Loai_TS_cap1 = 'DE' and b." + Report_type_private + " = '" + SoBB + "'";
 
                 SqlCommand cmdGTD = new SqlCommand();
 
@@ -212,14 +263,22 @@ namespace QLTS_LG
                 //DataGridView gridView = new DataGridView();
                 //gridView.DataSource = dtTest;
 
-                SqlDataAdapter daMaterial = new SqlDataAdapter(strGridviewTransferDataForAdditional, con2);
+                SqlDataAdapter daMaterial = new SqlDataAdapter();
+                if(TypeReport == "REPAIR")
+                {
+                    daMaterial = new SqlDataAdapter(strGridviewTransferDataforAdditionalofRepair, con2);
+                }
+                else if(TypeReport != "REPAIR")
+                {
+                    daMaterial = new SqlDataAdapter(strGridviewTransferDataForAdditional, con2);
+                }
                 DataTable dtMaterial = new DataTable();
                 daMaterial.Fill(dtMaterial);
 
                 frm.SoBB = SoBB;
                 frm.Type_BB = dtTypeBB.Rows[0]["Ten_loai"].ToString();
                 frm.Reason = dtTypeBB.Rows[0]["Reason"].ToString();
-                
+
 
                 frm.dtDevice = dtDevice;
                 frm.dtMaterial = dtMaterial;
@@ -240,7 +299,7 @@ namespace QLTS_LG
 
                 //frm.gridView = gridView;
             }
-            catch(Exception exx)
+            catch (Exception exx)
             {
                 MessageBox.Show(exx.Message);
             }

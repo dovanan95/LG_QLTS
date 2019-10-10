@@ -78,6 +78,7 @@
             this.txtSoBB = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnCreateBB = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuerry)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSelected)).BeginInit();
@@ -444,6 +445,7 @@
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel4.Controls.Add(this.btnExport);
             this.panel4.Controls.Add(this.label10);
             this.panel4.Controls.Add(this.btnBack);
             this.panel4.Controls.Add(this.txtReason);
@@ -608,6 +610,18 @@
             this.btnCreateBB.UseVisualStyleBackColor = true;
             this.btnCreateBB.Click += new System.EventHandler(this.btnCreateBB_Click);
             // 
+            // btnExport
+            // 
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.ForeColor = System.Drawing.Color.Indigo;
+            this.btnExport.Location = new System.Drawing.Point(39, 91);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(106, 33);
+            this.btnExport.TabIndex = 30;
+            this.btnExport.Text = "Export";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // Borrow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -695,5 +709,6 @@
         private System.Windows.Forms.Button btnTransfer;
         private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Button btnSelectAll;
+        private System.Windows.Forms.Button btnExport;
     }
 }
