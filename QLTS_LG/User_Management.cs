@@ -9,17 +9,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Data.SqlClient;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
     public partial class User_Management : Form
     {
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
+        OracleConnection con = new OracleConnection(connectionString);
         LoadComboboxData LoadCombobox = new LoadComboboxData();
-        public string strSearch = "select a.ID, a.Name, a.Phone, a.Mail, a.Dept, a.OSP, b.Emp_Name, c.Org_name from _User as a " +
-            "inner join Emp_Status as b on b.ECode = a.Emp_Status " +
-            "inner join ORG_NAME as c on c.Org_code = a.Org_code ";
+        public string strSearch = "select a.ID, a.Name, a.Phone, a.Mail, a.Dept, a.OSP, b.Emp_Name, c.Org_name from TB_User a " +
+            "inner join Emp_Status b on b.ECode = a.Emp_Status " +
+            "inner join ORG_NAME c on c.Org_code = a.Org_code ";
         DataTable dtSearch = new DataTable();
         DataTable dtIDUser = new DataTable();
 
@@ -55,7 +56,7 @@ namespace QLTS_LG
                 if (txtID.Text.ToString() != "")
                 {
                     string ID = strSearch + "where a.ID = '" + txtID.Text.ToString().Trim() + "'";
-                    SqlDataAdapter daID = new SqlDataAdapter(ID, con);
+                    OracleDataAdapter daID = new OracleDataAdapter(ID, con);
                     DataTable dtID = new DataTable();
                     daID.Fill(dtID);
                     dgvHRM.DataSource = dtID;
@@ -63,7 +64,7 @@ namespace QLTS_LG
                 else if (txtMail.Text.ToString() != "")
                 {
                     string Mail = strSearch + "where a.Mail = '" + txtMail.Text.ToString().Trim() + "'";
-                    SqlDataAdapter daMail = new SqlDataAdapter(Mail, con);
+                    OracleDataAdapter daMail = new OracleDataAdapter(Mail, con);
                     DataTable dtMail = new DataTable();
                     daMail.Fill(dtMail);
                     dgvHRM.DataSource = dtMail;
@@ -76,12 +77,12 @@ namespace QLTS_LG
                     dgvHRM.Refresh();
                     dtSearch.Clear();
 
-                    SqlCommand cmdSearch = new SqlCommand();
+                    OracleCommand cmdSearch = new OracleCommand();
                     cmdSearch.Connection = con;
                     cmdSearch.CommandType = CommandType.Text;
                     cmdSearch.CommandText = strSearch;
 
-                    SqlDataAdapter daSearch = new SqlDataAdapter(cmdSearch);
+                    OracleDataAdapter daSearch = new OracleDataAdapter(cmdSearch);
                     daSearch.Fill(dtSearch);
                     dgvHRM.DataSource = dtSearch;
                 }
@@ -104,20 +105,20 @@ namespace QLTS_LG
         {
             try
             {
-                string InputUser = "insert into _User(ID, Name, Phone, Mail, Dept, OSP, Emp_Status, Org_code) " +
-                    "values (@ID, @Name, @Phone, @Mail, @Dept, @OSP, @Emp, @Org)";
-                SqlCommand cmdInput = new SqlCommand();
+                string InputUser = "insert into TB_User(ID, Name, Phone, Mail, Dept, OSP, Emp_Status, Org_code) " +
+                    "values (:ID, :Name, :Phone, :Mail, :Dept, :OSP, :Emp, :Org)";
+                OracleCommand cmdInput = new OracleCommand();
                 cmdInput.Connection = con;
                 cmdInput.CommandType = CommandType.Text;
                 cmdInput.CommandText = InputUser;
-                cmdInput.Parameters.AddWithValue("@ID", txtID.Text.ToUpper());
-                cmdInput.Parameters.AddWithValue("@Name", txtName.Text.ToString());
-                cmdInput.Parameters.AddWithValue("@Phone", txtPhone.Text.ToString());
-                cmdInput.Parameters.AddWithValue("@Mail", txtMail.Text.ToString());
-                cmdInput.Parameters.AddWithValue("@Dept", txtDept.Text.ToString());
-                cmdInput.Parameters.AddWithValue("@OSP", Convert.ToInt32(chkOSP.CheckState));
-                cmdInput.Parameters.AddWithValue("@Emp", cbEmpStatus.SelectedValue.ToString());
-                cmdInput.Parameters.AddWithValue("@Org", cbORG.SelectedValue.ToString());
+                cmdInput.Parameters.Add("ID", txtID.Text.ToUpper());
+                cmdInput.Parameters.Add("Name", txtName.Text.ToString());
+                cmdInput.Parameters.Add("Phone", txtPhone.Text.ToString());
+                cmdInput.Parameters.Add("Mail", txtMail.Text.ToString());
+                cmdInput.Parameters.Add("Dept", txtDept.Text.ToString());
+                cmdInput.Parameters.Add("OSP", Convert.ToInt32(chkOSP.CheckState));
+                cmdInput.Parameters.Add("Emp", cbEmpStatus.SelectedValue.ToString());
+                cmdInput.Parameters.Add("Org", cbORG.SelectedValue.ToString());
                 con.Open();
                 cmdInput.ExecuteNonQuery();
                 con.Close();
@@ -170,20 +171,20 @@ namespace QLTS_LG
         {
             int index = dgvHRM.CurrentCell.RowIndex;
             string ID = dgvHRM.Rows[index].Cells["ID"].Value.ToString();
-            string strUpdate = "update _User set Name = @Name, Phone = @Phone, Mail = @Mail, Dept = @Dept, " +
-                "OSP = @OSP, Emp_Status = @Emp, Org_code = @Org where ID = '" + ID + "'";
-            SqlCommand cmdUpdate = new SqlCommand();
+            string strUpdate = "update TB_User set Name = :Name, Phone = :Phone, Mail = :Mail, Dept = :Dept, " +
+                "OSP = :OSP, Emp_Status = :Emp, Org_code = :Org where ID = '" + ID + "'";
+            OracleCommand cmdUpdate = new OracleCommand();
             cmdUpdate.Connection = con;
             cmdUpdate.CommandType = CommandType.Text;
             cmdUpdate.CommandText = strUpdate;
-            //cmdUpdate.Parameters.AddWithValue("@ID", txtID.Text.ToUpper());
-            cmdUpdate.Parameters.AddWithValue("@Name", txtName.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@Phone", txtPhone.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@Mail", txtMail.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@Dept", txtDept.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@OSP", Convert.ToInt32(chkOSP.CheckState));
-            cmdUpdate.Parameters.AddWithValue("@Emp", cbEmpStatus.SelectedValue.ToString());
-            cmdUpdate.Parameters.AddWithValue("@Org", cbORG.SelectedValue.ToString());
+            //cmdUpdate.Parameters.Add("@ID", txtID.Text.ToUpper());
+            cmdUpdate.Parameters.Add("Name", txtName.Text.ToString());
+            cmdUpdate.Parameters.Add("Phone", txtPhone.Text.ToString());
+            cmdUpdate.Parameters.Add("Mail", txtMail.Text.ToString());
+            cmdUpdate.Parameters.Add("Dept", txtDept.Text.ToString());
+            cmdUpdate.Parameters.Add("OSP", Convert.ToInt32(chkOSP.CheckState));
+            cmdUpdate.Parameters.Add("Emp", cbEmpStatus.SelectedValue.ToString());
+            cmdUpdate.Parameters.Add("Org", cbORG.SelectedValue.ToString());
             try
             {
                 con.Open();
@@ -209,7 +210,7 @@ namespace QLTS_LG
             dtIDUser.Clear();
 
             string ID = strSearch + "where a.ID = '" + txtID.Text.ToString().Trim() + "'";
-            SqlDataAdapter daID = new SqlDataAdapter(ID, con);
+            OracleDataAdapter daID = new OracleDataAdapter(ID, con);
 
             daID.Fill(dtIDUser);
             dgvHRM.DataSource = dtIDUser;
@@ -218,14 +219,14 @@ namespace QLTS_LG
         private void btnDelete_Click(object sender, EventArgs e)
         {
             string strLoginDel = "delete from Login where ID = '" + txtID.Text.ToString() + "'";
-            SqlCommand cmdLogin = new SqlCommand();
+            OracleCommand cmdLogin = new OracleCommand();
             cmdLogin.Connection = con;
             cmdLogin.CommandType = CommandType.Text;
             cmdLogin.CommandText = strLoginDel;
 
 
-            string strDelete = "delete from _User where ID = '" + txtID.Text.ToString() + "'";
-            SqlCommand cmdXoa = new SqlCommand();
+            string strDelete = "delete from TB_User where ID = '" + txtID.Text.ToString() + "'";
+            OracleCommand cmdXoa = new OracleCommand();
             cmdXoa.Connection = con;
             cmdXoa.CommandType = CommandType.Text;
             cmdXoa.CommandText = strDelete;

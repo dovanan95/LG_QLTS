@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Data.SqlClient;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
     public partial class Disposal : Form
     {
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlDataAdapter DataAdapter = new SqlDataAdapter();
+        OracleConnection con = new OracleConnection(connectionString);
+        OracleDataAdapter DataAdapter = new OracleDataAdapter();
         DataTable Table = new DataTable();
         LoadComboboxData LoadCombobox = new LoadComboboxData();
         Permission IT_OP = new Permission();
@@ -28,11 +29,11 @@ namespace QLTS_LG
             InitializeComponent();
         }
 
-        public string strSearchPublic = "select a.Ma_TS, b.Ten_TS, b.[S/N], b.IT_Tag, b.FA_Tag, b.Model, b.Unit, c.Ten_loai, d.Ten_tinh_trang " +
-            "from Luu_kho as a " +
-            "inner join Tai_san as b on a.Ma_TS = b.Ma_TS " +
-            "inner join Loai_TS_cap2 as c on b.Ma_Loai_TS_cap2 = c.Ma_loai " +
-            "inner join Status as d on d.Ma_tinh_trang = b.Ma_tinh_trang ";
+        public string strSearchPublic = "select a.Ma_TS, b.Ten_TS, b.SN, b.IT_Tag, b.FA_Tag, b.Model, b.Unit, c.Ten_loai, d.Ten_tinh_trang " +
+            "from Luu_kho a " +
+            "inner join Tai_san b on a.Ma_TS = b.Ma_TS " +
+            "inner join Loai_TS_cap2 c on b.Ma_Loai_TS_cap2 = c.Ma_loai " +
+            "inner join Status d on d.Ma_tinh_trang = b.Ma_tinh_trang ";
 
         private void btnBack_Click(object sender, EventArgs e)
         {
@@ -75,8 +76,8 @@ namespace QLTS_LG
         {
             if (txtSN.Text.ToString() != "")
             {
-                string strSN = strSearchPublic + " where b.[S/N] = '" + txtSN.Text.ToString() + "'";
-                SqlDataAdapter daSN = new SqlDataAdapter(strSN, con);
+                string strSN = strSearchPublic + " where b.SN = '" + txtSN.Text.ToString() + "'";
+                OracleDataAdapter daSN = new OracleDataAdapter(strSN, con);
                 DataTable dtSN = new DataTable();
                 daSN.Fill(dtSN);
                 dgvQuerry.DataSource = dtSN;
@@ -84,7 +85,7 @@ namespace QLTS_LG
             else if (txtFA_Tag.Text.ToString() != "")
             {
                 string strFA = strSearchPublic + " where b.FA_Tag = '" + txtFA_Tag.Text.ToString() + "'";
-                SqlDataAdapter daFA = new SqlDataAdapter(strFA, con);
+                OracleDataAdapter daFA = new OracleDataAdapter(strFA, con);
                 DataTable dtFA = new DataTable();
                 daFA.Fill(dtFA);
                 dgvQuerry.DataSource = dtFA;
@@ -92,14 +93,14 @@ namespace QLTS_LG
             else if (txtIT_Tag.Text.ToString() != "")
             {
                 string strIT = strSearchPublic + " where b.IT_Tag = '" + txtIT_Tag.Text.ToString() + "'";
-                SqlDataAdapter daIT = new SqlDataAdapter(strIT, con);
+                OracleDataAdapter daIT = new OracleDataAdapter(strIT, con);
                 DataTable dtIT = new DataTable();
                 daIT.Fill(dtIT);
                 dgvQuerry.DataSource = dtIT;
             }
             else if (txtFA_Tag.Text.ToString() == "" && txtIT_Tag.Text.ToString() == "" && txtSN.Text.ToString() == "")
             {
-                SqlDataAdapter daQuerry = new SqlDataAdapter(strSearchPublic, con);
+                OracleDataAdapter daQuerry = new OracleDataAdapter(strSearchPublic, con);
                 daQuerry.Fill(Table);
                 dgvQuerry.DataSource = Table;
             }
@@ -115,15 +116,15 @@ namespace QLTS_LG
         {
             try
             {
-                string strBB = "INSERT INTO Bien_Ban (So_Bien_ban, Ma_loai_BB, DATE, IT_OP) VALUES (@SoBB, @Type, @Date, @ITOP)";
-                SqlCommand cmdBB = new SqlCommand();
+                string strBB = "INSERT INTO Bien_Ban (So_Bien_ban, Ma_loai_BB, CL_DATE, IT_OP) VALUES (:SoBB, :Type, CURRENT_DATE, :ITOP)";
+                OracleCommand cmdBB = new OracleCommand();
                 cmdBB.Connection = con;
                 cmdBB.CommandType = CommandType.Text;
                 cmdBB.CommandText = strBB;
-                cmdBB.Parameters.AddWithValue("@SoBB", txtSoBB.Text.ToString());
-                cmdBB.Parameters.AddWithValue("@Type", "DIS");
-                cmdBB.Parameters.AddWithValue("@Date", DateTime.Now.ToString());
-                cmdBB.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
+                cmdBB.Parameters.Add(new OracleParameter("SoBB", txtSoBB.Text.ToString()));
+                cmdBB.Parameters.Add(new OracleParameter("Type", "DIS"));
+                //cmdBB.Parameters.Add("@Date", DateTime.Now.ToString());
+                cmdBB.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
                 con.Open();
                 cmdBB.ExecuteNonQuery();
                 con.Close();
@@ -133,21 +134,21 @@ namespace QLTS_LG
                     Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
                     if (CheckRow)
                     {
-                        string strHuy = "INSERT INTO Huy_TS (BB_Huy, Ma_TS, Approved, IT_OP) VALUES (@BB, @MTS, @App, @ITOP)";
-                        SqlCommand cmdHuy = new SqlCommand();
+                        string strHuy = "INSERT INTO Huy_TS (BB_Huy, Ma_TS, Approved, IT_OP) VALUES (:BB, :MTS, :App, :ITOP)";
+                        OracleCommand cmdHuy = new OracleCommand();
                         cmdHuy.Connection = con;
                         cmdHuy.CommandType = CommandType.Text;
                         cmdHuy.CommandText = strHuy;
-                        cmdHuy.Parameters.AddWithValue("@BB", txtSoBB.Text.ToString());
-                        cmdHuy.Parameters.AddWithValue("@MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value));
-                        cmdHuy.Parameters.AddWithValue("@App", false);
-                        cmdHuy.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
+                        cmdHuy.Parameters.Add(new OracleParameter("BB", txtSoBB.Text.ToString()));
+                        cmdHuy.Parameters.Add(new OracleParameter("MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value)));
+                        cmdHuy.Parameters.Add(new OracleParameter("App", '0'));
+                        cmdHuy.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
                         con.Open();
                         cmdHuy.ExecuteNonQuery();
                         con.Close();
 
                         /*string strDispose = "DELETE FROM Luu_kho WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
-                        SqlCommand cmdDispose = new SqlCommand();
+                        OracleCommand cmdDispose = new OracleCommand();
                         cmdDispose.Connection = con;
                         cmdDispose.CommandType = CommandType.Text;
                         cmdDispose.CommandText = strDispose;
@@ -156,7 +157,7 @@ namespace QLTS_LG
                         con.Close();
 
                         string strUpdate = "update Tai_san set Ma_tinh_trang = 'DIS' where Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
-                        SqlCommand cmdUpdate = new SqlCommand();
+                        OracleCommand cmdUpdate = new OracleCommand();
                         cmdUpdate.Connection = con;
                         cmdUpdate.CommandType = CommandType.Text;
                         cmdUpdate.CommandText = strUpdate;
@@ -191,14 +192,14 @@ namespace QLTS_LG
 
         private void cbType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string strSearchType = strSearchPublic + " where b.Ma_Loai_TS_cap2 = @Type";
+            string strSearchType = strSearchPublic + " where b.Ma_Loai_TS_cap2 = :Type";
 
-            SqlCommand cmdSearchType = new SqlCommand();
+            OracleCommand cmdSearchType = new OracleCommand();
             cmdSearchType.Connection = con;
             cmdSearchType.CommandType = CommandType.Text;
             cmdSearchType.CommandText = strSearchType;
-            cmdSearchType.Parameters.AddWithValue("@Type", Convert.ToInt32(cbType.SelectedValue.GetHashCode()));
-            SqlDataAdapter daType = new SqlDataAdapter(cmdSearchType);
+            cmdSearchType.Parameters.Add(new OracleParameter("Type", cbType.SelectedValue.ToString()));
+            OracleDataAdapter daType = new OracleDataAdapter(cmdSearchType);
             DataTable dtType = new DataTable();
             daType.Fill(dtType);
             dgvQuerry.DataSource = dtType;

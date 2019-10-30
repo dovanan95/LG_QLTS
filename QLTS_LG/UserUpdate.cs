@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
@@ -14,23 +15,23 @@ namespace QLTS_LG
     {
 
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlDataAdapter DataAdapter = new SqlDataAdapter();
+        OracleConnection con = new OracleConnection(connectionString);
+        OracleDataAdapter DataAdapter = new OracleDataAdapter();
         DataTable Table = new DataTable();
 
         public void UpdateUser(TextBox txtUserID, TextBox txtUserName, TextBox txtPhone, TextBox txtMail, TextBox txtDept, CheckBox chkOSP)
         {
-            string strUpdate = "UPDATE _User SET ID=@ID, Name=@Name, Phone=@Phone, Mail=@Mail, Dept=@Dept, OSP=@OSP WHERE ID= '" + txtUserID.Text.ToString() + "'";
-            SqlCommand cmdUpdate = new SqlCommand();
+            string strUpdate = "UPDATE _User SET ID=:ID, Name=:Name, Phone=:Phone, Mail=:Mail, Dept=:Dept, OSP=:OSP WHERE ID= '" + txtUserID.Text.ToString() + "'";
+            OracleCommand cmdUpdate = new OracleCommand();
             cmdUpdate.Connection = con;
             cmdUpdate.CommandType = CommandType.Text;
             cmdUpdate.CommandText = strUpdate;
-            cmdUpdate.Parameters.AddWithValue("@ID", txtUserID.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@Name", txtUserName.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@Phone", txtPhone.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@Mail", txtMail.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@Dept", txtDept.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@OSP", Convert.ToInt32(chkOSP.CheckState));
+            cmdUpdate.Parameters.Add("ID", txtUserID.Text.ToString());
+            cmdUpdate.Parameters.Add("Name", txtUserName.Text.ToString());
+            cmdUpdate.Parameters.Add("Phone", txtPhone.Text.ToString());
+            cmdUpdate.Parameters.Add("Mail", txtMail.Text.ToString());
+            cmdUpdate.Parameters.Add("Dept", txtDept.Text.ToString());
+            cmdUpdate.Parameters.Add("OSP", Convert.ToInt32(chkOSP.CheckState));
             if (chkOSP.Checked == true && (txtPhone.Text == "" || txtMail.Text == "" || txtUserName.Text == ""))
             {
                 MessageBox.Show("Vui long nhap day du thong tin", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -46,8 +47,8 @@ namespace QLTS_LG
 
         public void SearchUser(TextBox txtIDSearch, TextBox txtUserID,  TextBox txtUserName, TextBox txtPhone, TextBox txtMail, TextBox txtDept, CheckBox chkOSP, Button btnUpdate)
         {
-            string Search_User = "SELECT * FROM _User WHERE _User.ID='" + txtIDSearch.Text.ToString() + "' and _User.Emp_Status = 'EMP'";
-            SqlDataAdapter daSearch = new SqlDataAdapter(Search_User, con);
+            string Search_User = "SELECT * FROM TB_User WHERE TB_User.ID='" + txtIDSearch.Text.ToString().ToUpper() + "' and TB_User.Emp_Status = 'EMP'";
+            OracleDataAdapter daSearch = new OracleDataAdapter(Search_User, con);
             DataTable dtSearch = new DataTable();
             daSearch.Fill(dtSearch);
 
@@ -77,17 +78,17 @@ namespace QLTS_LG
         {
             try
             {
-                string strUpdate = "INSERT INTO _User(ID, Name, Phone, Mail, Dept, OSP) VALUES (@ID, @Name, @Phone, @Mail, @Dept, @OSP)";
-                SqlCommand cmdUpdate = new SqlCommand();
+                string strUpdate = "INSERT INTO TB_User(ID, Name, Phone, Mail, Dept, OSP) VALUES (:ID, :Name, :Phone, :Mail, :Dept, :OSP)";
+                OracleCommand cmdUpdate = new OracleCommand();
                 cmdUpdate.Connection = con;
                 cmdUpdate.CommandType = CommandType.Text;
                 cmdUpdate.CommandText = strUpdate;
-                cmdUpdate.Parameters.AddWithValue("@ID", txtUserID.Text.ToString());
-                cmdUpdate.Parameters.AddWithValue("@Name", txtUserName.Text.ToString());
-                cmdUpdate.Parameters.AddWithValue("@Phone", txtPhone.Text.ToString());
-                cmdUpdate.Parameters.AddWithValue("@Mail", txtMail.Text.ToString());
-                cmdUpdate.Parameters.AddWithValue("@Dept", txtDept.Text.ToString());
-                cmdUpdate.Parameters.AddWithValue("@OSP", Convert.ToInt32(chkOSP.CheckState));
+                cmdUpdate.Parameters.Add("ID", txtUserID.Text.ToString());
+                cmdUpdate.Parameters.Add("Name", txtUserName.Text.ToString());
+                cmdUpdate.Parameters.Add("Phone", txtPhone.Text.ToString());
+                cmdUpdate.Parameters.Add("Mail", txtMail.Text.ToString());
+                cmdUpdate.Parameters.Add("Dept", txtDept.Text.ToString());
+                cmdUpdate.Parameters.Add("OSP", Convert.ToInt32(chkOSP.CheckState));
                 if (chkOSP.Checked == true && (txtPhone.Text == "" || txtMail.Text == "" || txtUserName.Text == ""))
                 {
                     MessageBox.Show("Vui long nhap day du thong tin", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Warning);

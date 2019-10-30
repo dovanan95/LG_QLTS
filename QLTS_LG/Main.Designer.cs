@@ -344,42 +344,42 @@
             // menuAddNew
             // 
             this.menuAddNew.Name = "menuAddNew";
-            this.menuAddNew.Size = new System.Drawing.Size(154, 26);
+            this.menuAddNew.Size = new System.Drawing.Size(180, 26);
             this.menuAddNew.Text = "Nhập Mới";
             this.menuAddNew.Click += new System.EventHandler(this.menuAddNew_Click);
             // 
             // menuReCall
             // 
             this.menuReCall.Name = "menuReCall";
-            this.menuReCall.Size = new System.Drawing.Size(154, 26);
+            this.menuReCall.Size = new System.Drawing.Size(180, 26);
             this.menuReCall.Text = "Thu Hồi";
             this.menuReCall.Click += new System.EventHandler(this.menuReCall_Click);
             // 
             // menuDistribute
             // 
             this.menuDistribute.Name = "menuDistribute";
-            this.menuDistribute.Size = new System.Drawing.Size(154, 26);
+            this.menuDistribute.Size = new System.Drawing.Size(180, 26);
             this.menuDistribute.Text = "Cấp Phát";
             this.menuDistribute.Click += new System.EventHandler(this.menuDistribute_Click);
             // 
             // menuLending
             // 
             this.menuLending.Name = "menuLending";
-            this.menuLending.Size = new System.Drawing.Size(154, 26);
+            this.menuLending.Size = new System.Drawing.Size(180, 26);
             this.menuLending.Text = "Cho Mượn";
             this.menuLending.Click += new System.EventHandler(this.menuLending_Click);
             // 
             // MenuRepair
             // 
             this.MenuRepair.Name = "MenuRepair";
-            this.MenuRepair.Size = new System.Drawing.Size(154, 26);
+            this.MenuRepair.Size = new System.Drawing.Size(180, 26);
             this.MenuRepair.Text = "Sửa chữa";
             this.MenuRepair.Click += new System.EventHandler(this.MenuRepair_Click);
             // 
             // menuDispose
             // 
             this.menuDispose.Name = "menuDispose";
-            this.menuDispose.Size = new System.Drawing.Size(154, 26);
+            this.menuDispose.Size = new System.Drawing.Size(180, 26);
             this.menuDispose.Text = "Tiêu Hủy";
             this.menuDispose.Click += new System.EventHandler(this.menuDispose_Click);
             // 
@@ -426,13 +426,13 @@
             // menuIntro
             // 
             this.menuIntro.Name = "menuIntro";
-            this.menuIntro.Size = new System.Drawing.Size(151, 26);
+            this.menuIntro.Size = new System.Drawing.Size(180, 26);
             this.menuIntro.Text = "Giới Thiệu";
             // 
             // menuContact
             // 
             this.menuContact.Name = "menuContact";
-            this.menuContact.Size = new System.Drawing.Size(151, 26);
+            this.menuContact.Size = new System.Drawing.Size(180, 26);
             this.menuContact.Text = "Liên Hệ";
             // 
             // superDataToolStripMenuItem

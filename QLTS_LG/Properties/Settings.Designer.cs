@@ -12,7 +12,7 @@ namespace QLTS_LG.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.3.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -26,11 +26,21 @@ namespace QLTS_LG.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\Database\\QLTS" +
-            ".mdf;Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("user id=dovanan;password=Lgevh201909;data source=(DESCRIPTION=(ADDRESS=(PROTOCOL=" +
+            "tcp)(HOST=10.224.50.222)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=QLTS)))")]
         public string QLTSConnectionString {
             get {
                 return ((string)(this["QLTSConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://10.224.50.222:49156/QLTS_ORG.asmx")]
+        public string QLTS_LG_WS_ORG_QLTS_ORG {
+            get {
+                return ((string)(this["QLTS_LG_WS_ORG_QLTS_ORG"]));
             }
         }
     }

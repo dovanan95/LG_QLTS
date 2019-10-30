@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Data;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
@@ -14,17 +15,17 @@ namespace QLTS_LG
     {
 
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlDataAdapter DataAdapter = new SqlDataAdapter();
+        OracleConnection con = new OracleConnection(connectionString);
+        OracleDataAdapter DataAdapter = new OracleDataAdapter();
         DataTable Table = new DataTable();
 
         public void LoadDataType(ComboBox cbType)
         {
             con.Open();
             string cmdLoaiTS2 = "SELECT * FROM Loai_TS_cap2";
-            SqlCommand cmd = new SqlCommand(cmdLoaiTS2, con);
+            OracleCommand cmd = new OracleCommand(cmdLoaiTS2, con);
             DataTable dtLoaiTS2 = new DataTable();
-            SqlDataAdapter daLoaiTS2 = new SqlDataAdapter(cmd);
+            OracleDataAdapter daLoaiTS2 = new OracleDataAdapter(cmd);
             daLoaiTS2.Fill(dtLoaiTS2);
             cbType.DataSource = dtLoaiTS2;
             cbType.DisplayMember = "Ten_loai";
@@ -38,9 +39,9 @@ namespace QLTS_LG
         {
             con.Open();
             string cmdStatus = "SELECT * FROM Status";
-            SqlCommand cmd = new SqlCommand(cmdStatus, con);
+            OracleCommand cmd = new OracleCommand(cmdStatus, con);
             DataTable dtStatus = new DataTable();
-            SqlDataAdapter daStatus = new SqlDataAdapter(cmd);
+            OracleDataAdapter daStatus = new OracleDataAdapter(cmd);
             daStatus.Fill(dtStatus);
             cbStatus.DataSource = dtStatus;
             cbStatus.ValueMember = "Ma_tinh_trang";
@@ -56,9 +57,9 @@ namespace QLTS_LG
         {
             con.Open();
             string cmdLoaiTS2 = "SELECT * FROM Loai_TS_cap1";
-            SqlCommand cmd = new SqlCommand(cmdLoaiTS2, con);
+            OracleCommand cmd = new OracleCommand(cmdLoaiTS2, con);
             DataTable dtLoaiTS2 = new DataTable();
-            SqlDataAdapter daLoaiTS2 = new SqlDataAdapter(cmd);
+            OracleDataAdapter daLoaiTS2 = new OracleDataAdapter(cmd);
             daLoaiTS2.Fill(dtLoaiTS2);
             cbType.DataSource = dtLoaiTS2;
             cbType.DisplayMember = "Ten_loai";
@@ -71,9 +72,9 @@ namespace QLTS_LG
         {
             con.Open();
             string strLoad = "select * from Permission";
-            SqlCommand cmd = new SqlCommand(strLoad, con);
+            OracleCommand cmd = new OracleCommand(strLoad, con);
             DataTable dtLoad = new DataTable();
-            SqlDataAdapter daLoad = new SqlDataAdapter(cmd);
+            OracleDataAdapter daLoad = new OracleDataAdapter(cmd);
             daLoad.Fill(dtLoad);
             cbPermission.DataSource = dtLoad;
             cbPermission.DisplayMember = "per_name";
@@ -86,9 +87,9 @@ namespace QLTS_LG
         {
             con.Open();
             string strUnitLoad = "select * from Unit";
-            SqlCommand cmdUnit = new SqlCommand(strUnitLoad, con);
+            OracleCommand cmdUnit = new OracleCommand(strUnitLoad, con);
             DataTable dtUnit = new DataTable();
-            SqlDataAdapter daUnit = new SqlDataAdapter(cmdUnit);
+            OracleDataAdapter daUnit = new OracleDataAdapter(cmdUnit);
             daUnit.Fill(dtUnit);
             cbUnit.DataSource = dtUnit;
             cbUnit.DisplayMember = "unit_name";
@@ -101,9 +102,9 @@ namespace QLTS_LG
         {
             con.Open();
             string strEmpLoad = "select * from Emp_Status";
-            SqlCommand cmdEmpLoad = new SqlCommand(strEmpLoad, con);
+            OracleCommand cmdEmpLoad = new OracleCommand(strEmpLoad, con);
             DataTable dtEmp = new DataTable();
-            SqlDataAdapter daEmp = new SqlDataAdapter(cmdEmpLoad);
+            OracleDataAdapter daEmp = new OracleDataAdapter(cmdEmpLoad);
             daEmp.Fill(dtEmp);
             cbEmpStatus.DataSource = dtEmp;
             cbEmpStatus.DisplayMember = "Emp_Name";
@@ -116,9 +117,9 @@ namespace QLTS_LG
         {
             con.Open();
             string strORG = "select * from ORG_NAME";
-            SqlCommand cmdORG = new SqlCommand(strORG, con);
+            OracleCommand cmdORG = new OracleCommand(strORG, con);
             DataTable dtORG = new DataTable();
-            SqlDataAdapter daORG = new SqlDataAdapter(cmdORG);
+            OracleDataAdapter daORG = new OracleDataAdapter(cmdORG);
             daORG.Fill(dtORG);
             cbORG.DataSource = dtORG;
             cbORG.DisplayMember = "Org_name";
@@ -131,15 +132,30 @@ namespace QLTS_LG
         {
             con.Open();
             string strModel = "select * from Model";
-            SqlCommand cmdModel = new SqlCommand(strModel, con);
+            OracleCommand cmdModel = new OracleCommand(strModel, con);
             DataTable dtModel = new DataTable();
-            SqlDataAdapter daModel = new SqlDataAdapter(cmdModel);
+            OracleDataAdapter daModel = new OracleDataAdapter(cmdModel);
             daModel.Fill(dtModel);
             cbModel.DataSource = dtModel;
             cbModel.DisplayMember = "model";
             cbModel.ValueMember = "model";
             cbModel.Enabled = true;
             cmdModel.ExecuteNonQuery();
+            con.Close();
+        }
+        public void LoadTypeOfReport(ComboBox cbTypeBB)
+        {
+            con.Open();
+            string strTypeBB = "select * from loai_bien_ban";
+            OracleCommand cmdTypeBB = new OracleCommand(strTypeBB, con);
+            DataTable dtTypeBB = new DataTable();
+            OracleDataAdapter daTypeBB = new OracleDataAdapter(cmdTypeBB);
+            daTypeBB.Fill(dtTypeBB);
+            cbTypeBB.DataSource = dtTypeBB;
+            cbTypeBB.DisplayMember = "TEN_LOAI";
+            cbTypeBB.ValueMember = "MA_LOAI";
+            cbTypeBB.Enabled = true;
+            cmdTypeBB.ExecuteNonQuery();
             con.Close();
         }
     }

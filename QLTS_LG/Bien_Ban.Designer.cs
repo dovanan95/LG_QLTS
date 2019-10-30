@@ -29,11 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Bien_Ban));
-            this.CrystalReport11 = new QLTS_LG.CrystalReport1();
-            this.CrystalReport13 = new QLTS_LG.CrystalReport1();
-            this.device1 = new QLTS_LG.device();
-            this.CrystalReport12 = new QLTS_LG.CrystalReport1();
-            this.device2 = new QLTS_LG.device();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
@@ -74,14 +69,27 @@
             this.lblReason = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.lblNote = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.lblDatetime = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDevice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMaterial)).BeginInit();
             this.SuspendLayout();
-            // 
-            // CrystalReport11
-            // 
-            this.CrystalReport11.InitReport += new System.EventHandler(this.CrystalReport11_InitReport);
             // 
             // label1
             // 
@@ -443,10 +451,10 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.Location = new System.Drawing.Point(14, 606);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(78, 13);
+            this.label20.Size = new System.Drawing.Size(91, 13);
             this.label20.TabIndex = 34;
             this.label20.Text = "Reason/Lý do:";
             // 
@@ -454,19 +462,19 @@
             // 
             this.lblReason.AutoSize = true;
             this.lblReason.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblReason.Location = new System.Drawing.Point(98, 606);
+            this.lblReason.Location = new System.Drawing.Point(111, 606);
             this.lblReason.Name = "lblReason";
-            this.lblReason.Size = new System.Drawing.Size(154, 13);
+            this.lblReason.Size = new System.Drawing.Size(178, 13);
             this.lblReason.TabIndex = 35;
-            this.lblReason.Text = ".................................................";
+            this.lblReason.Text = ".........................................................";
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(14, 631);
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(14, 635);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(75, 13);
+            this.label21.Size = new System.Drawing.Size(88, 13);
             this.label21.TabIndex = 36;
             this.label21.Text = "Note/Ghi chú:";
             // 
@@ -474,11 +482,186 @@
             // 
             this.lblNote.AutoSize = true;
             this.lblNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNote.Location = new System.Drawing.Point(98, 631);
+            this.lblNote.Location = new System.Drawing.Point(108, 635);
             this.lblNote.Name = "lblNote";
             this.lblNote.Size = new System.Drawing.Size(181, 13);
             this.lblNote.TabIndex = 37;
             this.lblNote.Text = "..........................................................";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(14, 666);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(678, 13);
+            this.label22.TabIndex = 38;
+            this.label22.Text = "There are ... copy of this document. For any request related to devices/equipment" +
+    ", need to show a copy for evidence.";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(14, 679);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(748, 13);
+            this.label23.TabIndex = 39;
+            this.label23.Text = "Biên bản này được lập thành ... bản. Khi có bất kỳ yêu cầu nào liên quan đến thiế" +
+    "t bị, cần mang biên bản này theo để làm chứng.";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(22, 708);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(346, 13);
+            this.label24.TabIndex = 40;
+            this.label24.Text = "Copies of this document are kept by/ Các bên giữ biên bản:";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(24, 721);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(260, 13);
+            this.label25.TabIndex = 41;
+            this.label25.Text = "-  Deliver/Bên quản lý tài sản: ................bộ";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(24, 734);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(258, 13);
+            this.label26.TabIndex = 42;
+            this.label26.Text = "-  Receiver/Bên nhận tài sản: ................bộ";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(50, 760);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(141, 13);
+            this.label27.TabIndex = 43;
+            this.label27.Text = "Đại diện quản lý tài sản";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.Location = new System.Drawing.Point(387, 760);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(72, 13);
+            this.label28.TabIndex = 44;
+            this.label28.Text = "Người nhận";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(682, 760);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(68, 13);
+            this.label29.TabIndex = 45;
+            this.label29.Text = "Người giao";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(66, 773);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(113, 13);
+            this.label30.TabIndex = 46;
+            this.label30.Text = "(Ký, họ tên, đóng dấu)";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.Location = new System.Drawing.Point(387, 773);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(61, 13);
+            this.label31.TabIndex = 47;
+            this.label31.Text = "(Ký, họ tên)";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.Location = new System.Drawing.Point(689, 773);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(61, 13);
+            this.label32.TabIndex = 48;
+            this.label32.Text = "(Ký, họ tên)";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label33.Location = new System.Drawing.Point(11, 912);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(811, 13);
+            this.label33.TabIndex = 49;
+            this.label33.Text = "_________________________________________________________________________________" +
+    "_____________________________________________________";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label34.Location = new System.Drawing.Point(10, 925);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(398, 13);
+            this.label34.TabIndex = 50;
+            this.label34.Text = "Tôi hiểu và hoàn toàn tuân thủ theo quy định quản lý tài sản dưới đây của công ty" +
+    ":";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label35.Location = new System.Drawing.Point(12, 938);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(738, 26);
+            this.label35.TabIndex = 51;
+            this.label35.Text = "1. Không tự ý chuyển giao thiết bị này cho người khác. Trong trường hợp không có " +
+    "nhu cầu sử dụng thiết bị, phải trả lại bộ phận\r\nquản lý tài sản.\r\n";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label36.Location = new System.Drawing.Point(11, 964);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(322, 13);
+            this.label36.TabIndex = 52;
+            this.label36.Text = "2. Luôn đảm bảo máy tính/thiết bị ở trạng thái tốt nhất.\r\n";
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label37.Location = new System.Drawing.Point(10, 977);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(649, 13);
+            this.label37.TabIndex = 53;
+            this.label37.Text = "3. Phải hoàn trả toàn bộ chi phí trong trường hợp làm mất hoặc làm hỏng thiết bị " +
+    "(ngoại trừ lỗi của nhà sản xuất).\r\n";
+            // 
+            // lblDatetime
+            // 
+            this.lblDatetime.AutoSize = true;
+            this.lblDatetime.Location = new System.Drawing.Point(14, 43);
+            this.lblDatetime.Name = "lblDatetime";
+            this.lblDatetime.Size = new System.Drawing.Size(65, 13);
+            this.lblDatetime.TabIndex = 54;
+            this.lblDatetime.Text = "...../..../.......";
             // 
             // Bien_Ban
             // 
@@ -487,7 +670,24 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(823, 808);
+            this.ClientSize = new System.Drawing.Size(823, 1012);
+            this.Controls.Add(this.lblDatetime);
+            this.Controls.Add(this.label37);
+            this.Controls.Add(this.label36);
+            this.Controls.Add(this.label35);
+            this.Controls.Add(this.label34);
+            this.Controls.Add(this.label33);
+            this.Controls.Add(this.label32);
+            this.Controls.Add(this.label31);
+            this.Controls.Add(this.label30);
+            this.Controls.Add(this.label29);
+            this.Controls.Add(this.label28);
+            this.Controls.Add(this.label27);
+            this.Controls.Add(this.label26);
+            this.Controls.Add(this.label25);
+            this.Controls.Add(this.label24);
+            this.Controls.Add(this.label23);
+            this.Controls.Add(this.label22);
             this.Controls.Add(this.lblNote);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.lblReason);
@@ -539,11 +739,6 @@
         }
 
         #endregion
-        private CrystalReport1 CrystalReport11;
-        private device device1;
-        private CrystalReport1 CrystalReport12;
-        private CrystalReport1 CrystalReport13;
-        private device device2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Drawing.Printing.PrintDocument printDocument1;
@@ -584,5 +779,22 @@
         private System.Windows.Forms.Label lblReason;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label lblNote;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label lblDatetime;
     }
 }

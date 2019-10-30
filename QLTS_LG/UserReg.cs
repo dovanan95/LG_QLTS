@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Data.SqlClient;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
     public partial class UserReg : Form
     {
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlConnection con2 = new SqlConnection(connectionString);
+        OracleConnection con = new OracleConnection(connectionString);
+        OracleConnection con2 = new OracleConnection(connectionString);
         LoadComboboxData LoadCombobox = new LoadComboboxData();
         User_Management management = new User_Management();
 
@@ -67,8 +68,8 @@ namespace QLTS_LG
             try
             {
                 string strCheck = "select * from Login";
-                SqlCommand cmdCheck = new SqlCommand(strCheck, con2);
-                SqlDataReader rdrRead = null;
+                OracleCommand cmdCheck = new OracleCommand(strCheck, con2);
+                OracleDataReader rdrRead = null;
                 con2.Open();
                 rdrRead = cmdCheck.ExecuteReader();
                 while (rdrRead.Read())
@@ -94,15 +95,15 @@ namespace QLTS_LG
                 {
                     if (txtPass.Text.ToString() == txtPassConfirm.Text.ToString())
                     {
-                        string strReg = "insert into Login (ID_User, Password, permission, ID) values (@ID_User, @pass, @per, @ID)";
-                        SqlCommand cmdReg = new SqlCommand();
+                        string strReg = "insert into Login (ID_User, Password, permission, ID) values (:ID_User, :pass, :per, :ID)";
+                        OracleCommand cmdReg = new OracleCommand();
                         cmdReg.Connection = con;
                         cmdReg.CommandType = CommandType.Text;
                         cmdReg.CommandText = strReg;
-                        cmdReg.Parameters.AddWithValue("@ID_User", txtUserName.Text.ToString());
-                        cmdReg.Parameters.AddWithValue("@pass", Cryptography.ComputeSha256Hash(txtPass.Text.ToString()));
-                        cmdReg.Parameters.AddWithValue("@per", cbPermission.SelectedValue);
-                        cmdReg.Parameters.AddWithValue("@ID", txtID.Text.ToString());
+                        cmdReg.Parameters.Add("ID_User", txtUserName.Text.ToString());
+                        cmdReg.Parameters.Add("pass", Cryptography.ComputeSha256Hash(txtPass.Text.ToString()));
+                        cmdReg.Parameters.Add("per", cbPermission.SelectedValue);
+                        cmdReg.Parameters.Add("ID", txtID.Text.ToString());
                         con.Open();
                         cmdReg.ExecuteNonQuery();
                         con.Close();
@@ -141,13 +142,13 @@ namespace QLTS_LG
                         if (txtPass.Text.ToString() == txtPassConfirm.Text.ToString())
                         {
                             string strReg = "insert into Login (ID_User, Password, permission) values (@ID, @pass, @per)";
-                            SqlCommand cmdReg = new SqlCommand();
+                            OracleCommand cmdReg = new OracleCommand();
                             cmdReg.Connection = con;
                             cmdReg.CommandType = CommandType.Text;
                             cmdReg.CommandText = strReg;
-                            cmdReg.Parameters.AddWithValue("@ID", txtUserName.Text.ToString());
-                            cmdReg.Parameters.AddWithValue("@pass", Cryptography.ComputeSha256Hash(txtPass.Text.ToString()));
-                            cmdReg.Parameters.AddWithValue("@per", cbPermission.SelectedValue);
+                            cmdReg.Parameters.Add("@ID", txtUserName.Text.ToString());
+                            cmdReg.Parameters.Add("@pass", Cryptography.ComputeSha256Hash(txtPass.Text.ToString()));
+                            cmdReg.Parameters.Add("@per", cbPermission.SelectedValue);
                             con.Open();
                             cmdReg.ExecuteNonQuery();
                             con.Close();
@@ -187,9 +188,9 @@ namespace QLTS_LG
 
         private void btnCheck_Click(object sender, EventArgs e)
         {
-            string strCheckExist = "select ID from _User";
-            SqlCommand cmdCE = new SqlCommand(strCheckExist, con);
-            SqlDataReader rdrCE = null;
+            string strCheckExist = "select ID from tb_User";
+            OracleCommand cmdCE = new OracleCommand(strCheckExist, con);
+            OracleDataReader rdrCE = null;
 
           
 

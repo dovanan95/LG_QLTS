@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Data.SqlClient;
-using CrystalDecisions.CrystalReports.Engine;
-using CrystalDecisions.Shared;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
@@ -40,6 +39,7 @@ namespace QLTS_LG
         public string Phone_Dlv { get; set; }
 
         public string Type_BB { get; set; }
+        public string DATE { get; set; }
         public string Reason { get; set; }
         public string Note { get; set; }
 
@@ -92,10 +92,15 @@ namespace QLTS_LG
  
             try
             {
-
+                
                 CaptureScreen();
                 printPreviewDialog1.Document = printDocument1;
+                this.Close();
                 printPreviewDialog1.Show();
+                printPreviewDialog1.BringToFront();
+                printPreviewDialog1.Focus();
+                          
+
             }
             catch(Exception ex)
             {
@@ -107,6 +112,7 @@ namespace QLTS_LG
         {
             lblSoBB.Text = SoBB;
             lblTypeBB.Text = Type_BB;
+            lblDatetime.Text = DATE;
             lblReason.Text = Reason;
             lblNote.Text = Note;
             

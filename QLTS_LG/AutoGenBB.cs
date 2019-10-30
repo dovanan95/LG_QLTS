@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Windows.Forms;
 using System.Data;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
@@ -14,8 +15,8 @@ namespace QLTS_LG
     {
 
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlDataAdapter DataAdapter = new SqlDataAdapter();
+        OracleConnection con = new OracleConnection(connectionString);
+        OracleDataAdapter DataAdapter = new OracleDataAdapter();
         public string SoBBBG;
 
         public void AutoGenBBBG()
@@ -26,8 +27,8 @@ namespace QLTS_LG
 
             //string LastNumOfBB;
             var date_BBBG = DateTime.Now.ToString("yyyyMMdd");
-            SqlCommand cmd = new SqlCommand("SELECT TOP(1) So_Bien_ban FROM Bien_Ban order by So_Bien_ban DESC", con); //lấy dữ liệu số biên bản bàn giao từ bảng Bien_Ban
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            OracleCommand cmd = new OracleCommand("SELECT So_Bien_ban FROM ( select So_bien_ban from Bien_Ban order by So_Bien_ban DESC) where ROWNUM = 1", con); //lấy dữ liệu số biên bản bàn giao từ bảng Bien_Ban
+            OracleDataAdapter da = new OracleDataAdapter(cmd);
             DataTable dtSoBB = new DataTable();
             da.Fill(dtSoBB); //đổ dữ liệu vào table dtSoBB
             if (dtSoBB.Rows.Count == 0) //kiểm tra trường hợp chưa có data trong bảng

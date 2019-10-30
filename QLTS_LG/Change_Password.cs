@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
     public partial class Change_Password : Form
     {
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlConnection con2 = new SqlConnection(connectionString);
+        OracleConnection con = new OracleConnection(connectionString);
+        OracleConnection con2 = new OracleConnection(connectionString);
         Cryptography Encoding = new Cryptography();
 
         public Change_Password()
@@ -50,11 +51,11 @@ namespace QLTS_LG
             string NewPass = Encoding.ComputeSha256Hash(txtNewPass.Text.ToString());
 
             string strCheck = "select * from Login where ID_User = '" + lblUser.Text.ToString() + "'";
-            SqlCommand cmdCheck = new SqlCommand(strCheck, con);
+            OracleCommand cmdCheck = new OracleCommand(strCheck, con);
             //SqlDataAdapter daCheck = new SqlDataAdapter(strCheck, con);
            // DataTable dtCheck = new DataTable();
             //daCheck.Fill(dtCheck);
-            SqlDataReader rdrRead = null;
+            OracleDataReader rdrRead = null;
             con.Open();
             rdrRead = cmdCheck.ExecuteReader();
 
@@ -65,7 +66,7 @@ namespace QLTS_LG
                     if (txtOldPass.Text.ToString() != txtNewPass.Text.ToString() && txtNewPass.Text.ToString() == txtConfirm.Text.ToString())
                     {
                         string strChangePass = "update Login set Password = '" + NewPass + "' where ID_User = '" + lblUser.Text.ToString() + "'";
-                        SqlCommand cmdChangePass = new SqlCommand();
+                        OracleCommand cmdChangePass = new OracleCommand();
                         cmdChangePass.Connection = con2;
                         cmdChangePass.CommandType = CommandType.Text;
                         cmdChangePass.CommandText = strChangePass;

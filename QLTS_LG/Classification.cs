@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Data.SqlClient;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
     public partial class Classification : Form
     {
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlDataAdapter DataAdapter = new SqlDataAdapter();
+        OracleConnection con = new OracleConnection(connectionString);
+        OracleDataAdapter DataAdapter = new OracleDataAdapter();
         DataTable Table = new DataTable();
         AutoGenAsssetCode AutoGen = new AutoGenAsssetCode();
 
@@ -57,14 +58,14 @@ namespace QLTS_LG
                 asssetCode.AutoGenTypeCode();
                 TypeCode = asssetCode.TypeCode;
 
-                string strNewType = "Insert into Loai_TS_cap2 (Ma_loai, Ten_loai, Phan_loai) VALUES (@Type, @Name, @Class)";
-                SqlCommand cmdNewType = new SqlCommand();
+                string strNewType = "Insert into Loai_TS_cap2 (Ma_loai, Ten_loai, Phan_loai) VALUES (:Type, :Name, :Class)";
+                OracleCommand cmdNewType = new OracleCommand();
                 cmdNewType.Connection = con;
                 cmdNewType.CommandType = CommandType.Text;
                 cmdNewType.CommandText = strNewType;
-                cmdNewType.Parameters.AddWithValue("@Type", TypeCode.ToString());
-                cmdNewType.Parameters.AddWithValue("@Name", txtType2Name.Text.ToString());
-                cmdNewType.Parameters.AddWithValue("@Class", cbType1.SelectedValue);
+                cmdNewType.Parameters.Add("Type", TypeCode.ToString());
+                cmdNewType.Parameters.Add("Name", txtType2Name.Text.ToString());
+                cmdNewType.Parameters.Add("Class", cbType1.SelectedValue);
                 con.Open();
                 cmdNewType.ExecuteNonQuery();
                 con.Close();
@@ -86,9 +87,9 @@ namespace QLTS_LG
             loadCombobox.LoadDataType1(cbType1);
 
             string strQuerryType = "SELECT a.Ma_loai, a.Ten_loai, b.Ten_loai " +
-                "FROM Loai_TS_cap2 AS a " +
-                " INNER JOIN Loai_TS_cap1 AS b ON a.Phan_loai = b.Ma_loai ORDER BY a.Ma_loai ASC";
-            SqlDataAdapter daQuerryType = new SqlDataAdapter(strQuerryType, con);
+                "FROM Loai_TS_cap2 a " +
+                " INNER JOIN Loai_TS_cap1 b ON a.Phan_loai = b.Ma_loai ORDER BY a.Ma_loai ASC";
+            OracleDataAdapter daQuerryType = new OracleDataAdapter(strQuerryType, con);
             DataTable table = new DataTable();
             daQuerryType.Fill(table);
             dgvShow.DataSource = table;
@@ -97,7 +98,7 @@ namespace QLTS_LG
             dgvShow.Columns[2].HeaderText = "Phân Loại Tài Sản";
 
             string strQuerryUnit = "select * from Unit";
-            SqlDataAdapter daQuerryUnit = new SqlDataAdapter(strQuerryUnit, con);
+            OracleDataAdapter daQuerryUnit = new OracleDataAdapter(strQuerryUnit, con);
             DataTable dtUnit = new DataTable();
             daQuerryUnit.Fill(dtUnit);
             dgvUnit.DataSource = dtUnit;
@@ -119,7 +120,7 @@ namespace QLTS_LG
 
             string strUpdate = "update Loai_TS_cap2 set Ten_loai = '" + txtType2Name.Text.ToString() + "', Phan_loai = '" + cbType1.SelectedValue + "'" +
                 "where Ma_loai = '" +TypeCode.ToString() + "'";
-            SqlCommand cmdUpdate = new SqlCommand();
+            OracleCommand cmdUpdate = new OracleCommand();
             cmdUpdate.Connection = con;
             cmdUpdate.CommandType = CommandType.Text;
             cmdUpdate.CommandText = strUpdate;
@@ -136,7 +137,7 @@ namespace QLTS_LG
             string TypeCode = dgvShow.Rows[index].Cells["Ma_loai"].Value.ToString();
 
             string strDel = "delete from Loai_TS_cap2 where Ma_loai = '" + TypeCode + "'";
-            SqlCommand cmdXoa = new SqlCommand();
+            OracleCommand cmdXoa = new OracleCommand();
             cmdXoa.Connection = con;
             cmdXoa.CommandType = CommandType.Text;
             cmdXoa.CommandText = strDel;
@@ -155,12 +156,12 @@ namespace QLTS_LG
                 AutoGen.AutoGenUnit();
                 unit_id = AutoGen.unit_id;
                 string strNewUnit = "insert into Unit(unit_id, unit_name) values (@id, @name)";
-                SqlCommand cmdUnit = new SqlCommand();
+                OracleCommand cmdUnit = new OracleCommand();
                 cmdUnit.Connection = con;
                 cmdUnit.CommandType = CommandType.Text;
                 cmdUnit.CommandText = strNewUnit;
-                cmdUnit.Parameters.AddWithValue("@id", unit_id);
-                cmdUnit.Parameters.AddWithValue("@name", txtUnit.Text.ToString());
+                cmdUnit.Parameters.Add("@id", unit_id);
+                cmdUnit.Parameters.Add("@name", txtUnit.Text.ToString());
                 con.Open();
                 cmdUnit.ExecuteNonQuery();
                 con.Close();
@@ -187,7 +188,7 @@ namespace QLTS_LG
             string Code = dgvUnit.Rows[para].Cells["unit_id"].Value.ToString();
 
             string strXoa = "delete from Unit where unit_id = '" + Code + "'";
-            SqlCommand cmdXoa = new SqlCommand();
+            OracleCommand cmdXoa = new OracleCommand();
             cmdXoa.Connection = con;
             cmdXoa.CommandType = CommandType.Text;
             cmdXoa.CommandText = strXoa;

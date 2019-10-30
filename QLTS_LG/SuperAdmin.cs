@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Data.SqlClient;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
     public partial class SuperAdmin : Form
     {
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlConnection con2 = new SqlConnection(connectionString);
+        OracleConnection con = new OracleConnection(connectionString);
+        OracleConnection con2 = new OracleConnection(connectionString);
         DataTable dtQuerry = new DataTable();
         Excel excel = new Excel();
 
@@ -31,7 +32,7 @@ namespace QLTS_LG
             {
                 dtQuerry.Clear();
                 string strQuerry = txtQuerry.Text.ToString();
-                SqlDataAdapter daQuerry = new SqlDataAdapter(strQuerry, con);
+                OracleDataAdapter daQuerry = new OracleDataAdapter(strQuerry, con);
                 
                 daQuerry.Fill(dtQuerry);
                 dgvQuerry.DataSource = dtQuerry;
@@ -90,7 +91,7 @@ namespace QLTS_LG
             try
             {
                 string strExe = txtQuerry.Text.ToString();
-                SqlCommand cmdExe = new SqlCommand();
+                OracleCommand cmdExe = new OracleCommand();
                 cmdExe.Connection = con2;
                 cmdExe.CommandType = CommandType.Text;
                 cmdExe.CommandText = strExe;

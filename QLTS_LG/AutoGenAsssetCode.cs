@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Configuration;
 using System.Data.SqlClient;
+using Oracle.ManagedDataAccess.Client;
+
 namespace QLTS_LG
 {
     class AutoGenAsssetCode
     {
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlDataAdapter DataAdapter = new SqlDataAdapter();
+        OracleConnection con = new OracleConnection(connectionString);
+        OracleDataAdapter DataAdapter = new OracleDataAdapter();
 
         public string code;
         public string TypeCode;
@@ -22,8 +24,8 @@ namespace QLTS_LG
             //code...
             int i = 1;
             con.Open();
-            string SelectCode = "SELECT Ma_TS FROM Tai_san ";
-            SqlDataAdapter sqlData = new SqlDataAdapter(SelectCode, con);
+            string SelectCode = "SELECT Ma_TS FROM (select Ma_TS from Tai_san order by Ma_TS DESC) where ROWNUM = 1";
+            OracleDataAdapter sqlData = new OracleDataAdapter(SelectCode, con);
             DataTable table = new DataTable();
             sqlData.Fill(table);
             if (table.Rows.Count == 0)
@@ -47,8 +49,8 @@ namespace QLTS_LG
         public void AutoGenTypeCode()
         {
             con.Open();
-            string strQuerryTypeDevice = "select max(Ma_loai) from Loai_TS_cap2";
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(strQuerryTypeDevice, con);
+            string strQuerryTypeDevice = "select max(to_number(Ma_loai)) from Loai_TS_cap2";
+            OracleDataAdapter dataAdapter = new OracleDataAdapter(strQuerryTypeDevice, con);
             DataTable dtQTD = new DataTable();
             dataAdapter.Fill(dtQTD);
 
@@ -64,7 +66,7 @@ namespace QLTS_LG
         {
             con.Open();
             string strUnit = "select max(unit_id) from Unit";
-            SqlDataAdapter daUnit = new SqlDataAdapter(strUnit, con);
+            OracleDataAdapter daUnit = new OracleDataAdapter(strUnit, con);
             DataTable dtUnit = new DataTable();
             daUnit.Fill(dtUnit);
             string lastItem = dtUnit.Rows[0][0].ToString();

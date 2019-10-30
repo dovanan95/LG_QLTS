@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Data.SqlClient;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
@@ -16,7 +17,7 @@ namespace QLTS_LG
     {
 
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
+        OracleConnection con = new OracleConnection(connectionString);
         DataTable dtSearch = new DataTable();
         string strSearch = "select * from ORG_NAME ";
 
@@ -51,7 +52,7 @@ namespace QLTS_LG
         public void Search(string strSearching)
         {
             dtSearch.Clear();
-            SqlDataAdapter daSearch = new SqlDataAdapter(strSearching, con);
+            OracleDataAdapter daSearch = new OracleDataAdapter(strSearching, con);
             
             daSearch.Fill(dtSearch);
             dgvORG.DataSource = dtSearch;
@@ -80,13 +81,13 @@ namespace QLTS_LG
 
         private void btnInsert_Click(object sender, EventArgs e)
         {
-            string Insert = "insert into ORG_NAME(Org_code, Org_name) values (@code, @name)";
-            SqlCommand cmdInput = new SqlCommand();
+            string Insert = "insert into ORG_NAME(Org_code, Org_name) values (:code, :name)";
+            OracleCommand cmdInput = new OracleCommand();
             cmdInput.Connection = con;
             cmdInput.CommandType = CommandType.Text;
             cmdInput.CommandText = Insert;
-            cmdInput.Parameters.AddWithValue("@code", txtCode.Text.ToString());
-            cmdInput.Parameters.AddWithValue("@name", txtName.Text.ToString());
+            cmdInput.Parameters.Add(":code", txtCode.Text.ToString());
+            cmdInput.Parameters.Add(":name", txtName.Text.ToString());
             try
             {
                 con.Open();
@@ -109,13 +110,13 @@ namespace QLTS_LG
             int index = dgvORG.CurrentCell.RowIndex;
             string code = dgvORG.Rows[index].Cells["Org_code"].Value.ToString();
 
-            string Update = "update ORG_NAME set Org_code = @code, Org_name = @name where Org_code = '" + code + "'";
-            SqlCommand cmdUpdate = new SqlCommand();
+            string Update = "update ORG_NAME set Org_code = :code, Org_name = :name where Org_code = '" + code + "'";
+            OracleCommand cmdUpdate = new OracleCommand();
             cmdUpdate.Connection = con;
             cmdUpdate.CommandType = CommandType.Text;
             cmdUpdate.CommandText = Update;
-            cmdUpdate.Parameters.AddWithValue("@code", txtCode.Text.ToString());
-            cmdUpdate.Parameters.AddWithValue("@name", txtName.Text.ToString());
+            cmdUpdate.Parameters.Add("code", txtCode.Text.ToString());
+            cmdUpdate.Parameters.Add("name", txtName.Text.ToString());
             try
             {
                 con.Open();
@@ -129,6 +130,12 @@ namespace QLTS_LG
             }
 
         }
-       
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            WS_ORG_DOWN webservice = new WS_ORG_DOWN();
+            webservice.ShowDialog();
+            //this.Close();
+        }
     }
 }

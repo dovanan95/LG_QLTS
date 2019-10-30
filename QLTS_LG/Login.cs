@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
@@ -28,6 +29,7 @@ namespace QLTS_LG
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            
             if (txtUser.Text == null && txtPass.Text == null)
             {
                 MessageBox.Show("Vui lòng nhap ID và mat khau!!!", "Error");
@@ -35,12 +37,12 @@ namespace QLTS_LG
             else
             {
                 // var loaddata = "SELECT * FROM Login WHERE ID_User='" + txtUser.Text + "'AND Password='" +  txtPass.Text + "'";
-                SqlConnection con = new SqlConnection(connectstring);
+                OracleConnection con = new OracleConnection(connectstring);
                 //SqlCommand command = new SqlCommand(loaddata, con);
                 //command.ExecuteNonQuery();
                 string password = encode.ComputeSha256Hash(txtPass.Text.ToString());
                 
-                SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Login WHERE ID_User='" + txtUser.Text + "'AND Password='" + password + "'", con);
+                OracleDataAdapter adapter = new OracleDataAdapter("SELECT * FROM Login WHERE ID_User='" + txtUser.Text + "'AND Password='" + password + "'", con);
                 DataTable table = new DataTable();
                 adapter.Fill(table);
                 if (table.Rows.Count > 0)
@@ -61,6 +63,7 @@ namespace QLTS_LG
                 }
                 //username = txtUser.Text.ToString().Trim();
             }
+            
         }
 
         private void txtPass_KeyDown(object sender, KeyEventArgs e)

@@ -7,14 +7,15 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
 using System.Windows.Forms;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
     class AutoComplete
     {
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlDataAdapter DataAdapter = new SqlDataAdapter();
+        OracleConnection con = new OracleConnection(connectionString);
+        OracleDataAdapter DataAdapter = new OracleDataAdapter();
         DataTable Table = new DataTable();
 
         public static string Clear = "MAITHIHONGNHUNG";
@@ -23,12 +24,12 @@ namespace QLTS_LG
         public AutoCompleteStringCollection AutoCompleteData1(string strAuto)
         {
             //string strAuto = "SELECT [S/N] FROM Tai_san";
-            SqlCommand cmdAuto = new SqlCommand();
+            OracleCommand cmdAuto = new OracleCommand();
             cmdAuto.CommandType = CommandType.Text;
             cmdAuto.CommandText = strAuto;
             cmdAuto.Connection = con;
             DataTable dtCollection = new DataTable();
-            SqlDataAdapter daCollection = new SqlDataAdapter(cmdAuto);
+            OracleDataAdapter daCollection = new OracleDataAdapter(cmdAuto);
             daCollection.Fill(dtCollection);
             if (dtCollection.Rows.Count > 0)
             {

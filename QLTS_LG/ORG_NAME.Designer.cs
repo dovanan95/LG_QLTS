@@ -42,6 +42,7 @@
             this.txtCode = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnBack = new System.Windows.Forms.Button();
+            this.DownHR = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvORG)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -59,6 +60,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.panel1.Controls.Add(this.DownHR);
             this.panel1.Controls.Add(this.btnSearch);
             this.panel1.Controls.Add(this.btnDelete);
             this.panel1.Controls.Add(this.btnSave);
@@ -181,6 +183,16 @@
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
+            // DownHR
+            // 
+            this.DownHR.Location = new System.Drawing.Point(277, 386);
+            this.DownHR.Name = "DownHR";
+            this.DownHR.Size = new System.Drawing.Size(183, 31);
+            this.DownHR.TabIndex = 12;
+            this.DownHR.Text = "DOWNLOAD FROM HR";
+            this.DownHR.UseVisualStyleBackColor = true;
+            this.DownHR.Click += new System.EventHandler(this.button1_Click);
+            // 
             // ORG_NAME
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -215,5 +227,6 @@
         private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Button btnModify;
         private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Button DownHR;
     }
 }

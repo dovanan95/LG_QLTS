@@ -15,6 +15,7 @@ using System.Drawing;
 using System.Data;
 using ClosedXML.Excel;
 using System.Reflection;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {

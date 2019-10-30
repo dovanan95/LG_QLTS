@@ -5,10 +5,13 @@
     <Setting Name="QLTSConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database\QLTS.mdf;Integrated Security=True&lt;/ConnectionString&gt;
+  &lt;ConnectionString&gt;user id=dovanan;password=Lgevh201909;data source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=10.224.50.222)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=QLTS)))&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database\QLTS.mdf;Integrated Security=True</Value>
+      <Value Profile="(Default)">user id=dovanan;password=Lgevh201909;data source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=10.224.50.222)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=QLTS)))</Value>
+    </Setting>
+    <Setting Name="QLTS_LG_WS_ORG_QLTS_ORG" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://10.224.50.222:49156/QLTS_ORG.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

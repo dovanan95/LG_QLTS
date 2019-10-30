@@ -34,12 +34,15 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnBack = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSoBB = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.panel1 = new System.Windows.Forms.Panel();
             this.cbLoaiBB = new System.Windows.Forms.ComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.EP_download = new System.Windows.Forms.Button();
+            this.btnReport = new System.Windows.Forms.Button();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -55,6 +58,8 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(680, 424);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // lblTitle
             // 
@@ -69,7 +74,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(104, 250);
+            this.btnSearch.Location = new System.Drawing.Point(182, 250);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(75, 23);
             this.btnSearch.TabIndex = 2;
@@ -79,7 +84,7 @@
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(193, 250);
+            this.btnBack.Location = new System.Drawing.Point(263, 250);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(75, 23);
             this.btnBack.TabIndex = 3;
@@ -97,12 +102,12 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Số Biên Bản";
             // 
-            // textBox1
+            // txtSoBB
             // 
-            this.textBox1.Location = new System.Drawing.Point(54, 45);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(209, 20);
-            this.textBox1.TabIndex = 5;
+            this.txtSoBB.Location = new System.Drawing.Point(54, 45);
+            this.txtSoBB.Name = "txtSoBB";
+            this.txtSoBB.Size = new System.Drawing.Size(209, 20);
+            this.txtSoBB.TabIndex = 5;
             // 
             // dateTimePicker1
             // 
@@ -118,6 +123,7 @@
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(209, 20);
             this.dateTimePicker2.TabIndex = 7;
+            this.dateTimePicker2.ValueChanged += new System.EventHandler(this.dateTimePicker2_ValueChanged);
             // 
             // panel1
             // 
@@ -125,7 +131,7 @@
             this.panel1.Controls.Add(this.cbLoaiBB);
             this.panel1.Controls.Add(this.dateTimePicker2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.txtSoBB);
             this.panel1.Controls.Add(this.dateTimePicker1);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
@@ -148,6 +154,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.EP_download);
+            this.splitContainer1.Panel1.Controls.Add(this.btnReport);
             this.splitContainer1.Panel1.Controls.Add(this.panel1);
             this.splitContainer1.Panel1.Controls.Add(this.btnBack);
             this.splitContainer1.Panel1.Controls.Add(this.btnSearch);
@@ -158,6 +166,26 @@
             this.splitContainer1.Size = new System.Drawing.Size(1035, 427);
             this.splitContainer1.SplitterDistance = 345;
             this.splitContainer1.TabIndex = 10;
+            // 
+            // EP_download
+            // 
+            this.EP_download.Location = new System.Drawing.Point(174, 304);
+            this.EP_download.Name = "EP_download";
+            this.EP_download.Size = new System.Drawing.Size(164, 23);
+            this.EP_download.TabIndex = 11;
+            this.EP_download.Text = "Download EP Approved";
+            this.EP_download.UseVisualStyleBackColor = true;
+            this.EP_download.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // btnReport
+            // 
+            this.btnReport.Location = new System.Drawing.Point(101, 250);
+            this.btnReport.Name = "btnReport";
+            this.btnReport.Size = new System.Drawing.Size(75, 23);
+            this.btnReport.TabIndex = 10;
+            this.btnReport.Text = "Report";
+            this.btnReport.UseVisualStyleBackColor = true;
+            this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
             // Search_BB
             // 
@@ -189,11 +217,14 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtSoBB;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ComboBox cbLoaiBB;
+        private System.Windows.Forms.Button EP_download;
+        private System.Windows.Forms.Button btnReport;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

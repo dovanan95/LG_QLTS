@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.IO;
+using Oracle.ManagedDataAccess.Client;
 
 
 namespace QLTS_LG
@@ -18,10 +19,10 @@ namespace QLTS_LG
     {
 
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlConnection con2 = new SqlConnection(connectionString);
-        SqlConnection con3 = new SqlConnection(connectionString);
-        SqlDataAdapter DataAdapter = new SqlDataAdapter();
+        OracleConnection con = new OracleConnection(connectionString);
+        OracleConnection con2 = new OracleConnection(connectionString);
+        OracleConnection con3 = new OracleConnection(connectionString);
+        OracleDataAdapter DataAdapter = new OracleDataAdapter();
         DataTable Table = new DataTable();
         DataTable dtLoaiTS1 = new DataTable();
         DataTable dtLoaiTS2 = new DataTable();
@@ -49,37 +50,37 @@ namespace QLTS_LG
 
         public void AddItem()
         {
-            //con.Open();
+            
             try
             {
                 con.Open();
-                string InsertCMD = "INSERT INTO Tai_san (Ma_TS, Ten_TS, Ma_Loai_TS_cap1, Ma_Loai_TS_cap2,[dbo].[Tai_san].[S/N], FA_Tag, IT_Tag, Model, Spec, Ma_tinh_trang, Unit)"
-                                  + "VALUES(@Ma_TS, @Ten_TS, @Ma_Loai_TS_cap1, @Ma_Loai_TS_cap2, @SN, @FA_Tag, @IT_Tag, @Model, @Spec, @Ma_tinh_trang, @Unit)";
-                using (SqlCommand command = new SqlCommand(InsertCMD, con))
+                string InsertCMD = "INSERT INTO Tai_san (Ma_TS, Ten_TS, Ma_Loai_TS_cap1, Ma_Loai_TS_cap2, SN, FA_Tag, IT_Tag, Model, Spec, Ma_tinh_trang, Unit)"
+                                  + "VALUES(:Ma_TS, :Ten_TS, :Ma_Loai_TS_cap1, :Ma_Loai_TS_cap2, :SN, :FA_Tag, :IT_Tag, :Model, :Spec, :Ma_tinh_trang, :Unit)";
+                using (OracleCommand command = new OracleCommand(InsertCMD, con))
                 {
                     // command.CommandType = Text;
-                    command.Parameters.AddWithValue("@Ma_TS", txtMaTS.Text.ToString());
-                    command.Parameters.AddWithValue("@Ten_TS", txtTenTS.Text.ToString());
-                    command.Parameters.AddWithValue("@Ma_Loai_TS_cap1", cbTypeLV1.SelectedValue.ToString());
-                    command.Parameters.AddWithValue("@Ma_Loai_TS_cap2", cbTypeLV2.SelectedValue.ToString());
-                    command.Parameters.AddWithValue("@SN", txtSN.Text.ToUpper());
-                    command.Parameters.AddWithValue("@FA_Tag", txtFATag.Text.ToUpper());
-                    command.Parameters.AddWithValue("@IT_Tag", txtITTag.Text.ToUpper());
+                    command.Parameters.Add(new OracleParameter("Ma_TS", txtMaTS.Text.ToString()));
+                    command.Parameters.Add(new OracleParameter("Ten_TS", txtTenTS.Text.ToString()));
+                    command.Parameters.Add(new OracleParameter("Ma_Loai_TS_cap1", cbTypeLV1.SelectedValue.ToString()));
+                    command.Parameters.Add(new OracleParameter("Ma_Loai_TS_cap2", cbTypeLV2.SelectedValue.ToString()));
+                    command.Parameters.Add(new OracleParameter("SN", txtSN.Text.ToUpper()));
+                    command.Parameters.Add(new OracleParameter("FA_Tag", txtFATag.Text.ToUpper()));
+                    command.Parameters.Add(new OracleParameter("IT_Tag", txtITTag.Text.ToUpper()));
                     if (cbModel.SelectedValue != null && cbModel.Text.ToString() != "")
                     {
-                        command.Parameters.AddWithValue("@Model", cbModel.SelectedValue.ToString());
+                        command.Parameters.Add(new OracleParameter("Model", cbModel.SelectedValue.ToString()));
                     }
                     else if (cbModel.SelectedValue == null)
                     {
-                        command.Parameters.AddWithValue("@Model", cbModel.Text.ToString());
+                        command.Parameters.Add(new OracleParameter("Model", cbModel.Text.ToString()));
                     }
                     else if (cbModel.SelectedValue != null && cbModel.Text.ToString() == "")
                     {
-                        command.Parameters.AddWithValue("@Model", cbModel.Text.ToString());
+                        command.Parameters.Add(new OracleParameter("Model", cbModel.Text.ToString()));
                     }
-                    command.Parameters.AddWithValue("@Spec", txtSpec.Text.ToString());
-                    command.Parameters.AddWithValue("@Ma_tinh_trang", cbStatus.SelectedValue.ToString());
-                    command.Parameters.AddWithValue("@Unit", cbUnit.SelectedValue.ToString());
+                    command.Parameters.Add(new OracleParameter("Spec", txtSpec.Text.ToString()));
+                    command.Parameters.Add(new OracleParameter("Ma_tinh_trang", cbStatus.SelectedValue.ToString()));
+                    command.Parameters.Add(new OracleParameter("Unit", cbUnit.SelectedValue.ToString()));
                     command.ExecuteNonQuery();
                     //txtSoBB.ResetText();
                     //ReloadData();
@@ -94,6 +95,7 @@ namespace QLTS_LG
             finally
             {
                 con.Close();
+                
             }
             //con.Close();
 
@@ -102,15 +104,15 @@ namespace QLTS_LG
             {
 
                 con.Open();
-                SqlCommand input = new SqlCommand();
+                OracleCommand input = new OracleCommand();
                 input.Connection = con;
                 input.CommandType = CommandType.Text;
                 input.CommandText = "INSERT INTO Nhap_Moi (So_BB, Ma_TS, Approved, IT_OP) " +
-                                    "VALUES(@So_BB, @Ma_TS, @App, @ITOP)";
-                input.Parameters.AddWithValue("@So_BB", txtSoBB.Text.ToString());
-                input.Parameters.AddWithValue("@Ma_TS", txtMaTS.Text.ToString());
-                input.Parameters.AddWithValue("@App", false);
-                input.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
+                                    "VALUES(:So_BB, :Ma_TS, :App, :ITOP)";
+                input.Parameters.Add(new OracleParameter("So_BB", txtSoBB.Text.ToString()));
+                input.Parameters.Add(new OracleParameter("Ma_TS", txtMaTS.Text.ToString()));
+                input.Parameters.Add(new OracleParameter("App", '0'));
+                input.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
                 input.ExecuteNonQuery();
                 con.Close();
             }
@@ -123,13 +125,13 @@ namespace QLTS_LG
                 con.Close();
             }
             /*con.Open();
-            SqlCommand Save = new SqlCommand();
+            OracleCommand Save = new OracleCommand();
             Save.Connection = con;
             Save.CommandType = CommandType.Text;
             Save.CommandText = "INSERT INTO Luu_kho (Ma_TS, Tinh_Trang, Ngay_update) VALUES (@Ma_TS, @Tinh_Trang, @Ngay_update)";
-            Save.Parameters.AddWithValue("@Ma_TS", txtMaTS.Text.ToString());
-            Save.Parameters.AddWithValue("@Tinh_Trang", "NE");
-            Save.Parameters.AddWithValue("@Ngay_update", DateTime.Now.ToString());
+            Save.Parameters.Add(new OracleParameter("@Ma_TS", txtMaTS.Text.ToString());
+            Save.Parameters.Add(new OracleParameter("@Tinh_Trang", "NE");
+            Save.Parameters.Add(new OracleParameter("@Ngay_update", DateTime.Now.ToString());
             Save.ExecuteNonQuery();
             con.Close();*/
 
@@ -145,15 +147,15 @@ namespace QLTS_LG
                 con.Open();
                 DataTable data = new DataTable();
                 data.Clear();
-                SqlDataAdapter adapterdgv = new SqlDataAdapter(
-                    "SELECT a.Ma_TS, a.Ten_TS, b.Ten_loai, c.Ten_loai, a.[S/N], a.FA_Tag, a.IT_Tag, a.Model, a.Spec, e.unit_name  " +
-                    "FROM Tai_san AS a  " +
-                    "INNER JOIN Loai_TS_cap1 AS b ON a.Ma_Loai_TS_cap1 = b.Ma_loai " +
-                    "INNER JOIN Loai_TS_cap2 AS c ON a.Ma_Loai_TS_cap2 = c.Ma_loai " +
-                    "inner join Unit as e on e.unit_id = a.Unit " +
-                    "INNER JOIN Nhap_Moi AS d ON d.Ma_TS = a.Ma_TS  AND d.So_BB= '" + txtSoBB.Text.ToString() + "'", con);
+                OracleDataAdapter adapterdgv = new OracleDataAdapter(
+                    "SELECT a.Ma_TS, a.Ten_TS, b.Ten_loai, c.Ten_loai, a.SN, a.FA_Tag, a.IT_Tag, a.Model, a.Spec, e.unit_name  " +
+                    "FROM Tai_san a  " +
+                    "INNER JOIN Loai_TS_cap1 b ON a.Ma_Loai_TS_cap1 = b.Ma_loai " +
+                    "INNER JOIN Loai_TS_cap2 c ON a.Ma_Loai_TS_cap2 = c.Ma_loai " +
+                    "inner join Unit e on e.unit_id = a.Unit " +
+                    "INNER JOIN Nhap_Moi d ON d.Ma_TS = a.Ma_TS  AND d.So_BB= '" + txtSoBB.Text.ToString() + "'", con);
                 //adapterdgv.GetFillParameters
-                //SqlDataAdapter loaddata = new SqlDataAdapter("SELECT * FROM Nhap_Moi");
+                //OracleDataAdapter loaddata = new OracleDataAdapter("SELECT * FROM Nhap_Moi");
                 adapterdgv.Fill(data);
                 //DataRow row = data.NewRow();
                 //row["Mã Tài Sản"] = txtMaTS.Text.ToString();
@@ -193,8 +195,8 @@ namespace QLTS_LG
         {
             con.Open();
             string cmdLoaiTS1 = "SELECT * FROM Loai_TS_cap1";
-            SqlCommand cmd = new SqlCommand(cmdLoaiTS1, con);
-            SqlDataAdapter daLoaiTS1 = new SqlDataAdapter(cmd);
+            OracleCommand cmd = new OracleCommand(cmdLoaiTS1, con);
+            OracleDataAdapter daLoaiTS1 = new OracleDataAdapter(cmd);
             daLoaiTS1.Fill(dtLoaiTS1);
             cbTypeLV1.DataSource = dtLoaiTS1;
             cbTypeLV1.DisplayMember = "Ten_loai";
@@ -209,8 +211,8 @@ namespace QLTS_LG
         {
             con.Open();
             string cmdLoaiTS2 = "SELECT * FROM Loai_TS_cap2";
-            SqlCommand cmd = new SqlCommand(cmdLoaiTS2, con);
-            SqlDataAdapter daLoaiTS2 = new SqlDataAdapter(cmd);
+            OracleCommand cmd = new OracleCommand(cmdLoaiTS2, con);
+            OracleDataAdapter daLoaiTS2 = new OracleDataAdapter(cmd);
             daLoaiTS2.Fill(dtLoaiTS2);
             cbTypeLV2.DataSource = dtLoaiTS2;
             cbTypeLV2.DisplayMember = "Ten_loai";
@@ -223,8 +225,8 @@ namespace QLTS_LG
         {
             con.Open();
             string cmdStatus = "SELECT * FROM Status";
-            SqlCommand cmd = new SqlCommand(cmdStatus, con);
-            SqlDataAdapter daStatus = new SqlDataAdapter(cmd);
+            OracleCommand cmd = new OracleCommand(cmdStatus, con);
+            OracleDataAdapter daStatus = new OracleDataAdapter(cmd);
             daStatus.Fill(dtStatus);
             cbStatus.DataSource = dtStatus;
             cbStatus.ValueMember = "Ma_tinh_trang";
@@ -248,7 +250,7 @@ namespace QLTS_LG
             LoadData();
             AutoComplete auto = new AutoComplete();
 
-            //tring strAuto = "SELECT [S/N] FROM Tai_san";
+            //tring strAuto = "SELECT SN FROM Tai_san";
             //txtSN.AutoCompleteCustomSource = auto.AutoCompleteData1(strAuto);
             //AutoComplete1();
 
@@ -259,19 +261,19 @@ namespace QLTS_LG
 
         public void AutoComplete1()
         {
-            string strAuto = "SELECT [S/N] FROM Tai_san";
-            SqlCommand cmdAuto = new SqlCommand();
+            string strAuto = "SELECT SN FROM Tai_san";
+            OracleCommand cmdAuto = new OracleCommand();
             cmdAuto.CommandType = CommandType.Text;
             cmdAuto.CommandText = strAuto;
             cmdAuto.Connection = con;
             DataTable dtCollection = new DataTable();
-            SqlDataAdapter daCollection = new SqlDataAdapter(cmdAuto);
+            OracleDataAdapter daCollection = new OracleDataAdapter(cmdAuto);
             daCollection.Fill(dtCollection);
             if (dtCollection.Rows.Count > 0)
             {
                 for (int i = 0; i < dtCollection.Rows.Count; i++)
                 {
-                    AutoCompleteString.Add(dtCollection.Rows[i]["S/N"].ToString());
+                    AutoCompleteString.Add(dtCollection.Rows[i]["SN"].ToString());
                 }
             }
             else
@@ -295,7 +297,7 @@ namespace QLTS_LG
 
         private void AddNewItem_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'qLTSDataSet.Loai_TS_cap1' table. You can move, or remove it, as needed.
+            // TODO: This line of code loads data into the 'qLTSDataSet.Loai_TS_cap1' table. You can move, or remove it, needed.
             //this.loai_TS_cap1TableAdapter.Fill(this.qLTSDataSet.Loai_TS_cap1);
 
             //this.reportViewer1.RefreshReport();
@@ -332,16 +334,22 @@ namespace QLTS_LG
 
                 //Nhap gia tri vao table Bien_Ban
                 //con.Open();
-                SqlCommand command2 = new SqlCommand();
+                OracleCommand command2 = new OracleCommand();
                 command2.Connection = con;
                 command2.CommandType = CommandType.Text;
-                command2.CommandText = "INSERT INTO Bien_Ban (So_Bien_Ban, Ma_loai_BB, DATE, IT_OP) VALUES (@So_Bien_Ban, @Ma_loai_BB, @DATE, @ITOP)";
-                command2.Parameters.AddWithValue("@So_Bien_Ban", txtSoBB.Text.ToString());
-                command2.Parameters.AddWithValue("@Ma_loai_BB", "NE");
-                command2.Parameters.AddWithValue("@DATE", DateTime.Now.ToString());
-                command2.Parameters.AddWithValue("@ITOP", IT_OP.Get_IT_User());
+                command2.CommandText = "INSERT INTO Bien_Ban (So_Bien_Ban, Ma_loai_BB, CL_DATE, FILE_ATTACH, REASON, USER_ID, IT_OP) VALUES (:So_Bien_Ban, :Ma_loai_BB, CURRENT_DATE, :att_file, :reason, :userid, :ITOP)";
+                command2.Parameters.Add(new OracleParameter ("So_Bien_Ban", txtSoBB.Text.ToString()));
+                command2.Parameters.Add(new OracleParameter("Ma_loai_BB", "NE"));
+                //command2.Parameters.Add(new OracleParameter("clDATE", DateTime.Now.ToString()));
+                command2.Parameters.Add(new OracleParameter("att_file", ""));
+                command2.Parameters.Add(new OracleParameter("reason", ""));
+                command2.Parameters.Add(new OracleParameter("userid", "VH000005"));
+                command2.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
+                
+                
+                
 
-                SqlDataAdapter SoBB = new SqlDataAdapter("SELECT So_Bien_ban FROM Bien_Ban", con);
+                OracleDataAdapter SoBB = new OracleDataAdapter("SELECT So_Bien_ban FROM Bien_Ban", con);
                 DataTable dtBB = new DataTable();
                 SoBB.Fill(dtBB);
                 int dtBBLastItemIndex = dtBB.Rows.Count - 1;
@@ -376,13 +384,13 @@ namespace QLTS_LG
                 if (cbTypeLV1.SelectedValue.ToString().Trim() == "DE")
                 {
 
-                    string strCheck = "SELECT [S/N], FA_Tag, IT_Tag FROM Tai_san WHERE Ma_Loai_TS_cap1 = 'DE'";
-                    SqlDataAdapter daCheck = new SqlDataAdapter(strCheck, con);
+                    string strCheck = "SELECT SN, FA_Tag, IT_Tag FROM Tai_san WHERE Ma_Loai_TS_cap1 = 'DE'";
+                    OracleDataAdapter daCheck = new OracleDataAdapter(strCheck, con);
                     DataTable dtCheck = new DataTable();
                     daCheck.Fill(dtCheck);
 
-                    SqlCommand cmdCheck = new SqlCommand(strCheck, con);
-                    SqlDataReader rdrCheck = null;
+                    OracleCommand cmdCheck = new OracleCommand(strCheck, con);
+                    OracleDataReader rdrCheck = null;
 
                     con.Open();
                     rdrCheck = cmdCheck.ExecuteReader();
@@ -399,7 +407,7 @@ namespace QLTS_LG
                             flag_2 = true;
                             break;
                         }
-                        if (txtSN.Text.ToUpper() == rdrCheck["S/N"].ToString() && rdrCheck["S/N"].ToString() != "")
+                        if (txtSN.Text.ToUpper() == rdrCheck["SN"].ToString() && rdrCheck["SN"].ToString() != "")
                         {
                             flag_3 = true;
                             break;
@@ -508,7 +516,7 @@ namespace QLTS_LG
             cbTypeLV2.Text = dataGridView1.Rows[index].Cells[3].Value.ToString();
             txtITTag.Text = dataGridView1.Rows[index].Cells["IT_Tag"].Value.ToString();
             txtFATag.Text = dataGridView1.Rows[index].Cells["FA_Tag"].Value.ToString();
-            txtSN.Text = dataGridView1.Rows[index].Cells["S/N"].Value.ToString();
+            txtSN.Text = dataGridView1.Rows[index].Cells["SN"].Value.ToString();
             txtSpec.Text = dataGridView1.Rows[index].Cells["Spec"].Value.ToString();
             cbModel.Text = dataGridView1.Rows[index].Cells["Model"].Value.ToString();
         }
@@ -520,21 +528,21 @@ namespace QLTS_LG
                 //txtMaTS.Enabled = false;
                 int AsCodeIndex = dataGridView1.CurrentCell.RowIndex;
                 string strAssetCode = dataGridView1.Rows[AsCodeIndex].Cells["Ma_TS"].Value.ToString();
-                string strUpdate = "UPDATE Tai_san SET Ten_TS = @Ten_TS, Ma_Loai_TS_cap1 = @Ma_Loai_TS_cap1, " +
-                    "Ma_Loai_TS_cap2 = @Ma_Loai_TS_cap2, [S/N] = @SN, FA_Tag = @FA_Tag, IT_Tag = @IT_Tag, Model = @Model, Spec = @Spec " +
+                string strUpdate = "UPDATE Tai_san SET Ten_TS = :Ten_TS, Ma_Loai_TS_cap1 = :Ma_Loai_TS_cap1, " +
+                    "Ma_Loai_TS_cap2 = :Ma_Loai_TS_cap2, SN = :SN, FA_Tag = :FA_Tag, IT_Tag = :IT_Tag, Model = :Model, Spec = :Spec " +
                     "WHERE Ma_TS = '" + strAssetCode + "'";
-                SqlCommand cmdUpdate = new SqlCommand();
+                OracleCommand cmdUpdate = new OracleCommand();
                 cmdUpdate.Connection = con;
                 cmdUpdate.CommandType = CommandType.Text;
                 cmdUpdate.CommandText = strUpdate;
-                cmdUpdate.Parameters.AddWithValue("@Ten_TS", txtTenTS.Text.ToString());
-                cmdUpdate.Parameters.AddWithValue("@Ma_Loai_TS_cap1", cbTypeLV1.SelectedValue);
-                cmdUpdate.Parameters.AddWithValue("@Ma_Loai_TS_cap2", cbTypeLV2.SelectedValue);
-                cmdUpdate.Parameters.AddWithValue("@SN", txtSN.Text.ToString());
-                cmdUpdate.Parameters.AddWithValue("@FA_Tag", txtFATag.Text.ToString());
-                cmdUpdate.Parameters.AddWithValue("@IT_Tag", txtITTag.Text.ToString());
-                cmdUpdate.Parameters.AddWithValue("@Model", cbModel.SelectedValue.ToString());
-                cmdUpdate.Parameters.AddWithValue("@Spec", txtSpec.Text.ToString());
+                cmdUpdate.Parameters.Add(new OracleParameter("Ten_TS", txtTenTS.Text.ToString()));
+                cmdUpdate.Parameters.Add(new OracleParameter("Ma_Loai_TS_cap1", cbTypeLV1.SelectedValue));
+                cmdUpdate.Parameters.Add(new OracleParameter("Ma_Loai_TS_cap2", cbTypeLV2.SelectedValue)); //vcl
+                cmdUpdate.Parameters.Add(new OracleParameter("SN", txtSN.Text.ToString()));
+                cmdUpdate.Parameters.Add(new OracleParameter("FA_Tag", txtFATag.Text.ToString()));
+                cmdUpdate.Parameters.Add(new OracleParameter("IT_Tag", txtITTag.Text.ToString()));
+                cmdUpdate.Parameters.Add(new OracleParameter("Model", cbModel.SelectedValue.ToString()));
+                cmdUpdate.Parameters.Add(new OracleParameter("Spec", txtSpec.Text.ToString()));
                 con.Open();
                 cmdUpdate.ExecuteNonQuery();
                 con.Close();
@@ -558,12 +566,12 @@ namespace QLTS_LG
             string strDelete = "DELETE FROM Nhap_Moi WHERE Ma_TS = '" + strAssCode + "'";
             string strDelete1 = "DELETE FROM Luu_kho WHERE Ma_TS = '" + strAssCode + "'";
 
-            SqlCommand del1 = new SqlCommand();
+            OracleCommand del1 = new OracleCommand();
             del1.Connection = con;
             del1.CommandType = CommandType.Text;
             del1.CommandText = strDelete;
 
-            SqlCommand del2 = new SqlCommand();
+            OracleCommand del2 = new OracleCommand();
             del2.Connection = con;
             del2.CommandType = CommandType.Text;
             del2.CommandText = strDelete1;
@@ -595,11 +603,11 @@ namespace QLTS_LG
 
                 con.Open();
                 string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "'";
-                SqlCommand cmdLoad = new SqlCommand();
+                OracleCommand cmdLoad = new OracleCommand();
                 cmdLoad.Connection = con;
                 cmdLoad.CommandType = CommandType.Text;
                 cmdLoad.CommandText = SelectTO;
-                SqlDataAdapter adapter = new SqlDataAdapter(cmdLoad);
+                OracleDataAdapter adapter = new OracleDataAdapter(cmdLoad);
                 DataTable dtTS = new DataTable();
                 adapter.Fill(dtTS);
                 cbTypeLV2.DataSource = dtTS;
@@ -623,11 +631,11 @@ namespace QLTS_LG
 
                 con.Open();
                 string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "'";
-                SqlCommand cmdLoad = new SqlCommand();
+                OracleCommand cmdLoad = new OracleCommand();
                 cmdLoad.Connection = con;
                 cmdLoad.CommandType = CommandType.Text;
                 cmdLoad.CommandText = SelectTO;
-                SqlDataAdapter adapter = new SqlDataAdapter(cmdLoad);
+                OracleDataAdapter adapter = new OracleDataAdapter(cmdLoad);
                 DataTable dtTS = new DataTable();
                 adapter.Fill(dtTS);
                 cbTypeLV2.DataSource = dtTS;
@@ -647,11 +655,11 @@ namespace QLTS_LG
 
                 con.Open();
                 string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "'";
-                SqlCommand cmdLoad = new SqlCommand();
+                OracleCommand cmdLoad = new OracleCommand();
                 cmdLoad.Connection = con;
                 cmdLoad.CommandType = CommandType.Text;
                 cmdLoad.CommandText = SelectTO;
-                SqlDataAdapter adapter = new SqlDataAdapter(cmdLoad);
+                OracleDataAdapter adapter = new OracleDataAdapter(cmdLoad);
                 DataTable dtTS = new DataTable();
                 adapter.Fill(dtTS);
                 cbTypeLV2.DataSource = dtTS;
@@ -686,10 +694,10 @@ namespace QLTS_LG
             file = reader.ReadBytes((int)Stream.Length);
 
 
-            SqlConnection con2 = new SqlConnection(connectionString);
-            SqlCommand Sqlwrite = new SqlCommand("UPDATE Bien_Ban SET File_attach = @File WHERE So_Bien_ban = @SoBB", con2);
-            Sqlwrite.Parameters.Add("@File", SqlDbType.VarBinary, file.Length).Value = file;
-            Sqlwrite.Parameters.AddWithValue("@SoBB", txtSoBB.Text.ToString());
+            OracleConnection con2 = new OracleConnection(connectionString);
+            OracleCommand Sqlwrite = new OracleCommand("UPDATE Bien_Ban SET File_attach = :File WHERE So_Bien_ban = :SoBB", con2);
+            Sqlwrite.Parameters.Add(new OracleParameter("File", OracleDbType.Raw, file.Length).Value = file);
+            Sqlwrite.Parameters.Add(new OracleParameter("SoBB", txtSoBB.Text.ToString()));
             con2.Open();
             Sqlwrite.ExecuteNonQuery();
             con2.Close();
@@ -698,11 +706,11 @@ namespace QLTS_LG
 
         private void cbTypeLV2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 string TypeLV2 = "";
-                string strTypeLV2 = "select Ma_loai from Loai_TS_cap2 where Ma_loai = '" + cbTypeLV2.SelectedValue.GetHashCode() + "'";
-                SqlDataAdapter daLoadTypeLV2 = new SqlDataAdapter(strTypeLV2, con);
+                string strTypeLV2 = "select Ma_loai from Loai_TS_cap2 where Ma_loai = '" + cbTypeLV2.SelectedValue.ToString() + "'";
+                OracleDataAdapter daLoadTypeLV2 = new OracleDataAdapter(strTypeLV2, con);
                 DataTable dtTypeLV2 = new DataTable();
                 daLoadTypeLV2.Fill(dtTypeLV2);
                 if (dtTypeLV2.Rows.Count == 0)
@@ -714,20 +722,20 @@ namespace QLTS_LG
                     TypeLV2 = dtTypeLV2.Rows[0][0].ToString();
                 }
 
-                string strModel = "select * from Model where type_code = '" + TypeLV2 + "'";
+                string strModel = "select * from Model where type_code = '" + TypeLV2 +"'";
 
-                SqlDataAdapter daModel = new SqlDataAdapter(strModel, con);
+                OracleDataAdapter daModel = new OracleDataAdapter(strModel, con);
                 DataTable dtModel = new DataTable();
                 daModel.Fill(dtModel);
                 cbModel.DataSource = dtModel;
                 cbModel.DisplayMember = "model";
                 cbModel.ValueMember = "model";
                 cbModel.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+                //MessageBox.Show(ex.Message);
+            //}
 
         }
 
@@ -745,9 +753,9 @@ namespace QLTS_LG
                 /*
                 //con2.Open();
                 string strType2 = "select * from Loai_TS_cap2 where Ma_loai = '" + type_code + "'";
-                //SqlCommand cmdType2 = new SqlCommand(strType2, con2);
-                //SqlDataAdapter daType2 = new SqlDataAdapter(cmdType2);
-                SqlDataAdapter daType2 = new SqlDataAdapter(strType2, con);
+                //OracleCommand cmdType2 = new OracleCommand(strType2, con2);
+                //OracleDataAdapter daType2 = new OracleDataAdapter(cmdType2);
+                OracleDataAdapter daType2 = new OracleDataAdapter(strType2, con);
                 DataTable dtType2 = new DataTable();
                 daType2.Fill(dtType2);
                 cbTypeLV2.DataSource = dtType2;
@@ -785,7 +793,7 @@ namespace QLTS_LG
             string strLoadModel = "";
             bool flagModel = false;
             string type_code = "";
-            SqlDataAdapter daModelChk = new SqlDataAdapter();
+            OracleDataAdapter daModelChk = new OracleDataAdapter();
             DataTable dtModelChk = new DataTable();
 
             if (cbModel.SelectedValue == null)
@@ -796,7 +804,7 @@ namespace QLTS_LG
             else if(cbModel.SelectedValue != null)
             {
                 strLoadModel = "select type_code from Model where model = '" + cbModel.SelectedValue.ToString().Trim() + "'";
-                daModelChk = new SqlDataAdapter(strLoadModel, con);
+                daModelChk = new OracleDataAdapter(strLoadModel, con);
                 daModelChk.Fill(dtModelChk);
                 type_code = dtModelChk.Rows[0][0].ToString();
                 if(cbTypeLV2.SelectedValue.ToString().Trim() == type_code)

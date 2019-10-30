@@ -7,15 +7,16 @@ using System.Windows.Forms;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
+using Oracle.ManagedDataAccess.Client;
 
 namespace QLTS_LG
 {
     class AntiDuplicated
     {
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
-        SqlConnection con = new SqlConnection(connectionString);
-        SqlConnection con2 = new SqlConnection(connectionString);
-        SqlDataAdapter DataAdapter = new SqlDataAdapter();
+        OracleConnection con = new OracleConnection(connectionString);
+        OracleConnection con2 = new OracleConnection(connectionString);
+        OracleDataAdapter DataAdapter = new OracleDataAdapter();
         DataTable Table = new DataTable();
 
         public DataGridView AntiColumnDuplicate(DataGridView dataGridView)
@@ -37,18 +38,20 @@ namespace QLTS_LG
         {
             //string strClearDup = "DELETE FROM " + tableName + " WHERE " + fieldName
             //+ " IN (SELECT " + fieldName + " FROM " + tableName + " GROUP BY " + fieldName + " HAVING COUNT (*) > 1)";
-            string strClearDup = "WITH ClearDup AS" +
+            /*string strClearDup = "WITH ClearDup AS" +
                 "( " +
                 "SELECT *, ROW_NUMBER() OVER(PARTITION BY " + fieldName + " ORDER BY " + fieldName + ") AS RowNumber " +
                 "FROM " + tableName +
                 ") " +
-                "DELETE FROM ClearDup WHERE RowNumber > 1 ";
-            SqlCommand cmdClear = new SqlCommand();
+                "DELETE FROM ClearDup WHERE RowNumber > 1 ";*/
+            string strClearDup = "delete from " + tableName + " a where ROWID > (select min(ROWID) from "+ tableName+" b where b."+ fieldName +" = a." + fieldName + ")";
+            OracleCommand cmdClear = new OracleCommand();
             cmdClear.Connection = con;
             cmdClear.CommandType = CommandType.Text;
             cmdClear.CommandText = strClearDup;
-            //cmdClear.Parameters.AddWithValue("@fieldName", fieldName);
-            // cmdClear.Parameters.AddWithValue("@tableName", tableName);
+            //cmdClear.Parameters.Add(new OracleParameter("tableName", tableName));
+            //cmdClear.Parameters.Add(new OracleParameter("fieldName", fieldName));
+            
             con.Open();
             cmdClear.ExecuteNonQuery();
             con.Close();
@@ -59,16 +62,16 @@ namespace QLTS_LG
             {
                 bool flag = true;
 
-                string strInputToModel = "insert into Model(model, type_code) values (@model, @type)";
-                SqlCommand cmdInput = new SqlCommand();
+                string strInputToModel = "insert into Model(model, type_code) values (:model, :type)";
+                OracleCommand cmdInput = new OracleCommand();
                 cmdInput.Connection = con2;
                 cmdInput.CommandType = CommandType.Text;
                 cmdInput.CommandText = strInputToModel;
-                cmdInput.Parameters.AddWithValue("@model", cbModel.Text.ToString().Trim());
-                cmdInput.Parameters.AddWithValue("@type", Convert.ToInt32(cbType2.SelectedValue));
+                cmdInput.Parameters.Add(new OracleParameter("model", cbModel.Text.ToString().Trim()));
+                cmdInput.Parameters.Add(new OracleParameter("type", Convert.ToInt32(cbType2.SelectedValue)));
                 string strRead = "select * from Model";
-                SqlCommand cmdRead = new SqlCommand(strRead, con);
-                SqlDataReader rdrRead = null;
+                OracleCommand cmdRead = new OracleCommand(strRead, con);
+                OracleDataReader rdrRead = null;
 
                 con.Open();
                 rdrRead = cmdRead.ExecuteReader();
