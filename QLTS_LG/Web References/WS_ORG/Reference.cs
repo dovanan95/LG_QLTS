@@ -34,11 +34,13 @@ namespace QLTS_LG.WS_ORG {
         
         private System.Threading.SendOrPostCallback HR_ORGOperationCompleted;
         
+        private System.Threading.SendOrPostCallback HR_INFOROperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
         public QLTS_ORG() {
-            this.Url = global::QLTS_LG.Properties.Settings.Default.QLTS_LG_WS_ORG_QLTS_ORG;    
+            this.Url = global::QLTS_LG.Properties.Settings.Default.QLTS_LG_WS_ORG_QLTS_ORG;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -77,6 +79,9 @@ namespace QLTS_LG.WS_ORG {
         
         /// <remarks/>
         public event HR_ORGCompletedEventHandler HR_ORGCompleted;
+        
+        /// <remarks/>
+        public event HR_INFORCompletedEventHandler HR_INFORCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/HelloWorld", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -129,6 +134,35 @@ namespace QLTS_LG.WS_ORG {
             if ((this.HR_ORGCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.HR_ORGCompleted(this, new HR_ORGCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/HR_INFOR", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataTable HR_INFOR(string MaNV) {
+            object[] results = this.Invoke("HR_INFOR", new object[] {
+                        MaNV});
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void HR_INFORAsync(string MaNV) {
+            this.HR_INFORAsync(MaNV, null);
+        }
+        
+        /// <remarks/>
+        public void HR_INFORAsync(string MaNV, object userState) {
+            if ((this.HR_INFOROperationCompleted == null)) {
+                this.HR_INFOROperationCompleted = new System.Threading.SendOrPostCallback(this.OnHR_INFOROperationCompleted);
+            }
+            this.InvokeAsync("HR_INFOR", new object[] {
+                        MaNV}, this.HR_INFOROperationCompleted, userState);
+        }
+        
+        private void OnHR_INFOROperationCompleted(object arg) {
+            if ((this.HR_INFORCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.HR_INFORCompleted(this, new HR_INFORCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -190,6 +224,32 @@ namespace QLTS_LG.WS_ORG {
         private object[] results;
         
         internal HR_ORGCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataTable Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataTable)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    public delegate void HR_INFORCompletedEventHandler(object sender, HR_INFORCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class HR_INFORCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal HR_INFORCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

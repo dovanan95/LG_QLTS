@@ -32,6 +32,7 @@
             this.btnBack = new System.Windows.Forms.Button();
             this.dgvHRM = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnLoad = new System.Windows.Forms.Button();
             this.chkOSP = new System.Windows.Forms.CheckBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
@@ -85,6 +86,7 @@
             this.panel1.BackgroundImage = global::QLTS_LG.Properties.Resources.map_of_the_world_1005413_960_720;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.btnLoad);
             this.panel1.Controls.Add(this.chkOSP);
             this.panel1.Controls.Add(this.btnDelete);
             this.panel1.Controls.Add(this.btnInsert);
@@ -111,6 +113,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(489, 627);
             this.panel1.TabIndex = 2;
+            // 
+            // btnLoad
+            // 
+            this.btnLoad.Location = new System.Drawing.Point(396, 103);
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(48, 23);
+            this.btnLoad.TabIndex = 22;
+            this.btnLoad.Text = "Load";
+            this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
             // chkOSP
             // 
@@ -302,8 +314,9 @@
             this.txtID.BackColor = System.Drawing.Color.Snow;
             this.txtID.Location = new System.Drawing.Point(135, 105);
             this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(310, 20);
+            this.txtID.Size = new System.Drawing.Size(255, 20);
             this.txtID.TabIndex = 3;
+            this.txtID.TextChanged += new System.EventHandler(this.txtID_TextChanged);
             this.txtID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtID_KeyDown);
             // 
             // btnSearch
@@ -371,5 +384,6 @@
         private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.CheckBox chkOSP;
+        private System.Windows.Forms.Button btnLoad;
     }
 }

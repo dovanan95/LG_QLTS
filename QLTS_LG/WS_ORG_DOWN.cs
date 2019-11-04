@@ -31,7 +31,7 @@ namespace QLTS_LG
             try
             {
 
-                WS_ORG.QLTS_ORG ORG_HR = new WS_ORG.QLTS_ORG();
+                WS_ORG.QLTS_ORG ORG_HR = new WS_ORG.QLTS_ORG(); //webservice help connect to HR database
                 DataSet dsORG = new DataSet();
                 DataTable dtORG = new DataTable();
                 //dsORG.ReadXml(ORG_HR.HR_ORG());
@@ -92,6 +92,10 @@ namespace QLTS_LG
             }
             
         }
+        /*/
+         * Check if new organization input from HR database is available in QLTS or not.
+         * If it's available in QLTS, this function will reject that organization automatically.
+        /*/ 
         public void CheckOrgID()
         {
             try

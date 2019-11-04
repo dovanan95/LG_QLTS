@@ -12,7 +12,7 @@ namespace QLTS_LG
 {
     class CopyGridView
     {
-        
+        //This function help copy datagridview row which selected checkbox to another
         public DataGridView CopyDataGridView(DataGridView dgv_org, DataGridView dgv_copy)
         {
             //DataGridView dgv_copy = new DataGridView();
@@ -121,6 +121,10 @@ namespace QLTS_LG
             }
             return dgv_copy;
         }
+        /*/
+         * This function help copy datagridview row which selected checkbox to another
+         *  but this function require to input more paremeter line checkbox column name, key column name.
+        /*/
         public DataGridView CopyDataGridViewComplexible(DataGridView dgv_org, DataGridView dgv_copy, string CheckBoxString, string KeyString)
         {
             //DataGridView dgv_copy = new DataGridView();
