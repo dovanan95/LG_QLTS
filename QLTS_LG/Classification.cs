@@ -117,12 +117,12 @@ namespace QLTS_LG
             dgvUnit.Columns[0].HeaderText = "Mã đơn vị";
             dgvUnit.Columns[1].HeaderText = "Đơn vị tính";
 
-            string QuerryModel = "select a.model_code, a.model, b.ten_loai from model a inner join loai_ts_cap2 b on a.type_code = b.ma_loai order by to_number(a.model_code)";
+            string QuerryModel = "select a.model_code, a.model, b.ten_loai, b.ma_loai from model a inner join loai_ts_cap2 b on a.type_code = b.ma_loai order by to_number(a.model_code)";
             OracleDataAdapter daModel = new OracleDataAdapter(QuerryModel, con);
             DataTable dtModel = new DataTable();
             daModel.Fill(dtModel);
             dgvModel.DataSource = dtModel;
-            dgvModel.Columns[1].HeaderText = "Loại Tài Sản";
+            dgvModel.Columns[1].HeaderText = "Model";
 
             cbTypeLV2.Enabled = false;
             txtModelName.Enabled = false;
@@ -156,9 +156,16 @@ namespace QLTS_LG
             cmdUpdate.Connection = con;
             cmdUpdate.CommandType = CommandType.Text;
             cmdUpdate.CommandText = strUpdate;
-            con.Open();
-            cmdUpdate.ExecuteNonQuery();
-            con.Close();
+            if (AntiDuplicated.TypeModify(TypeCode) == true)
+            {
+                con.Open();
+                cmdUpdate.ExecuteNonQuery();
+                con.Close();
+            }
+            else if (AntiDuplicated.TypeModify(TypeCode) == false)
+            {
+                MessageBox.Show("Dữ liệu tài sản đã tồn tại. Anh chị không được phép sửa đổi.");
+            }
 
             LoadTypeDevice();
         }
@@ -274,7 +281,7 @@ namespace QLTS_LG
             cbTypeLevel1.Enabled = false;
             cbTypeLV2.Enabled = false;
             txtModelName.Enabled = true;
-            
+
 
         }
 
@@ -282,20 +289,31 @@ namespace QLTS_LG
         {
             int index = dgvModel.CurrentCell.RowIndex;
             string model_code = dgvModel.Rows[index].Cells["MODEL_CODE"].Value.ToString();
-            string updateModel = "update Model set model = '" + txtModelName.Text.ToString() + "' where model_code = '" + model_code +"'";
+            string model_name = dgvModel.Rows[index].Cells["MODEL"].Value.ToString();
+            int model_type_code = Convert.ToInt32(dgvModel.Rows[index].Cells["ma_loai"].Value);
+
+            string typeLevel2 = dgvModel.Rows[index].Cells["TEN_LOAI"].Value.ToString();
+            string updateModel = "update Model set model = '" + txtModelName.Text.ToString() + "' where model_code = '" + model_code + "'";
             OracleCommand cmdupdatemodel = new OracleCommand(updateModel, con);
-            string duplicatedmodelname = "select * from model where model = '" + txtModelName.Text.ToString().Trim() + "'";
+            string duplicatedmodelname = "select * from model where model = '" + txtModelName.Text.ToString().Trim() + "' and type_code = " + model_type_code;
             OracleDataAdapter dacheckduplicate = new OracleDataAdapter(duplicatedmodelname, con2);
             DataTable dtcheck = new DataTable();
             dacheckduplicate.Fill(dtcheck);
 
-            if(dtcheck.Rows.Count == 0)
+            if (dtcheck.Rows.Count == 0)
             {
-                con.Open();
-                cmdupdatemodel.ExecuteNonQuery();
-                con.Close();
+                if (AntiDuplicated.ModelModify(model_name, model_type_code) == true)
+                {
+                    con.Open();
+                    cmdupdatemodel.ExecuteNonQuery();
+                    con.Close();
+                }
+                else if (AntiDuplicated.ModelModify(model_name, model_type_code) == false)
+                {
+                    MessageBox.Show("Model đã được sử dụng. Anh chị không được phép thay đổi thông tin.");
+                }
             }
-            else if(dtcheck.Rows.Count >0)
+            else if (dtcheck.Rows.Count > 0)
             {
                 MessageBox.Show("Trùng!!!");
             }

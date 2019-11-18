@@ -45,14 +45,14 @@ namespace QLTS_LG
                 "FROM " + tableName +
                 ") " +
                 "DELETE FROM ClearDup WHERE RowNumber > 1 ";*/
-            string strClearDup = "delete from " + tableName + " a where ROWID > (select min(ROWID) from "+ tableName+" b where b."+ fieldName +" = a." + fieldName + ")";
+            string strClearDup = "delete from " + tableName + " a where ROWID > (select min(ROWID) from " + tableName + " b where b." + fieldName + " = a." + fieldName + ")";
             OracleCommand cmdClear = new OracleCommand();
             cmdClear.Connection = con;
             cmdClear.CommandType = CommandType.Text;
             cmdClear.CommandText = strClearDup;
             //cmdClear.Parameters.Add(new OracleParameter("tableName", tableName));
             //cmdClear.Parameters.Add(new OracleParameter("fieldName", fieldName));
-            
+
             con.Open();
             cmdClear.ExecuteNonQuery();
             con.Close();
@@ -118,7 +118,7 @@ namespace QLTS_LG
                 cmdInput.CommandType = CommandType.Text;
                 cmdInput.CommandText = strInputToModel;
                 cmdInput.Parameters.Add(new OracleParameter("model_code", model_code));
-                cmdInput.Parameters.Add(new OracleParameter("model",model));
+                cmdInput.Parameters.Add(new OracleParameter("model", model));
                 cmdInput.Parameters.Add(new OracleParameter("type", Type));
                 string strRead = "select * from Model";
                 OracleCommand cmdRead = new OracleCommand(strRead, con);
@@ -159,11 +159,47 @@ namespace QLTS_LG
             OracleDataAdapter datype2 = new OracleDataAdapter(SelectType2, con);
             DataTable dttype2 = new DataTable();
             datype2.Fill(dttype2);
-            if(dttype2.Rows.Count > 0)
+            if (dttype2.Rows.Count > 0)
             {
                 flag = false;
             }
-            else if(dttype2.Rows.Count == 0)
+            else if (dttype2.Rows.Count == 0)
+            {
+                flag = true;
+            }
+            return flag;
+        }
+        public bool TypeModify(string Ma_loai)
+        {
+            bool flag = true;
+            string Querry = "select * from tai_san where ma_loai_ts_cap2 = '" + Ma_loai + "'";
+            OracleDataAdapter daCount = new OracleDataAdapter(Querry, con);
+            DataTable dtCount = new DataTable();
+            daCount.Fill(dtCount);
+            if (dtCount.Rows.Count > 0)
+            {
+                flag = false;
+            }
+            else if (dtCount.Rows.Count == 0)
+            {
+                flag = true;
+            }
+            return flag;
+        }
+        public bool ModelModify(string model, int type)
+        {
+            bool flag = true;
+            string Querry = "select a.* from tai_san a " +
+                        "inner join model b on a.model = b.model  " +
+                        "where b.type_code = " + type + " and a.model = '" + model + "' ";
+            OracleDataAdapter daCount = new OracleDataAdapter(Querry, con);
+            DataTable dtCount = new DataTable();
+            daCount.Fill(dtCount);
+            if (dtCount.Rows.Count > 0)
+            {
+                flag = false;
+            }
+            else if (dtCount.Rows.Count == 0)
             {
                 flag = true;
             }
