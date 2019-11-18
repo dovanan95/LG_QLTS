@@ -43,6 +43,7 @@
             this.EP_download = new System.Windows.Forms.Button();
             this.btnReport = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.btnPrintOnline = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -154,6 +155,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btnPrintOnline);
             this.splitContainer1.Panel1.Controls.Add(this.EP_download);
             this.splitContainer1.Panel1.Controls.Add(this.btnReport);
             this.splitContainer1.Panel1.Controls.Add(this.panel1);
@@ -169,9 +171,9 @@
             // 
             // EP_download
             // 
-            this.EP_download.Location = new System.Drawing.Point(174, 304);
+            this.EP_download.Location = new System.Drawing.Point(101, 333);
             this.EP_download.Name = "EP_download";
-            this.EP_download.Size = new System.Drawing.Size(164, 23);
+            this.EP_download.Size = new System.Drawing.Size(167, 23);
             this.EP_download.TabIndex = 11;
             this.EP_download.Text = "Download EP Approved";
             this.EP_download.UseVisualStyleBackColor = true;
@@ -183,9 +185,20 @@
             this.btnReport.Name = "btnReport";
             this.btnReport.Size = new System.Drawing.Size(75, 23);
             this.btnReport.TabIndex = 10;
-            this.btnReport.Text = "Report";
+            this.btnReport.Text = "Report Print";
             this.btnReport.UseVisualStyleBackColor = true;
             this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
+            // 
+            // btnPrintOnline
+            // 
+            this.btnPrintOnline.ForeColor = System.Drawing.Color.Brown;
+            this.btnPrintOnline.Location = new System.Drawing.Point(101, 291);
+            this.btnPrintOnline.Name = "btnPrintOnline";
+            this.btnPrintOnline.Size = new System.Drawing.Size(167, 23);
+            this.btnPrintOnline.TabIndex = 12;
+            this.btnPrintOnline.Text = "Report Print Online";
+            this.btnPrintOnline.UseVisualStyleBackColor = true;
+            this.btnPrintOnline.Click += new System.EventHandler(this.btnPrintOnline_Click);
             // 
             // Search_BB
             // 
@@ -226,5 +239,6 @@
         private System.Windows.Forms.Button EP_download;
         private System.Windows.Forms.Button btnReport;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button btnPrintOnline;
     }
 }

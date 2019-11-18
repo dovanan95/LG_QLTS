@@ -28,7 +28,7 @@ namespace QLTS_LG
         DataTable dtLoaiTS2 = new DataTable();
         DataTable dtStatus = new DataTable();
         Permission IT_OP = new Permission();
-
+        Excel Excel = new Excel();
 
 
 
@@ -210,7 +210,7 @@ namespace QLTS_LG
         public void LoadDataCBTypeLV2()
         {
             con.Open();
-            string cmdLoaiTS2 = "SELECT * FROM Loai_TS_cap2";
+            string cmdLoaiTS2 = "SELECT * FROM Loai_TS_cap2 order by ten_loai";
             OracleCommand cmd = new OracleCommand(cmdLoaiTS2, con);
             OracleDataAdapter daLoaiTS2 = new OracleDataAdapter(cmd);
             daLoaiTS2.Fill(dtLoaiTS2);
@@ -224,7 +224,7 @@ namespace QLTS_LG
         public void LoadDataStatus()
         {
             con.Open();
-            string cmdStatus = "SELECT * FROM Status";
+            string cmdStatus = "SELECT * FROM Status order by ten_tinh_trang";
             OracleCommand cmd = new OracleCommand(cmdStatus, con);
             OracleDataAdapter daStatus = new OracleDataAdapter(cmd);
             daStatus.Fill(dtStatus);
@@ -249,7 +249,7 @@ namespace QLTS_LG
             InitializeComponent();
             LoadData();
             AutoComplete auto = new AutoComplete();
-
+            this.AutoScroll = true;
             //tring strAuto = "SELECT SN FROM Tai_san";
             //txtSN.AutoCompleteCustomSource = auto.AutoCompleteData1(strAuto);
             //AutoComplete1();
@@ -337,15 +337,15 @@ namespace QLTS_LG
                 OracleCommand command2 = new OracleCommand();
                 command2.Connection = con;
                 command2.CommandType = CommandType.Text;
-                command2.CommandText = "INSERT INTO Bien_Ban (So_Bien_Ban, Ma_loai_BB, CL_DATE, FILE_ATTACH, REASON, USER_ID, IT_OP) VALUES (:So_Bien_Ban, :Ma_loai_BB, CURRENT_DATE, :att_file, :reason, :userid, :ITOP)";
+                command2.CommandText = "INSERT INTO Bien_Ban (So_Bien_Ban, Ma_loai_BB, CL_DATE, FILE_ATTACH, REASON, USER_ID, IT_OP, APPROVED) VALUES (:So_Bien_Ban, :Ma_loai_BB, CURRENT_DATE, :att_file, :reason, :userid, :ITOP, :APP)";
                 command2.Parameters.Add(new OracleParameter ("So_Bien_Ban", txtSoBB.Text.ToString()));
                 command2.Parameters.Add(new OracleParameter("Ma_loai_BB", "NE"));
                 //command2.Parameters.Add(new OracleParameter("clDATE", DateTime.Now.ToString()));
                 command2.Parameters.Add(new OracleParameter("att_file", ""));
-                command2.Parameters.Add(new OracleParameter("reason", ""));
+                command2.Parameters.Add(new OracleParameter("reason", txtReason.Text.ToString()));
                 command2.Parameters.Add(new OracleParameter("userid", "VH000005"));
                 command2.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
-                
+                command2.Parameters.Add(new OracleParameter("APP", "N"));
                 
                 
 
@@ -480,6 +480,7 @@ namespace QLTS_LG
             AutoGenBB autoGen = new AutoGenBB();
             autoGen.AutoGenBBBG();
             txtSoBB.Text = autoGen.SoBBBG;
+            txtReason.ResetText();
             pnlInfo.Enabled = true;
             btnNewBBNo.Enabled = false;
             txtSoBB.Enabled = false;
@@ -602,7 +603,7 @@ namespace QLTS_LG
                 cbModel.ResetText();
 
                 con.Open();
-                string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "'";
+                string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "' order by ten_loai";
                 OracleCommand cmdLoad = new OracleCommand();
                 cmdLoad.Connection = con;
                 cmdLoad.CommandType = CommandType.Text;
@@ -630,7 +631,7 @@ namespace QLTS_LG
                 cbModel.ResetText();
 
                 con.Open();
-                string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "'";
+                string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "'  order by ten_loai";
                 OracleCommand cmdLoad = new OracleCommand();
                 cmdLoad.Connection = con;
                 cmdLoad.CommandType = CommandType.Text;
@@ -654,7 +655,7 @@ namespace QLTS_LG
                 cbModel.Enabled = true;
 
                 con.Open();
-                string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "'";
+                string SelectTO = "SELECT * FROM Loai_TS_cap2 WHERE Phan_loai='" + cbTypeLV1.SelectedValue.ToString().Trim() + "'  order by ten_loai";
                 OracleCommand cmdLoad = new OracleCommand();
                 cmdLoad.Connection = con;
                 cmdLoad.CommandType = CommandType.Text;
@@ -722,7 +723,7 @@ namespace QLTS_LG
                     TypeLV2 = dtTypeLV2.Rows[0][0].ToString();
                 }
 
-                string strModel = "select * from Model where type_code = '" + TypeLV2 +"'";
+                string strModel = "select * from Model where type_code = '" + TypeLV2 +"' order by model";
 
                 OracleDataAdapter daModel = new OracleDataAdapter(strModel, con);
                 DataTable dtModel = new DataTable();
@@ -775,12 +776,12 @@ namespace QLTS_LG
 
         private void btnBack2_Click(object sender, EventArgs e)
         {
-
-            btnCloseBB_Click(this, new EventArgs());
+            button3_Click(this, new EventArgs());
+            //btnCloseBB_Click(this, new EventArgs());
             //Main frm = new Main();
-            this.Hide();
+            //this.Hide();
             //frm.ShowDialog();
-            this.Close();
+            //this.Close();
         }
 
         private void btnNewItem2_Click(object sender, EventArgs e)
@@ -819,6 +820,11 @@ namespace QLTS_LG
  
             return flagModel;
 
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            Excel.ExportExcelFromDGV(dataGridView1);
         }
     }
 }

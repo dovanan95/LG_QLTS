@@ -36,6 +36,10 @@ namespace QLTS_LG.WS_ORG {
         
         private System.Threading.SendOrPostCallback HR_INFOROperationCompleted;
         
+        private System.Threading.SendOrPostCallback CheckResignationOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback KiemTraNhanSuDaBanGiaoVatTuOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -82,6 +86,12 @@ namespace QLTS_LG.WS_ORG {
         
         /// <remarks/>
         public event HR_INFORCompletedEventHandler HR_INFORCompleted;
+        
+        /// <remarks/>
+        public event CheckResignationCompletedEventHandler CheckResignationCompleted;
+        
+        /// <remarks/>
+        public event KiemTraNhanSuDaBanGiaoVatTuCompletedEventHandler KiemTraNhanSuDaBanGiaoVatTuCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/HelloWorld", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -163,6 +173,58 @@ namespace QLTS_LG.WS_ORG {
             if ((this.HR_INFORCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.HR_INFORCompleted(this, new HR_INFORCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CheckResignation", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void CheckResignation() {
+            this.Invoke("CheckResignation", new object[0]);
+        }
+        
+        /// <remarks/>
+        public void CheckResignationAsync() {
+            this.CheckResignationAsync(null);
+        }
+        
+        /// <remarks/>
+        public void CheckResignationAsync(object userState) {
+            if ((this.CheckResignationOperationCompleted == null)) {
+                this.CheckResignationOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckResignationOperationCompleted);
+            }
+            this.InvokeAsync("CheckResignation", new object[0], this.CheckResignationOperationCompleted, userState);
+        }
+        
+        private void OnCheckResignationOperationCompleted(object arg) {
+            if ((this.CheckResignationCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CheckResignationCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/KiemTraNhanSuDaBanGiaoVatTu", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void KiemTraNhanSuDaBanGiaoVatTu() {
+            this.Invoke("KiemTraNhanSuDaBanGiaoVatTu", new object[0]);
+        }
+        
+        /// <remarks/>
+        public void KiemTraNhanSuDaBanGiaoVatTuAsync() {
+            this.KiemTraNhanSuDaBanGiaoVatTuAsync(null);
+        }
+        
+        /// <remarks/>
+        public void KiemTraNhanSuDaBanGiaoVatTuAsync(object userState) {
+            if ((this.KiemTraNhanSuDaBanGiaoVatTuOperationCompleted == null)) {
+                this.KiemTraNhanSuDaBanGiaoVatTuOperationCompleted = new System.Threading.SendOrPostCallback(this.OnKiemTraNhanSuDaBanGiaoVatTuOperationCompleted);
+            }
+            this.InvokeAsync("KiemTraNhanSuDaBanGiaoVatTu", new object[0], this.KiemTraNhanSuDaBanGiaoVatTuOperationCompleted, userState);
+        }
+        
+        private void OnKiemTraNhanSuDaBanGiaoVatTuOperationCompleted(object arg) {
+            if ((this.KiemTraNhanSuDaBanGiaoVatTuCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.KiemTraNhanSuDaBanGiaoVatTuCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -262,6 +324,14 @@ namespace QLTS_LG.WS_ORG {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    public delegate void CheckResignationCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    public delegate void KiemTraNhanSuDaBanGiaoVatTuCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

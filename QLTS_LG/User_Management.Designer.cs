@@ -202,7 +202,9 @@
             // 
             // cbORG
             // 
+            this.cbORG.DropDownHeight = 1060;
             this.cbORG.FormattingEnabled = true;
+            this.cbORG.IntegralHeight = false;
             this.cbORG.Location = new System.Drawing.Point(135, 317);
             this.cbORG.Name = "cbORG";
             this.cbORG.Size = new System.Drawing.Size(310, 21);

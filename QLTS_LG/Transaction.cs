@@ -112,7 +112,7 @@ namespace QLTS_LG
 
             daTransaction.Fill(dtTransaction);
             dgvTransaction.DataSource = dtTransaction;
-
+            dgvTransaction.Columns["TEN_LOAI1"].HeaderText = "Loại Giao Dịch";
 
         }
 

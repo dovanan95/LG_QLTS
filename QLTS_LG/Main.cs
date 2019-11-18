@@ -20,11 +20,16 @@ namespace QLTS_LG
     {
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
         OracleConnection con = new OracleConnection(connectionString);
+        OracleConnection con2 = new OracleConnection(connectionString);
         OracleDataAdapter DataAdapter = new OracleDataAdapter();
         DataTable Table = new DataTable();
         DataTable dtLoadOverDue = new DataTable();
         AutoComplete auto = new AutoComplete();
         Permission per = new Permission();
+        AutoTask AutoTask = new AutoTask();
+        AntiDuplicated AntiDuplicated = new AntiDuplicated();
+        WS_ORG.QLTS_ORG ITS_ORG = new WS_ORG.QLTS_ORG();
+
         public string username1 { get; set; }
 
         public Main()
@@ -42,6 +47,7 @@ namespace QLTS_LG
             {
                 lblExpired.Text = "There is one device need to be returned to storage!!!";
                 lblExpired.ForeColor = System.Drawing.Color.Red;
+
             }
             else if (Number > 1)
             {
@@ -65,6 +71,21 @@ namespace QLTS_LG
 
 
         }
+        public void NSCBGTS_Check()
+        {
+            DataTable dtCheck = new DataTable();
+            dtCheck = AutoTask.LoadFromNSCBGTS();
+            if (dtCheck.Rows.Count != 0)
+            {
+                menuRevokeRequirement.ForeColor = System.Drawing.Color.Yellow;
+                menuRevokeRequirement.BackColor = System.Drawing.Color.Red;
+            }
+            else if (dtCheck.Rows.Count == 0)
+            {
+                menuRevokeRequirement.BackColor = System.Drawing.Color.Green;
+                menuRevokeRequirement.ForeColor = System.Drawing.Color.White;
+            }
+        }
 
         public void CheckOverDue()
         {
@@ -79,7 +100,19 @@ namespace QLTS_LG
         }
         public void OutStorageLoad()
         {
-            string strOut = "SELECT * FROM Xuat_Kho a WHERE a.Approved = 0";
+
+            ITS_ORG.CheckResignation();
+
+            NSCBGTS_Check();
+
+            string strOut = "SELECT f.So_Bien_Ban, a.Ma_TS, b.Ten_TS, b.IT_Tag, b.SN, b.FA_Tag, b.Model, c.Ten_loai, d.UNIT_NAME, e.TEN_TINH_TRANG, f.USER_ID, f.CL_DATE " +
+                "FROM Xuat_Kho a " +
+                "inner join Tai_san b on a.Ma_TS = b.Ma_TS " +
+                "inner join Loai_TS_cap2 c on b.Ma_loai_TS_cap2 = c.Ma_loai " +
+                "inner join UNIT d on b.UNIT = d.UNIT_ID " +
+                "inner join STATUS e on b.MA_TINH_TRANG = e.MA_TINH_TRANG " +
+                "inner join BIEN_BAN f on a.So_BB_Xuat = f.So_Bien_Ban " +
+                "WHERE a.Approved = 0";
             OracleCommand cmdOut = new OracleCommand();
             cmdOut.Connection = con;
             cmdOut.CommandType = CommandType.Text;
@@ -89,7 +122,14 @@ namespace QLTS_LG
             daOut.Fill(dtOut);
             dataGridView1.DataSource = dtOut;
 
-            string strRepair = "SELECT * FROM Sua_chua a WHERE a.Approved = 0";
+            string strRepair = "SELECT f.So_Bien_Ban, a.Ma_TS, b.Ten_TS, b.IT_Tag, b.SN, b.FA_Tag, b.Model, c.Ten_loai, d.UNIT_NAME, e.TEN_TINH_TRANG, a.Vat_tu_xuat, f.USER_ID, f.CL_DATE " +
+                "FROM Sua_chua a " +
+                "inner join Tai_san b on a.Ma_TS = b.Ma_TS " +
+                "inner join Loai_TS_cap2 c on b.Ma_loai_TS_cap2 = c.Ma_loai " +
+                "inner join UNIT d on b.UNIT = d.UNIT_ID " +
+                "inner join STATUS e on b.MA_TINH_TRANG = e.MA_TINH_TRANG " +
+                "inner join BIEN_BAN f on a.BB_Sua = f.So_Bien_Ban " +
+                "WHERE a.Approved = 0";
             OracleCommand cmdRepair = new OracleCommand();
             cmdRepair.Connection = con;
             cmdRepair.CommandType = CommandType.Text;
@@ -99,7 +139,15 @@ namespace QLTS_LG
             daRepair.Fill(dtRepair);
             dataGridView2.DataSource = dtRepair;
 
-            string strBorrow = "SELECT * FROM Muon_vat_tu a WHERE a.Approved = 0";
+            string strBorrow = "SELECT f.So_Bien_Ban, a.Ma_TS, b.Ten_TS, b.IT_Tag, b.SN, b.FA_Tag, b.Model, c.Ten_loai, d.UNIT_NAME, e.TEN_TINH_TRANG, f.USER_ID, f.CL_DATE, a.due_date, g.BORROW_TYPE " +
+                "FROM Muon_vat_tu a " +
+                "inner join Tai_san b on a.Ma_TS = b.Ma_TS " +
+                "inner join Loai_TS_cap2 c on b.Ma_loai_TS_cap2 = c.Ma_loai " +
+                "inner join UNIT d on b.UNIT = d.UNIT_ID " +
+                "inner join STATUS e on b.MA_TINH_TRANG = e.MA_TINH_TRANG " +
+                "inner join BIEN_BAN f on a.So_BB = f.So_Bien_Ban " +
+                "inner join BORROW_STYLE g on a.BORROW_CODE = g.BORROW_CODE " +
+                "WHERE a.Approved = 0";
             OracleCommand cmdBorrow = new OracleCommand();
             cmdBorrow.Connection = con;
             cmdBorrow.CommandType = CommandType.Text;
@@ -109,11 +157,14 @@ namespace QLTS_LG
             daBorrow.Fill(dtBorrow);
             dataGridView3.DataSource = dtBorrow;
 
-            string strNew = "select a.So_BB, a.Ma_TS, a.Approved, b.Ten_TS, b.SN, b.FA_Tag, b.IT_Tag, b.Model, d.Ten_loai, b.Ma_tinh_trang, c.Ten_tinh_trang from Nhap_Moi a " +
+            string strNew = "SELECT f.So_Bien_Ban, a.Ma_TS, b.Ten_TS, b.IT_Tag, b.SN, b.FA_Tag, b.Model, c.Ten_loai, d.UNIT_NAME, e.TEN_TINH_TRANG, f.USER_ID, f.CL_DATE " +
+                "FROM Nhap_Moi a " +
                 "inner join Tai_san b on a.Ma_TS = b.Ma_TS " +
-                "inner join Status c on c.Ma_tinh_trang = b.Ma_tinh_trang " +
-                "inner join Loai_TS_cap2 d on d.Ma_loai = b.Ma_Loai_TS_cap2 " +
-                " where a.Approved = 0 ";
+                "inner join Loai_TS_cap2 c on b.Ma_loai_TS_cap2 = c.Ma_loai " +
+                "inner join UNIT d on b.UNIT = d.UNIT_ID " +
+                "inner join STATUS e on b.MA_TINH_TRANG = e.MA_TINH_TRANG " +
+                "inner join BIEN_BAN f on a.So_BB = f.So_Bien_Ban " +
+                "WHERE a.Approved = 0";
             OracleCommand cmdNew = new OracleCommand();
             cmdNew.Connection = con;
             cmdNew.CommandType = CommandType.Text;
@@ -123,7 +174,14 @@ namespace QLTS_LG
             daNew.Fill(dtNew);
             dgvNew.DataSource = dtNew;
 
-            string strRevoke = "select * from Nhan_tra_TS a where a.Approved = 0";
+            string strRevoke = "SELECT f.So_Bien_Ban, a.Ma_TS, b.Ten_TS, b.IT_Tag, b.SN, b.FA_Tag, b.Model, c.Ten_loai, d.UNIT_NAME, e.TEN_TINH_TRANG, f.USER_ID, f.CL_DATE " +
+                "FROM Nhan_tra_TS a " +
+                "inner join Tai_san b on a.Ma_TS = b.Ma_TS " +
+                "inner join Loai_TS_cap2 c on b.Ma_loai_TS_cap2 = c.Ma_loai " +
+                "inner join UNIT d on b.UNIT = d.UNIT_ID " +
+                "inner join STATUS e on b.MA_TINH_TRANG = e.MA_TINH_TRANG " +
+                "inner join BIEN_BAN f on a.So_BB_nhan = f.So_Bien_Ban " +
+                "WHERE a.Approved = 0";
             OracleCommand cmdRevoke = new OracleCommand();
             cmdRevoke.Connection = con;
             cmdRevoke.CommandType = CommandType.Text;
@@ -133,7 +191,14 @@ namespace QLTS_LG
             daRevoke.Fill(dtRevoke);
             dgvRevoke.DataSource = dtRevoke;
 
-            string strDispose = "select * from Huy_TS where Approved = 0";
+            string strDispose = "SELECT f.So_Bien_Ban, a.Ma_TS, b.Ten_TS, b.IT_Tag, b.SN, b.FA_Tag, b.Model, c.Ten_loai, d.UNIT_NAME, e.TEN_TINH_TRANG, f.USER_ID, f.CL_DATE " +
+                "FROM Huy_TS a " +
+                "inner join Tai_san b on a.Ma_TS = b.Ma_TS " +
+                "inner join Loai_TS_cap2 c on b.Ma_loai_TS_cap2 = c.Ma_loai " +
+                "inner join UNIT d on b.UNIT = d.UNIT_ID " +
+                "inner join STATUS e on b.MA_TINH_TRANG = e.MA_TINH_TRANG " +
+                "inner join BIEN_BAN f on a.BB_Huy = f.So_Bien_Ban " +
+                "WHERE a.Approved = 0";
             OracleCommand cmdDispose = new OracleCommand();
             cmdDispose.Connection = con;
             cmdDispose.CommandType = CommandType.Text;
@@ -146,7 +211,8 @@ namespace QLTS_LG
 
             CheckOverDue();
 
-            string strLoadOverDue = "SELECT * FROM Muon_vat_tu WHERE Qua_han = 1 and Ngay_tra_thuc is null";
+            dtLoadOverDue.Clear();
+            string strLoadOverDue = "SELECT * FROM Muon_vat_tu WHERE Qua_han = 1 and Ngay_tra_thuc is null and APPROVED = 1"; 
             OracleDataAdapter daLoadOverDue = new OracleDataAdapter(strLoadOverDue, con);
             //DataTable dtLoadOverDue = new DataTable();
             daLoadOverDue.Fill(dtLoadOverDue);
@@ -192,11 +258,11 @@ namespace QLTS_LG
             }
 
         }
-        public void SearchBB(int DMBB)
+        public void SearchBB(string DMBB)
         {
             Search_BB _BB = new Search_BB();
-            _BB.stNhan = DMBB.ToString();
-            _BB.strNhan = DMBB.ToString();
+            _BB.stNhan = DMBB;
+            //_BB.strNhan = DMBB;
             this.Hide();
             _BB.ShowDialog();
 
@@ -261,32 +327,32 @@ namespace QLTS_LG
 
         private void nhâpMớiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SearchBB(1);
+            SearchBB("1");
         }
 
         private void menuInStorageBB_Click(object sender, EventArgs e)
         {
-            SearchBB(2);
+            SearchBB("2");
         }
 
         private void menuOutStorageBB_Click(object sender, EventArgs e)
         {
-            SearchBB(3);
+            SearchBB("3");
         }
 
         private void menuLendingBB_Click(object sender, EventArgs e)
         {
-            SearchBB(4);
+            SearchBB("4");
         }
 
         private void menuRepairBB_Click(object sender, EventArgs e)
         {
-            SearchBB(5);
+            SearchBB("5");
         }
 
         private void menuDisposeBB_Click(object sender, EventArgs e)
         {
-            SearchBB(6);
+            SearchBB("6");
         }
 
         private void menuHist_Click(object sender, EventArgs e)
@@ -325,15 +391,8 @@ namespace QLTS_LG
 
         private void tabPage1_Click(object sender, EventArgs e)
         {
-            string strOut = "SELECT * FROM  Xuat_Kho WHERE Approved = 0";
-            OracleCommand cmdOut = new OracleCommand();
-            cmdOut.Connection = con;
-            cmdOut.CommandType = CommandType.Text;
-            cmdOut.CommandText = strOut;
-            OracleDataAdapter daOut = new OracleDataAdapter(cmdOut);
-            DataTable dtOut = new DataTable();
-            daOut.Fill(dtOut);
-            dataGridView1.DataSource = dtOut;
+            OutStorageLoad();
+            
         }
 
         private void tabPage2_Click(object sender, EventArgs e)
@@ -353,6 +412,9 @@ namespace QLTS_LG
                 //string strAssetCode = row.Cells["Ma_TS"].Value.ToString();
                 if (Convert.ToBoolean(row.Cells["Select"].Value) == true)
                 {
+                    AutoTask.UpdateApprovedOfBB(row.Cells["So_bien_ban"].Value.ToString());
+                    AutoTask.BufferClear(Convert.ToInt32(row.Cells["Ma_TS"].Value));
+
                     string strUpdate = "UPDATE Xuat_Kho SET Approved = 1 WHERE Ma_TS ='" + row.Cells["Ma_TS"].Value.ToString() + "'";
                     OracleCommand cmdUpdate = new OracleCommand();
                     cmdUpdate.CommandType = CommandType.Text;
@@ -362,13 +424,14 @@ namespace QLTS_LG
                     cmdUpdate.ExecuteNonQuery();
                     con.Close();
 
-                    string strToOut = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out) VALUES (:Ma_TS, :ID_User, CURRENT_DATE)";
+                    string strToOut = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out, So_BB) VALUES (:Ma_TS, :ID_User, CURRENT_DATE, :So_BB)";
                     OracleCommand cmdToOut = new OracleCommand();
                     cmdToOut.Connection = con;
                     cmdToOut.CommandType = CommandType.Text;
                     cmdToOut.CommandText = strToOut;
                     cmdToOut.Parameters.Add(new OracleParameter("Ma_TS", row.Cells["Ma_TS"].Value.ToString()));
-                    cmdToOut.Parameters.Add(new OracleParameter("ID_User", row.Cells["ID_nguoi_nhan"].Value.ToString()));
+                    cmdToOut.Parameters.Add(new OracleParameter("ID_User", row.Cells["USER_ID"].Value.ToString()));
+                    cmdToOut.Parameters.Add(new OracleParameter("So_BB", row.Cells["So_Bien_Ban"].Value.ToString()));
                     //cmdToOut.Parameters.Add("@Date", DateTime.Now.ToString());
                     con.Open();
                     cmdToOut.ExecuteNonQuery();
@@ -418,6 +481,10 @@ namespace QLTS_LG
                     Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
                     if (CheckRow)
                     {
+                        AutoTask.UpdateApprovedOfBB(row.Cells["So_Bien_Ban"].Value.ToString());
+                        AutoTask.BufferClear(Convert.ToInt32(row.Cells["Ma_TS"].Value));
+                        AutoTask.BufferClear(Convert.ToInt32(row.Cells["vat_tu_xuat"].Value));
+
                         string strUpdate = "UPDATE Sua_chua SET Approved = 1 WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
                         OracleCommand cmdUpdate = new OracleCommand();
                         cmdUpdate.CommandType = CommandType.Text;
@@ -441,13 +508,14 @@ namespace QLTS_LG
                         string VTX = row.Cells["Vat_tu_xuat"].Value.ToString();
                         if (VTX != "")
                         {
-                            string strRepair = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out) VALUES (:Ma_TS, :ID_User, CURRENT_DATE)";
+                            string strRepair = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out, So_BB) VALUES (:Ma_TS, :ID_User, CURRENT_DATE, :SoBB)";
                             OracleCommand cmdRepair = new OracleCommand();
                             cmdRepair.Connection = con;
                             cmdRepair.CommandType = CommandType.Text;
                             cmdRepair.CommandText = strRepair;
                             cmdRepair.Parameters.Add(new OracleParameter("Ma_TS", row.Cells["Vat_tu_xuat"].Value.ToString()));
-                            cmdRepair.Parameters.Add(new OracleParameter("ID_User", row.Cells["ID_nguoi_yc"].Value.ToString()));
+                            cmdRepair.Parameters.Add(new OracleParameter("ID_User", row.Cells["USER_ID"].Value.ToString()));
+                            cmdRepair.Parameters.Add(new OracleParameter("SoBB", row.Cells["So_Bien_Ban"].Value.ToString()));
                             //cmdRepair.Parameters.Add(new OracleParameter("clDate", row.Cells["Ngay_update"].Value.ToString()));
 
                             con.Open();
@@ -468,14 +536,15 @@ namespace QLTS_LG
                     Boolean ChkRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
                     if (ChkRow)
                     {
-                        string strRepair2 = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out) VALUES (:Ma_TS, :ID_User, CURRENT_DATE)";
+                        string strRepair2 = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out, So_BB) VALUES (:Ma_TS, :ID_User, CURRENT_DATE, :So_BB)";
                         OracleCommand cmdRepair2 = new OracleCommand();
                         cmdRepair2.Connection = con;
                         cmdRepair2.CommandType = CommandType.Text;
                         cmdRepair2.CommandText = strRepair2;
                         cmdRepair2.Parameters.Add(new OracleParameter("Ma_TS", row.Cells["Ma_TS"].Value.ToString()));
-                        cmdRepair2.Parameters.Add(new OracleParameter("ID_User", row.Cells["ID_nguoi_yc"].Value.ToString()));
+                        cmdRepair2.Parameters.Add(new OracleParameter("ID_User", row.Cells["USER_ID"].Value.ToString()));
                         //cmdRepair2.Parameters.Add("clDate", row.Cells["Ngay_update"].Value.ToString());
+                        cmdRepair2.Parameters.Add(new OracleParameter("So_BB", row.Cells["So_Bien_Ban"].Value.ToString()));
                         con.Open();
                         cmdRepair2.ExecuteNonQuery();
                         con.Close();
@@ -571,6 +640,8 @@ namespace QLTS_LG
                     Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectBorrow"].Value);
                     if (CheckRow)
                     {
+                        AutoTask.UpdateApprovedOfBB(row.Cells["So_Bien_Ban"].Value.ToString());
+                        AutoTask.BufferClear(Convert.ToInt32(row.Cells["Ma_TS"].Value));
 
                         string strBrr = "UPDATE Muon_vat_tu SET Approved = 1 WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
                         OracleCommand cmdBrrUpdate = new OracleCommand();
@@ -581,13 +652,14 @@ namespace QLTS_LG
                         cmdBrrUpdate.ExecuteNonQuery();
                         con.Close();
 
-                        string strXuat = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out) VALUES (:MTS, :IDUser, CURRENT_DATE)";
+                        string strXuat = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out, So_BB) VALUES (:MTS, :IDUser, CURRENT_DATE, :SoBB)";
                         OracleCommand cmdOut = new OracleCommand();
                         cmdOut.Connection = con;
                         cmdOut.CommandType = CommandType.Text;
                         cmdOut.CommandText = strXuat;
                         cmdOut.Parameters.Add(new OracleParameter("MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value)));
-                        cmdOut.Parameters.Add(new OracleParameter("IDUser", row.Cells["ID_nguoi_muon"].Value.ToString()));
+                        cmdOut.Parameters.Add(new OracleParameter("IDUser", row.Cells["USER_ID"].Value.ToString()));
+                        cmdOut.Parameters.Add(new OracleParameter("SoBB", row.Cells["So_Bien_Ban"].Value.ToString()));
                         //cmdOut.Parameters.Add("@Date", DateTime.Now.ToString());
                         con.Open();
                         cmdOut.ExecuteNonQuery();
@@ -623,7 +695,7 @@ namespace QLTS_LG
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            OpenURL("https://www.lg.com/vn");
+            OpenURL("http://10.224.50.222:49155/Bien_Ban.aspx");
         }
         private void OpenURL(string url)
         {
@@ -680,41 +752,44 @@ namespace QLTS_LG
 
         private void btnAppNew_Click(object sender, EventArgs e)
         {
-            //try
-            //{
-            foreach (DataGridViewRow row in dgvNew.Rows)
+            try
             {
-                Boolean ChecRow = Convert.ToBoolean(row.Cells["SelectNew"].Value);
-                if (ChecRow)
+                foreach (DataGridViewRow row in dgvNew.Rows)
                 {
-                    string strApproveNew = "update Nhap_Moi set Approved = 1 where Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
-                    OracleCommand cmdAppNew = new OracleCommand();
-                    cmdAppNew.Connection = con;
-                    cmdAppNew.CommandType = CommandType.Text;
-                    cmdAppNew.CommandText = strApproveNew;
-                    con.Open();
-                    cmdAppNew.ExecuteNonQuery();
-                    con.Close();
+                    Boolean ChecRow = Convert.ToBoolean(row.Cells["SelectNew"].Value);
+                    if (ChecRow)
+                    {
+                        AutoTask.UpdateApprovedOfBB(row.Cells["So_Bien_Ban"].Value.ToString());
 
-                    string strInStorage = "insert into Luu_kho (Ma_TS, Tinh_Trang, Ngay_update) values (:MTS, :Status, CURRENT_DATE)";
-                    OracleCommand cmdInNew = new OracleCommand();
-                    cmdInNew.Connection = con;
-                    cmdInNew.CommandType = CommandType.Text;
-                    cmdInNew.CommandText = strInStorage;
-                    cmdInNew.Parameters.Add(new OracleParameter("MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value)));
-                    //cmdInNew.Parameters.Add("clDate", DateTime.Now.ToString());
-                    cmdInNew.Parameters.Add(new OracleParameter("Status", row.Cells["Ma_tinh_trang"].Value.ToString()));
-                    con.Open();
-                    cmdInNew.ExecuteNonQuery();
-                    con.Close();
+                        string strApproveNew = "update Nhap_Moi set Approved = 1 where Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
+                        OracleCommand cmdAppNew = new OracleCommand();
+                        cmdAppNew.Connection = con;
+                        cmdAppNew.CommandType = CommandType.Text;
+                        cmdAppNew.CommandText = strApproveNew;
+                        con.Open();
+                        cmdAppNew.ExecuteNonQuery();
+                        con.Close();
+
+                        string strInStorage = "insert into Luu_kho (Ma_TS, Tinh_Trang, Ngay_update, So_BB) values (:MTS, :Status, CURRENT_DATE, :SoBB)";
+                        OracleCommand cmdInNew = new OracleCommand();
+                        cmdInNew.Connection = con;
+                        cmdInNew.CommandType = CommandType.Text;
+                        cmdInNew.CommandText = strInStorage;
+                        cmdInNew.Parameters.Add(new OracleParameter("MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value)));
+                        //cmdInNew.Parameters.Add("clDate", DateTime.Now.ToString());
+                        cmdInNew.Parameters.Add(new OracleParameter("Status", row.Cells["Ten_tinh_trang"].Value.ToString()));
+                        cmdInNew.Parameters.Add(new OracleParameter("SoBB", row.Cells["So_Bien_Ban"].Value.ToString()));
+                        con.Open();
+                        cmdInNew.ExecuteNonQuery();
+                        con.Close();
+                    }
                 }
+                OutStorageLoad();
             }
-            OutStorageLoad();
-            //}
-            //catch (Exception ex)
-            //{
-            //MessageBox.Show(ex.Message);
-            //}
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
         }
 
@@ -727,6 +802,9 @@ namespace QLTS_LG
                     Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectRevoke"].Value);
                     if (CheckRow)
                     {
+                        AutoTask.UpdateApprovedOfBB(row.Cells["So_Bien_Ban"].Value.ToString());
+                        AutoTask.BufferClear(Convert.ToInt32(row.Cells["Ma_TS"].Value));
+
                         string strAppRevoke = "update Nhan_tra_TS set Approved = 1 where Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
                         OracleCommand cmdAppRevoke = new OracleCommand();
                         cmdAppRevoke.Connection = con;
@@ -736,20 +814,52 @@ namespace QLTS_LG
                         cmdAppRevoke.ExecuteNonQuery();
                         con.Close();
 
-                        string strRevoke = "insert into Luu_kho (Ma_TS, Tinh_Trang, Ngay_update) values (:MTS, :Status, CURRENT_DATE)";
+                        string strRevoke = "insert into Luu_kho (Ma_TS, Tinh_Trang, Ngay_update, So_BB) values (:MTS, :Status, CURRENT_DATE, :SoBB)";
                         OracleCommand cmdRevoke = new OracleCommand();
                         cmdRevoke.Connection = con;
                         cmdRevoke.CommandType = CommandType.Text;
                         cmdRevoke.CommandText = strRevoke;
                         cmdRevoke.Parameters.Add(new OracleParameter("MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value)));
-                        cmdRevoke.Parameters.Add(new OracleParameter("Status", row.Cells["Ma_tinh_trang"].Value.ToString()));
+                        cmdRevoke.Parameters.Add(new OracleParameter("Status", row.Cells["Ten_tinh_trang"].Value.ToString()));
+                        cmdRevoke.Parameters.Add(new OracleParameter("SoBB", row.Cells["So_Bien_Ban"].Value.ToString()));
                         //cmdRevoke.Parameters.Add("@Date", DateTime.Now.ToString());
                         con.Open();
                         cmdRevoke.ExecuteNonQuery();
                         con.Close();
+
+                        
                     }
                 }
-
+                //Insert ngày thu hồi vật tư đối với các vật tư cho mượn.
+                string strSelectBorrow = "SELECT * FROM Muon_vat_tu";
+                OracleCommand cmdSelectBorrow = new OracleCommand(strSelectBorrow, con);
+                OracleDataReader rdrSelectBorrow = null;
+                con.Open();
+                rdrSelectBorrow = cmdSelectBorrow.ExecuteReader();
+                while (rdrSelectBorrow.Read())
+                {
+                    foreach (DataGridViewRow row in dgvRevoke.Rows)
+                    {
+                        Boolean checkRow = Convert.ToBoolean(row.Cells["SelectRevoke"].Value);
+                        if (checkRow == true)
+                        {
+                            if (row.Cells["Ma_TS"].Value.ToString() == rdrSelectBorrow["Ma_TS"].ToString() && rdrSelectBorrow["Ngay_tra_thuc"].ToString() == "")
+                            {
+                                string strInsertDate = "UPDATE Muon_vat_tu SET Ngay_tra_thuc = CURRENT_DATE WHERE Ma_TS = :Ma_TS";
+                                OracleCommand cmdInsertDate = new OracleCommand();
+                                cmdInsertDate.Connection = con2;
+                                cmdInsertDate.CommandType = CommandType.Text;
+                                cmdInsertDate.CommandText = strInsertDate;
+                                //cmdInsertDate.Parameters.Add("@DATE", DateTime.Now.ToString());
+                                cmdInsertDate.Parameters.Add("Ma_TS", row.Cells["Ma_TS"].Value.ToString());
+                                con2.Open();
+                                cmdInsertDate.ExecuteNonQuery();
+                                con2.Close();
+                            }
+                        }
+                    }
+                }
+                con.Close();
                 OutStorageLoad();
             }
             catch (Exception ex)
@@ -768,6 +878,8 @@ namespace QLTS_LG
                     Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectDispose"].Value);
                     if (CheckRow)
                     {
+                        AutoTask.UpdateApprovedOfBB(row.Cells["So_Bien_Ban"].Value.ToString());
+
                         string strApp = "update Huy_TS set Approved = 1 where Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
                         OracleCommand cmdApp = new OracleCommand();
                         cmdApp.Connection = con;
@@ -796,6 +908,7 @@ namespace QLTS_LG
                         con.Close();
                     }
                 }
+               
                 OutStorageLoad();
             }
             catch (Exception ex)
@@ -820,6 +933,164 @@ namespace QLTS_LG
         {
             ORG_NAME org = new ORG_NAME();
             org.ShowDialog();
+        }
+
+        private void menuIntro_Click(object sender, EventArgs e)
+        {
+            Introduce introduce = new Introduce();
+            introduce.ShowDialog();
+        }
+
+        private void menuDataModify_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuRevokeRequirement_Click(object sender, EventArgs e)
+        {
+            Revoke_Requirement revoke_Requirement = new Revoke_Requirement();
+            revoke_Requirement.ShowDialog();
+        }
+
+        private void btnRejectDisposal_Click(object sender, EventArgs e)
+        {
+            foreach(DataGridViewRow row in dgvDispose.Rows)
+            {
+                Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectDispose"].Value);
+                if(CheckRow)
+                {
+                    string SoBB = row.Cells["So_Bien_Ban"].Value.ToString();
+                    int Ma_TS = Convert.ToInt32(row.Cells["Ma_TS"].Value);
+                    string cleadDISPOSE = "delete from Huy_TS where Ma_TS = " + Ma_TS + " and BB_Huy = '" + SoBB + "'";
+                    OracleCommand cmdClear = new OracleCommand(cleadDISPOSE, con);
+                    con.Open();
+                    cmdClear.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            OutStorageLoad();
+        }
+
+        private void btnRejectOut_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
+                if (CheckRow)
+                {
+                    string SoBB = row.Cells["So_Bien_Ban"].Value.ToString();
+
+
+                    string DELBB2 = "delete from Xuat_kho where Ma_TS = " + Convert.ToInt32(row.Cells["Ma_TS"].Value) + " and So_BB_Xuat = '" + SoBB + "'";
+                    OracleCommand cmdel2 = new OracleCommand(DELBB2, con);
+                    con.Open();
+                    cmdel2.ExecuteNonQuery();
+                    con.Close();
+
+                    AutoTask.BUFFERtoLuuKho(Convert.ToInt32(row.Cells["Ma_TS"].Value));
+                    AntiDuplicated.DeleteDuplicatedRow("Luu_Kho", "Ma_TS");
+                }
+            }
+            OutStorageLoad();
+        }
+
+        private void btnRejectRepair_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
+                if (CheckRow)
+                {
+                    string SoBB = row.Cells["So_Bien_Ban"].Value.ToString();
+
+
+                    string DELBB2 = "delete from Sua_chua where Ma_TS = " + Convert.ToInt32(row.Cells["Ma_TS"].Value) + " and BB_Sua = '" + SoBB + "'";
+                    OracleCommand cmdel2 = new OracleCommand(DELBB2, con);
+                    con.Open();
+                    cmdel2.ExecuteNonQuery();
+                    con.Close();
+
+                    string reversedStatus = "update Tai_san set ma_tinh_trang = 'NG' where ma_ts = " + Convert.ToInt32(row.Cells["Ma_TS"].Value);
+                    cmdel2 = new OracleCommand(reversedStatus, con);
+                    con.Open();
+                    cmdel2.ExecuteNonQuery();
+                    con.Close();
+
+                    AutoTask.BUFFERtoLuuKho(Convert.ToInt32(row.Cells["Ma_TS"].Value));
+                    AutoTask.BUFFERtoLuuKho(Convert.ToInt32(row.Cells["vat_tu_xuat"].Value));
+                    AntiDuplicated.DeleteDuplicatedRow("Luu_Kho", "Ma_TS");
+                }
+            }
+            OutStorageLoad();
+        }
+
+        private void btnRejectBorrow_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView3.Rows)
+            {
+                Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectBorrow"].Value);
+                if (CheckRow)
+                {
+                    string SoBB = row.Cells["So_Bien_Ban"].Value.ToString();
+
+
+                    string DELBB2 = "delete from muon_vat_tu where Ma_TS = " + Convert.ToInt32(row.Cells["Ma_TS"].Value) + " and So_BB = '" + SoBB + "'";
+                    OracleCommand cmdel2 = new OracleCommand(DELBB2, con);
+                    con.Open();
+                    cmdel2.ExecuteNonQuery();
+                    con.Close();
+
+                    AutoTask.BUFFERtoLuuKho(Convert.ToInt32(row.Cells["Ma_TS"].Value));
+                    AntiDuplicated.DeleteDuplicatedRow("Luu_Kho", "Ma_TS");
+                }
+            }
+            OutStorageLoad();
+        }
+
+        private void btnRejectInStorage_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvRevoke.Rows)
+            {
+                Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectRevoke"].Value);
+                if (CheckRow)
+                {
+                    string SoBB = row.Cells["So_Bien_Ban"].Value.ToString();
+                    int Ma_TS = Convert.ToInt32(row.Cells["Ma_TS"].Value);
+
+                    string DELBB2 = "delete from nhan_tra_ts where Ma_TS = " + Convert.ToInt32(row.Cells["Ma_TS"].Value) + " and So_BB_nhan = '" + SoBB + "'";
+                    OracleCommand cmdel2 = new OracleCommand(DELBB2, con);
+                    con.Open();
+                    cmdel2.ExecuteNonQuery();
+                    con.Close();
+
+                    AutoTask.BUFFERtoNgoaiKho(Convert.ToInt32(row.Cells["Ma_TS"].Value));
+                    AntiDuplicated.DeleteDuplicatedRow("Ngoai_Kho", "Ma_TS");
+                }
+            }
+            OutStorageLoad();
+        }
+
+        private void btnRejectNew_Click(object sender, EventArgs e)
+        {
+            foreach(DataGridViewRow row in dgvNew.Rows)
+            {
+                Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectNew"].Value);
+                if(CheckRow)
+                {
+                    string clearTS = "delete from Tai_san where Ma_TS = " + Convert.ToInt32(row.Cells["Ma_TS"].Value);
+                    string clearNEWITEM = "delete from Nhap_Moi where Ma_TS = " + Convert.ToInt32(row.Cells["Ma_TS"].Value) + " and So_BB = '" + row.Cells["So_Bien_Ban"].Value.ToString() + "'";
+                    OracleCommand cmdReject = new OracleCommand(clearTS, con);
+                    con.Open();
+                    cmdReject.ExecuteNonQuery();
+                    con.Close();
+
+                    cmdReject = new OracleCommand(clearNEWITEM, con);
+                    con.Open();
+                    cmdReject.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            OutStorageLoad();
         }
     }
 }

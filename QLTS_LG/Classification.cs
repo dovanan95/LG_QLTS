@@ -17,9 +17,12 @@ namespace QLTS_LG
     {
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
         OracleConnection con = new OracleConnection(connectionString);
+        OracleConnection con2 = new OracleConnection(connectionString);
         OracleDataAdapter DataAdapter = new OracleDataAdapter();
         DataTable Table = new DataTable();
         AutoGenAsssetCode AutoGen = new AutoGenAsssetCode();
+        AntiDuplicated AntiDuplicated = new AntiDuplicated();
+        LoadComboboxData LoadCombobox = new LoadComboboxData();
 
         public Classification()
         {
@@ -66,13 +69,20 @@ namespace QLTS_LG
                 cmdNewType.Parameters.Add("Type", TypeCode.ToString());
                 cmdNewType.Parameters.Add("Name", txtType2Name.Text.ToString());
                 cmdNewType.Parameters.Add("Class", cbType1.SelectedValue);
-                con.Open();
-                cmdNewType.ExecuteNonQuery();
-                con.Close();
+                if (AntiDuplicated.CheckTypeLevel2(txtType2Name.Text.ToString().Trim(), cbType1.SelectedValue.ToString()))
+                {
+                    con.Open();
+                    cmdNewType.ExecuteNonQuery();
+                    con.Close();
+                }
+                else if (!(AntiDuplicated.CheckTypeLevel2(txtType2Name.Text.ToString().Trim(), cbType1.SelectedValue.ToString())))
+                {
+                    MessageBox.Show("Trùng!!!");
+                }
 
                 LoadTypeDevice();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -85,6 +95,8 @@ namespace QLTS_LG
         {
             LoadComboboxData loadCombobox = new LoadComboboxData();
             loadCombobox.LoadDataType1(cbType1);
+            loadCombobox.LoadDataType(cbTypeLV2);
+            loadCombobox.LoadDataType1(cbTypeLevel1);
 
             string strQuerryType = "SELECT a.Ma_loai, a.Ten_loai, b.Ten_loai " +
                 "FROM Loai_TS_cap2 a " +
@@ -104,6 +116,26 @@ namespace QLTS_LG
             dgvUnit.DataSource = dtUnit;
             dgvUnit.Columns[0].HeaderText = "Mã đơn vị";
             dgvUnit.Columns[1].HeaderText = "Đơn vị tính";
+
+            string QuerryModel = "select a.model_code, a.model, b.ten_loai from model a inner join loai_ts_cap2 b on a.type_code = b.ma_loai order by to_number(a.model_code)";
+            OracleDataAdapter daModel = new OracleDataAdapter(QuerryModel, con);
+            DataTable dtModel = new DataTable();
+            daModel.Fill(dtModel);
+            dgvModel.DataSource = dtModel;
+            dgvModel.Columns[1].HeaderText = "Loại Tài Sản";
+
+            cbTypeLV2.Enabled = false;
+            txtModelName.Enabled = false;
+            btnAddModel.Enabled = false;
+
+            if (Login.username == "an.do")
+            {
+                btnXoa.Enabled = true;
+            }
+            else if (Login.username != "an.do")
+            {
+                btnXoa.Visible = false;
+            }
         }
 
         private void btnSua_Click(object sender, EventArgs e)
@@ -119,7 +151,7 @@ namespace QLTS_LG
             string TypeCode = dgvShow.Rows[index].Cells["Ma_loai"].Value.ToString();
 
             string strUpdate = "update Loai_TS_cap2 set Ten_loai = '" + txtType2Name.Text.ToString() + "', Phan_loai = '" + cbType1.SelectedValue + "'" +
-                "where Ma_loai = '" +TypeCode.ToString() + "'";
+                "where Ma_loai = '" + TypeCode.ToString() + "'";
             OracleCommand cmdUpdate = new OracleCommand();
             cmdUpdate.Connection = con;
             cmdUpdate.CommandType = CommandType.Text;
@@ -168,7 +200,7 @@ namespace QLTS_LG
 
                 LoadTypeDevice();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -196,6 +228,79 @@ namespace QLTS_LG
             cmdXoa.ExecuteNonQuery();
             con.Close();
 
+            LoadTypeDevice();
+        }
+
+        private void cbTypeLevel1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string querry = "select * from loai_ts_cap2 where phan_loai = '" + cbTypeLevel1.SelectedValue.ToString() + "' order by Ten_loai";
+            OracleDataAdapter daquerry = new OracleDataAdapter(querry, con);
+            DataTable dtquerry = new DataTable();
+            daquerry.Fill(dtquerry);
+            cbTypeLV2.DataSource = dtquerry;
+            cbTypeLV2.ValueMember = "Ma_loai";
+            cbTypeLV2.DisplayMember = "Ten_loai";
+            cbTypeLV2.Enabled = true;
+        }
+
+        private void cbTypeLV2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtModelName.Enabled = true;
+            btnAddModel.Enabled = true;
+        }
+
+        private void btnAddModel_Click(object sender, EventArgs e)
+        {
+            if (!(txtModelName.Text is null))
+            {
+                AntiDuplicated.CheckModel2(txtModelName.Text.ToString(), Convert.ToInt32(cbTypeLV2.SelectedValue));
+                LoadTypeDevice();
+            }
+            else if (txtModelName.Text is null)
+            {
+                MessageBox.Show("Nhập tên Model!!!");
+            }
+        }
+
+        private void btnBackModel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnUpdateModel_Click(object sender, EventArgs e)
+        {
+            int index = dgvModel.CurrentCell.RowIndex;
+            txtModelName.Text = dgvModel.Rows[index].Cells["MODEL"].Value.ToString();
+            cbTypeLevel1.Enabled = false;
+            cbTypeLV2.Enabled = false;
+            txtModelName.Enabled = true;
+            
+
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            int index = dgvModel.CurrentCell.RowIndex;
+            string model_code = dgvModel.Rows[index].Cells["MODEL_CODE"].Value.ToString();
+            string updateModel = "update Model set model = '" + txtModelName.Text.ToString() + "' where model_code = '" + model_code +"'";
+            OracleCommand cmdupdatemodel = new OracleCommand(updateModel, con);
+            string duplicatedmodelname = "select * from model where model = '" + txtModelName.Text.ToString().Trim() + "'";
+            OracleDataAdapter dacheckduplicate = new OracleDataAdapter(duplicatedmodelname, con2);
+            DataTable dtcheck = new DataTable();
+            dacheckduplicate.Fill(dtcheck);
+
+            if(dtcheck.Rows.Count == 0)
+            {
+                con.Open();
+                cmdupdatemodel.ExecuteNonQuery();
+                con.Close();
+            }
+            else if(dtcheck.Rows.Count >0)
+            {
+                MessageBox.Show("Trùng!!!");
+            }
+            cbTypeLV2.Enabled = true;
+            cbTypeLevel1.Enabled = true;
             LoadTypeDevice();
         }
     }

@@ -29,10 +29,12 @@ namespace QLTS_LG
         OracleConnection con2 = new OracleConnection(connectionString);
         OracleDataAdapter DataAdapter = new OracleDataAdapter();
         DataTable Table = new DataTable();
-
+        Excel Excel = new Excel();
         Permission IT_OP = new Permission();
-
+        AutoTask AutoTask = new AutoTask();
         UserUpdate update = new UserUpdate();
+
+
 
         public void LoadDataStatus()
         {
@@ -127,7 +129,7 @@ namespace QLTS_LG
                 daFA.Fill(dtFA);
                 dataGridView1.DataSource = dtFA;
             }
-            else if(txtIT_Tag.Text.ToString() != "")
+            else if (txtIT_Tag.Text.ToString() != "")
             {
                 string IT = strSearch + " where b.IT_Tag = '" + txtIT_Tag.Text.ToString() + "'";
                 OracleDataAdapter daIT = new OracleDataAdapter(IT, con);
@@ -135,14 +137,14 @@ namespace QLTS_LG
                 daIT.Fill(dtIT);
                 dataGridView1.DataSource = dtIT;
             }
-            else if(txtSN.Text.ToString() == "" && txtIT_Tag.Text.ToString() == "" && txtFA_Tag.Text.ToString() == "")
+            else if (txtSN.Text.ToString() == "" && txtIT_Tag.Text.ToString() == "" && txtFA_Tag.Text.ToString() == "")
             {
                 DataTable dtSearch = new DataTable();
                 OracleCommand cmdSearch = new OracleCommand();
                 cmdSearch.Connection = con;
                 cmdSearch.CommandType = CommandType.Text;
                 cmdSearch.CommandText = strSearch;
-                
+
                 OracleDataAdapter daSearch = new OracleDataAdapter(cmdSearch);
                 daSearch.Fill(dtSearch);
                 dataGridView1.DataSource = dtSearch;
@@ -207,60 +209,80 @@ namespace QLTS_LG
                 }
             }
         }
+        private void MainTask()
+        {
+            string strInsertBB = "INSERT INTO Bien_Ban(So_Bien_ban, Ma_loai_BB, CL_DATE, Reason, User_ID, IT_OP, APPROVED) VALUES(:So_BB, :Type_Code, CURRENT_DATE, :Reason, :ID, :ITOP, :APP)";
+            OracleCommand cmdBB = new OracleCommand();
+            cmdBB.Connection = con;
+            cmdBB.CommandType = CommandType.Text;
+            cmdBB.CommandText = strInsertBB;
+            cmdBB.Parameters.Add("So_BB", txtSoBB.Text.ToString());
+            cmdBB.Parameters.Add("Type_Code", "OUT");
+            //cmdBB.Parameters.Add("clDATE", DateTime.Now.ToString());
+            cmdBB.Parameters.Add("Reason", txtReason.Text.ToString());
+            cmdBB.Parameters.Add("ID", txtUserID2.Text.ToString());
+            cmdBB.Parameters.Add("ITOP", IT_OP.Get_IT_User());
+            cmdBB.Parameters.Add(new OracleParameter("APP", "N"));
+            con.Open();
+            cmdBB.ExecuteNonQuery();
+            con.Close();
+
+            foreach (DataGridViewRow item in dataGridView2.Rows)
+            {
+                Boolean checkRow = Convert.ToBoolean(item.Cells[0].Value);
+                if (checkRow == true)
+                {
+                    string strInsert = "INSERT INTO Xuat_Kho (So_BB_xuat, Ma_TS, ID_nguoi_nhan, Approved, IT_OP) VALUES (:SoBB, :Ma_TS, :ID, :Approved, :ITOP)";
+                    OracleCommand cmdInsert = new OracleCommand();
+                    cmdInsert.Connection = con;
+                    cmdInsert.CommandType = CommandType.Text;
+                    cmdInsert.CommandText = strInsert;
+                    cmdInsert.Parameters.Add("SoBB", txtSoBB.Text.ToString());
+                    cmdInsert.Parameters.Add("Ma_TS", Convert.ToInt32(item.Cells[1].Value));
+                    cmdInsert.Parameters.Add("ID", txtUserID2.Text.ToString());
+                    cmdInsert.Parameters.Add("Approved", '0');
+                    cmdInsert.Parameters.Add("ITOP", IT_OP.Get_IT_User());
+                    con.Open();
+                    cmdInsert.ExecuteNonQuery();
+                    con.Close();
+
+                    AutoTask.ToBufferOut(Convert.ToInt32(item.Cells[1].Value));
+
+                    string strDelete = "DELETE FROM Luu_kho WHERE Ma_TS='" + Convert.ToInt32(item.Cells[1].Value) + "'";
+                    OracleCommand cmDelete = new OracleCommand();
+                    cmDelete.Connection = con;
+                    cmDelete.CommandType = CommandType.Text;
+                    cmDelete.CommandText = strDelete;
+                    con.Open();
+                    cmDelete.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+
+            MessageBox.Show("Successful!", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            btnBrowse.Enabled = true;
+            dataGridView1.DataSource = null;
+            dataGridView2.Rows.Clear();
+        }
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
             try
             {
-                string strInsertBB = "INSERT INTO Bien_Ban(So_Bien_ban, Ma_loai_BB, CL_DATE, Reason, User_ID, IT_OP) VALUES(:So_BB, :Type_Code, CURRENT_DATE, :Reason, :ID, :ITOP)";
-                OracleCommand cmdBB = new OracleCommand();
-                cmdBB.Connection = con;
-                cmdBB.CommandType = CommandType.Text;
-                cmdBB.CommandText = strInsertBB;
-                cmdBB.Parameters.Add("So_BB", txtSoBB.Text.ToString());
-                cmdBB.Parameters.Add("Type_Code", "OUT");
-                //cmdBB.Parameters.Add("clDATE", DateTime.Now.ToString());
-                cmdBB.Parameters.Add("Reason", txtReason.Text.ToString());
-                cmdBB.Parameters.Add("ID", txtUserID2.Text.ToString());
-                cmdBB.Parameters.Add("ITOP", IT_OP.Get_IT_User());
-                con.Open();
-                cmdBB.ExecuteNonQuery();
-                con.Close();
-
-                foreach (DataGridViewRow item in dataGridView2.Rows)
+                string DeviceQty = AutoTask.SoTaiSanDaBanGiao(txtUserID2.Text.ToString().ToUpper());
+                if (Convert.ToInt32(DeviceQty) != 0)
                 {
-                    Boolean checkRow = Convert.ToBoolean(item.Cells[0].Value);
-                    if (checkRow == true)
+                    DialogResult dialog = MessageBox.Show("Anh/Chị đã bàn giao " + DeviceQty + " thiết bị cho nhân sự này. Anh chị có muôn tiếp tục???", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                    if (dialog == DialogResult.Yes)
                     {
-                        string strInsert = "INSERT INTO Xuat_Kho (So_BB_xuat, Ma_TS, ID_nguoi_nhan, Approved, IT_OP) VALUES (:SoBB, :Ma_TS, :ID, :Approved, :ITOP)";
-                        OracleCommand cmdInsert = new OracleCommand();
-                        cmdInsert.Connection = con;
-                        cmdInsert.CommandType = CommandType.Text;
-                        cmdInsert.CommandText = strInsert;
-                        cmdInsert.Parameters.Add("SoBB", txtSoBB.Text.ToString());
-                        cmdInsert.Parameters.Add("Ma_TS", Convert.ToInt32(item.Cells[1].Value));
-                        cmdInsert.Parameters.Add("ID", txtUserID2.Text.ToString());
-                        cmdInsert.Parameters.Add("Approved", '0');
-                        cmdInsert.Parameters.Add("ITOP", IT_OP.Get_IT_User());
-                        con.Open();
-                        cmdInsert.ExecuteNonQuery();
-                        con.Close();
+                        MainTask();
 
-                        string strDelete = "DELETE FROM Luu_kho WHERE Ma_TS='" + Convert.ToInt32(item.Cells[1].Value) + "'";
-                        OracleCommand cmDelete = new OracleCommand();
-                        cmDelete.Connection = con;
-                        cmDelete.CommandType = CommandType.Text;
-                        cmDelete.CommandText = strDelete;
-                        con.Open();
-                        cmDelete.ExecuteNonQuery();
-                        con.Close();
                     }
                 }
-
-                MessageBox.Show("Successful!", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                btnBrowse.Enabled = true;
-                dataGridView1.DataSource = null;
-                dataGridView2.Rows.Clear();
+                else if (Convert.ToInt32(DeviceQty) == 0)
+                {
+                    MainTask();
+                }
             }
             catch (Exception ex)
             {
@@ -270,55 +292,30 @@ namespace QLTS_LG
             {
                 con.Close();
             }
+
         }
 
         private void btnUserSearch_Click(object sender, EventArgs e)
         {
-            /*string Search_User = "SELECT * FROM _User WHERE _User.ID='" + txtIDSearch.Text.ToString() + "' and _User.Emp_Status = 'EMP'";
-            OracleDataAdapter daSearch = new OracleDataAdapter(Search_User, con);
-            DataTable dtSearch = new DataTable();
-            daSearch.Fill(dtSearch);
-
-            if (dtSearch.Rows.Count > 0)
-            {
-                txtUserID2.Text = dtSearch.Rows[0]["ID"].ToString();
-                txtUser_Name.Text = dtSearch.Rows[0]["Name"].ToString();
-                txtPhone.Text = dtSearch.Rows[0]["Phone"].ToString();
-                txtMail.Text = dtSearch.Rows[0]["Mail"].ToString();
-                txtDept.Text = dtSearch.Rows[0]["Dept"].ToString();
-                chkOSP.Checked = Convert.ToBoolean(dtSearch.Rows[0]["OSP"]);
-                btnUpdate.Enabled = false;
-            }
-            else
-            {
-                MessageBox.Show("Chua co du lieu hoac nguoi dung da nghi viec!", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                btnUpdate.Enabled = true;
-                txtIDSearch.ResetText();
-                txtUserID2.ResetText();
-                txtPhone.ResetText();
-                txtUser_Name.ResetText();
-                txtMail.ResetText();
-                txtDept.ResetText();
-            }*/
 
             update.SearchUser(txtIDSearch, txtUserID2, txtUser_Name, txtPhone, txtMail, txtDept, chkOSP, btnUpdate);
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            
+
             update.UpdateUser(txtUserID2, txtUser_Name, txtPhone, txtMail, txtDept, chkOSP);
         }
 
         private void tnInsertUser_Click(object sender, EventArgs e)
         {
-            
+
             update.InsertUser(txtUserID2, txtUser_Name, txtPhone, txtMail, txtDept, chkOSP);
         }
 
         private void btnSelectAll_Click(object sender, EventArgs e)
         {
-            string columnName =  dataGridView1.Columns["Select"].Name.ToString();
+            string columnName = dataGridView1.Columns["Select"].Name.ToString();
             AutoComplete autoComplete = new AutoComplete();
             autoComplete.AutoSelectAll(dataGridView2, columnName);
         }
@@ -329,7 +326,7 @@ namespace QLTS_LG
             {
                 string SearchType = strSearch + " where b.Ma_Loai_TS_cap2 = :Type";
                 string cbTypeValue = cbType.SelectedValue.ToString();
-             
+
                 OracleCommand cmdSearchType = new OracleCommand();
                 cmdSearchType.Connection = con;
                 cmdSearchType.CommandType = CommandType.Text;
@@ -340,7 +337,7 @@ namespace QLTS_LG
                 daType.Fill(dtType);
                 dataGridView1.DataSource = dtType;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -350,7 +347,7 @@ namespace QLTS_LG
         private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             string strSearchStatus = strSearch + " where b.Ma_tinh_trang = :Status";
-           
+
             OracleCommand cmdStatus = new OracleCommand();
             cmdStatus.Connection = con;
             cmdStatus.CommandType = CommandType.Text;
@@ -376,7 +373,7 @@ namespace QLTS_LG
 
         private void txtSN_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 brnSearch_Click(this, new EventArgs());
             }
@@ -420,8 +417,13 @@ namespace QLTS_LG
         private void btnReport_Click(object sender, EventArgs e)
         {
             Report report = new Report();
-            //report.BienBanXuatKho(txtSoBB.Text.ToString());
-            report.TestBB(txtSoBB.Text.ToString());
+            //report.TestBB(txtSoBB.Text.ToString());
+            report.Print_Bien_Ban(txtSoBB.Text.ToString());
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            Excel.ExportExcelFromDGV(dataGridView1);
         }
     }
 }

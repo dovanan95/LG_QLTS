@@ -23,8 +23,10 @@ namespace QLTS_LG
         UserUpdate UserFunc = new UserUpdate();
         Permission IT_OP = new Permission();
         Report Report = new Report();
+        UploadAndRetrieve UploadEPA = new UploadAndRetrieve();
+        Excel Excel = new Excel();
         //string ITOP = Permission.ITOP;
-
+        AutoTask AutoTask = new AutoTask();
         public Borrow()
         {
             InitializeComponent();
@@ -125,7 +127,7 @@ namespace QLTS_LG
                 " FROM Luu_kho a " +
                 " inner join Tai_san b on a.Ma_TS = b.Ma_TS" +
                 " inner join Loai_TS_cap2 c on b.Ma_Loai_TS_cap2 = c.Ma_loai " +
-                " WHERE a.Tinh_Trang = 'OK' OR a.Tinh_Trang = 'NE'";
+                " WHERE b.Ma_Tinh_Trang = 'OK' OR b.Ma_Tinh_Trang = 'NE'";
 
                 OracleDataAdapter daSelect = new OracleDataAdapter(strSelect, con);
                 DataTable dtSelect = new DataTable();
@@ -160,108 +162,127 @@ namespace QLTS_LG
                 MessageBox.Show(ex.Message);
             }
         }
-
-        private void btnGo_Click(object sender, EventArgs e)
+        private void Go_MainTask()
         {
-            //try
-            //{
-                string strInsertBB = "INSERT INTO Bien_Ban(So_Bien_ban, Ma_loai_BB, Reason, CL_DATE, User_ID, IT_OP) VALUES (:So_BB, :Code, :Reason, CURRENT_DATE, :ID, :ITOP)";
-                OracleCommand cmdInBB = new OracleCommand();
-                cmdInBB.Connection = con;
-                cmdInBB.CommandType = CommandType.Text;
-                cmdInBB.CommandText = strInsertBB;
-                cmdInBB.Parameters.Add(new OracleParameter("So_BB", txtSoBB.Text.ToString()));
-                cmdInBB.Parameters.Add(new OracleParameter("Code", "TEMP"));
-                cmdInBB.Parameters.Add(new OracleParameter("Reason", txtReason.Text.ToString()));
-                //cmdInBB.Parameters.Add("clDate", DateTime.Now.ToString());
-                cmdInBB.Parameters.Add(new OracleParameter("ID", txtUserID.Text.ToString()));
-                cmdInBB.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
-                con.Open();
-                cmdInBB.ExecuteNonQuery();
-                con.Close();
+            string strInsertBB = "INSERT INTO Bien_Ban(So_Bien_ban, Ma_loai_BB, Reason, CL_DATE, User_ID, IT_OP, APPROVED) VALUES (:So_BB, :Code, :Reason, CURRENT_DATE, :ID, :ITOP, :APP)";
+            OracleCommand cmdInBB = new OracleCommand();
+            cmdInBB.Connection = con;
+            cmdInBB.CommandType = CommandType.Text;
+            cmdInBB.CommandText = strInsertBB;
+            cmdInBB.Parameters.Add(new OracleParameter("So_BB", txtSoBB.Text.ToString()));
+            cmdInBB.Parameters.Add(new OracleParameter("Code", "TEMP"));
+            cmdInBB.Parameters.Add(new OracleParameter("Reason", txtReason.Text.ToString()));
+            //cmdInBB.Parameters.Add("clDate", DateTime.Now.ToString());
+            cmdInBB.Parameters.Add(new OracleParameter("ID", txtUserID.Text.ToString()));
+            cmdInBB.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
+            cmdInBB.Parameters.Add(new OracleParameter("APP", "N"));
+            con.Open();
+            cmdInBB.ExecuteNonQuery();
+            con.Close();
 
-                if (rdST.Checked == true)
-                {
-                    foreach (DataGridViewRow row in dgvSelected.Rows)
-                    {
-                        Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
-                        if (CheckRow)
-                        {
-                            string strInBorrow = "INSERT INTO Muon_vat_tu(So_BB, Ma_TS, Reason, Due_date, Qua_han, ID_nguoi_muon, Approved, Borrow_code, IT_OP)" +
-                                " VALUES(:SoBB, :MTS, :Reason, (to_date(:Due, 'yyyy/mm/dd hh24:mi:ss')), :Expired_check, :IDUser, :App, :Brr_code, :ITOP)";
-                            OracleCommand cmdBrr = new OracleCommand();
-                            cmdBrr.Connection = con;
-                            cmdBrr.CommandType = CommandType.Text;
-                            cmdBrr.CommandText = strInBorrow;
-                            cmdBrr.Parameters.Add(new OracleParameter("SoBB", txtSoBB.Text.ToString()));
-                            cmdBrr.Parameters.Add(new OracleParameter("MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value)));
-                            cmdBrr.Parameters.Add(new OracleParameter("Reason", txtReason.Text.ToString()));
-                            cmdBrr.Parameters.Add(new OracleParameter("Due", dateTimePicker1.Value.ToString("yyyy/MM/dd HH:mm:ss")));
-                            cmdBrr.Parameters.Add(new OracleParameter("Expired_check", '0'));
-                            cmdBrr.Parameters.Add(new OracleParameter("IDUser", txtUserID.Text.ToString()));
-                            cmdBrr.Parameters.Add(new OracleParameter("App", '0'));
-                            cmdBrr.Parameters.Add(new OracleParameter("Brr_code", "ST"));
-                            cmdBrr.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
-                            con.Open();
-                            cmdBrr.ExecuteNonQuery();
-                            con.Close();
-                        }
-                    }
-                }
-                else if (rdLT.Checked == true)
-                {
-                    foreach (DataGridViewRow row in dgvSelected.Rows)
-                    {
-                        Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
-                        if (CheckRow)
-                        {
-                            string strInBorrow = "INSERT INTO Muon_vat_tu(So_BB, Ma_TS, Reason,  Qua_han, ID_nguoi_muon, Approved, Borrow_code, IT_OP)" +
-                                " VALUES(:SoBB, :MTS, :Reason,  :Expired_check, :IDUser, :App, :Brr_code, :ITOP)";
-                            OracleCommand cmdBrr = new OracleCommand();
-                            cmdBrr.Connection = con;
-                            cmdBrr.CommandType = CommandType.Text;
-                            cmdBrr.CommandText = strInBorrow;
-                            cmdBrr.Parameters.Add(new OracleParameter("SoBB", txtSoBB.Text.ToString()));
-                            cmdBrr.Parameters.Add(new OracleParameter("MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value)));
-                            cmdBrr.Parameters.Add(new OracleParameter("Reason", txtReason.Text.ToString()));
-                            //cmdBrr.Parameters.Add("@Due", "");
-                            cmdBrr.Parameters.Add(new OracleParameter("Expired_check", '0'));
-                            cmdBrr.Parameters.Add(new OracleParameter("IDUser", txtUserID.Text.ToString()));
-                            cmdBrr.Parameters.Add(new OracleParameter("App", '0'));
-                            cmdBrr.Parameters.Add(new OracleParameter("Brr_code", "LT"));
-                            cmdBrr.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
-                            con.Open();
-                            cmdBrr.ExecuteNonQuery();
-                            con.Close();
-                        }
-                    }
-                }
-
+            if (rdST.Checked == true)
+            {
                 foreach (DataGridViewRow row in dgvSelected.Rows)
                 {
                     Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
                     if (CheckRow)
                     {
-                        string strClear = "DELETE FROM Luu_kho WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
-                        OracleCommand cmdClear = new OracleCommand();
-                        cmdClear.Connection = con;
-                        cmdClear.CommandType = CommandType.Text;
-                        cmdClear.CommandText = strClear;
+                        string strInBorrow = "INSERT INTO Muon_vat_tu(So_BB, Ma_TS, Reason, Due_date, Qua_han, ID_nguoi_muon, Approved, Borrow_code, IT_OP)" +
+                            " VALUES(:SoBB, :MTS, :Reason, (to_date(:Due, 'yyyy/mm/dd hh24:mi:ss')), :Expired_check, :IDUser, :App, :Brr_code, :ITOP)";
+                        OracleCommand cmdBrr = new OracleCommand();
+                        cmdBrr.Connection = con;
+                        cmdBrr.CommandType = CommandType.Text;
+                        cmdBrr.CommandText = strInBorrow;
+                        cmdBrr.Parameters.Add(new OracleParameter("SoBB", txtSoBB.Text.ToString()));
+                        cmdBrr.Parameters.Add(new OracleParameter("MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value)));
+                        cmdBrr.Parameters.Add(new OracleParameter("Reason", txtReason.Text.ToString()));
+                        cmdBrr.Parameters.Add(new OracleParameter("Due", dateTimePicker1.Value.ToString("yyyy/MM/dd HH:mm:ss")));
+                        cmdBrr.Parameters.Add(new OracleParameter("Expired_check", '0'));
+                        cmdBrr.Parameters.Add(new OracleParameter("IDUser", txtUserID.Text.ToString()));
+                        cmdBrr.Parameters.Add(new OracleParameter("App", '0'));
+                        cmdBrr.Parameters.Add(new OracleParameter("Brr_code", "ST"));
+                        cmdBrr.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
                         con.Open();
-                        cmdClear.ExecuteNonQuery();
+                        cmdBrr.ExecuteNonQuery();
                         con.Close();
                     }
                 }
-                lblStatus.Text = "OK";
-                lblStatus.ForeColor = System.Drawing.Color.Chartreuse;
+            }
+            else if (rdLT.Checked == true)
+            {
+                foreach (DataGridViewRow row in dgvSelected.Rows)
+                {
+                    Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
+                    if (CheckRow)
+                    {
+                        string strInBorrow = "INSERT INTO Muon_vat_tu(So_BB, Ma_TS, Reason,  Qua_han, ID_nguoi_muon, Approved, Borrow_code, IT_OP)" +
+                            " VALUES(:SoBB, :MTS, :Reason,  :Expired_check, :IDUser, :App, :Brr_code, :ITOP)";
+                        OracleCommand cmdBrr = new OracleCommand();
+                        cmdBrr.Connection = con;
+                        cmdBrr.CommandType = CommandType.Text;
+                        cmdBrr.CommandText = strInBorrow;
+                        cmdBrr.Parameters.Add(new OracleParameter("SoBB", txtSoBB.Text.ToString()));
+                        cmdBrr.Parameters.Add(new OracleParameter("MTS", Convert.ToInt32(row.Cells["Ma_TS"].Value)));
+                        cmdBrr.Parameters.Add(new OracleParameter("Reason", txtReason.Text.ToString()));
+                        //cmdBrr.Parameters.Add("@Due", "");
+                        cmdBrr.Parameters.Add(new OracleParameter("Expired_check", '0'));
+                        cmdBrr.Parameters.Add(new OracleParameter("IDUser", txtUserID.Text.ToString()));
+                        cmdBrr.Parameters.Add(new OracleParameter("App", '0'));
+                        cmdBrr.Parameters.Add(new OracleParameter("Brr_code", "LT"));
+                        cmdBrr.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
+                        con.Open();
+                        cmdBrr.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+            }
 
-                MessageBox.Show("Mượn là mất cất là còn", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                         
-                dgvQuerry.DataSource = null;
-                dgvQuerry.Rows.Clear();
-                dgvSelected.DataSource = null;
-                dgvSelected.Rows.Clear();
-            /*}
+            foreach (DataGridViewRow row in dgvSelected.Rows)
+            {
+                Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
+                if (CheckRow)
+                {
+                    AutoTask.ToBufferOut(Convert.ToInt32(row.Cells["Ma_TS"].Value));
+
+                    string strClear = "DELETE FROM Luu_kho WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
+                    OracleCommand cmdClear = new OracleCommand();
+                    cmdClear.Connection = con;
+                    cmdClear.CommandType = CommandType.Text;
+                    cmdClear.CommandText = strClear;
+                    con.Open();
+                    cmdClear.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            lblStatus.Text = "OK";
+            lblStatus.ForeColor = System.Drawing.Color.Chartreuse;
+
+            MessageBox.Show("Finished", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            dgvQuerry.DataSource = null;
+            dgvQuerry.Rows.Clear();
+            dgvSelected.DataSource = null;
+            dgvSelected.Rows.Clear();
+        }
+
+        private void btnGo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string DeviceQty = AutoTask.SoTaiSanDaBanGiao(txtUserID.Text.ToString().ToUpper());
+                if (Convert.ToInt32(DeviceQty) != 0)
+                {
+                    DialogResult dialog = MessageBox.Show("Anh/Chị đã bàn giao " + DeviceQty + " thiết bị cho nhân sự này. Anh chị có muôn tiếp tục???", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                    if (dialog == DialogResult.Yes)
+                    {
+                        Go_MainTask();
+                    }
+                }
+                else if (Convert.ToInt32(DeviceQty) == 0)
+                {
+                    Go_MainTask();
+                }
+            }
             catch (Exception ex)
             {
                 lblStatus.Text = "NG";
@@ -273,7 +294,7 @@ namespace QLTS_LG
             finally
             {
                 con.Close();
-            }*/
+            }
         }
 
         private void rdLT_CheckedChanged(object sender, EventArgs e)
@@ -369,7 +390,23 @@ namespace QLTS_LG
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            Report.TestBB(txtSoBB.Text.ToString());
+            //Report.TestBB(txtSoBB.Text.ToString());
+            Report.Print_Bien_Ban(txtSoBB.Text.ToString());
+        }
+
+        private void btnEPA_Click(object sender, EventArgs e)
+        {
+            this.openFileDialog1.ShowDialog();
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            UploadEPA.UploadToFileServer(txtSoBB, openFileDialog1);
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            Excel.ExportExcelFromDGV(dgvQuerry);
         }
     }
 }

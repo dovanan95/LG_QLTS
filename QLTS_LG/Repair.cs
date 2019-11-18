@@ -26,6 +26,9 @@ namespace QLTS_LG
         UserUpdate update = new UserUpdate();
         Permission IT_OP = new Permission();
         Report Report = new Report();
+        Excel Excel = new Excel();
+        AutoTask AutoTask = new AutoTask();
+
         public Repair()
         {
             InitializeComponent();
@@ -125,7 +128,7 @@ namespace QLTS_LG
                 }
                 else if (txtSN.Text.ToString() == "" && txtIT_Tag.Text.ToString() == "" && txtFaTag.Text.ToString() == "")
                 {
-                    string strSearch = strSearchPublic + " WHERE a.Tinh_Trang = 'NG'";
+                    string strSearch = strSearchPublic + " WHERE c.Phan_loai = 'DE' and b.Ma_Tinh_Trang = 'NG'";
                     OracleDataAdapter daSearch = new OracleDataAdapter(strSearch, con);
                     DataTable dtSearch = new DataTable();
                     daSearch.Fill(dtSearch);
@@ -159,7 +162,7 @@ namespace QLTS_LG
                 }
                 else if(txtMTS.Text.ToString() == "")
                 {
-                    string strSearch = strSearchPublic + " WHERE c.Phan_loai = 'MAT' and (a.Tinh_Trang = 'OK' OR a.Tinh_Trang = 'NE')";
+                    string strSearch = strSearchPublic + " WHERE c.Phan_loai = 'MAT' and (b.Ma_Tinh_Trang = 'OK' OR b.Ma_Tinh_Trang = 'NE')";
                     OracleDataAdapter daSearch = new OracleDataAdapter(strSearch, con);
                     DataTable dtSearch = new DataTable();
                     daSearch.Fill(dtSearch);
@@ -315,7 +318,7 @@ namespace QLTS_LG
         {
             try
             {
-                string strBB = "INSERT INTO Bien_Ban (So_Bien_ban, Ma_loai_BB, CL_DATE, User_ID, IT_OP) VALUES (:SoBB, :Type, CURRENT_DATE, :ID, :ITOP)";
+                string strBB = "INSERT INTO Bien_Ban (So_Bien_ban, Ma_loai_BB, CL_DATE, User_ID, IT_OP, APPROVED) VALUES (:SoBB, :Type, CURRENT_DATE, :ID, :ITOP, :APP)";
                 OracleCommand cmdBB = new OracleCommand();
                 cmdBB.CommandType = CommandType.Text;
                 cmdBB.CommandText = strBB;
@@ -325,6 +328,7 @@ namespace QLTS_LG
                 //cmdBB.Parameters.Add("@Date", DateTime.Now.ToString());
                 cmdBB.Parameters.Add(new OracleParameter("ID", txtUserID.Text.ToString()));
                 cmdBB.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
+                cmdBB.Parameters.Add(new OracleParameter("APP", "N"));
                 con.Open();
                 cmdBB.ExecuteNonQuery();
                 con.Close();
@@ -370,6 +374,8 @@ namespace QLTS_LG
                         Boolean CheckRow = Convert.ToBoolean(rowdel.Cells["Select"].Value);
                         if (CheckRow)
                         {
+                            AutoTask.ToBufferOut(Convert.ToInt32(rowdel.Cells["Ma_TS_Repair"].Value)); 
+                            
                             string Delete = "DELETE FROM Luu_kho WHERE Ma_TS = :MaTS";
                             OracleCommand cmdXoa = new OracleCommand();
                             cmdXoa.Connection = con;
@@ -387,6 +393,8 @@ namespace QLTS_LG
                         Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
                         if (CheckRow)
                         {
+                            AutoTask.ToBufferOut(Convert.ToInt32(row.Cells["Ma_TS"].Value));
+
                             string strDEL = "DELETE FROM Luu_kho WHERE Ma_TS = :MaTS";
                             OracleCommand cmdDEL = new OracleCommand();
                             cmdDEL.Connection = con;
@@ -442,6 +450,8 @@ namespace QLTS_LG
                         Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
                         if (CheckRow)
                         {
+                            AutoTask.ToBufferOut(Convert.ToInt32(row.Cells["Ma_TS"].Value));
+
                             string strDEL = "DELETE FROM Luu_kho WHERE Ma_TS = :MaTS";
                             OracleCommand cmdDEL = new OracleCommand();
                             cmdDEL.Connection = con;
@@ -673,7 +683,8 @@ namespace QLTS_LG
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            Report.TestBB(txtSoBB.Text.ToString());
+            //Report.TestBB(txtSoBB.Text.ToString());
+            Report.Print_Bien_Ban(txtSoBB.Text.ToString());
         }
         public void CheckGO()
         {
@@ -685,6 +696,16 @@ namespace QLTS_LG
             {
                 btnChoose.Enabled = true;
             }
+        }
+
+        private void btnExcelforDevice_Click(object sender, EventArgs e)
+        {
+            Excel.ExportExcelFromDGV(dgvRepairDevice);
+        }
+
+        private void btnExcelforAdditional_Click(object sender, EventArgs e)
+        {
+            Excel.ExportExcelFromDGV(dgvAddingDevice);
         }
     }
 }

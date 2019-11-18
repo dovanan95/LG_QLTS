@@ -51,6 +51,7 @@
             this.dgvSelected = new System.Windows.Forms.DataGridView();
             this.panel7 = new System.Windows.Forms.Panel();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.btnExcel = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuerry)).BeginInit();
             this.panel2.SuspendLayout();
@@ -139,6 +140,7 @@
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlDark;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.btnExcel);
             this.panel2.Controls.Add(this.btnTransfer);
             this.panel2.Controls.Add(this.btnSelectAll);
             this.panel2.Controls.Add(this.btnSearch);
@@ -169,9 +171,9 @@
             // btnSelectAll
             // 
             this.btnSelectAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelectAll.Location = new System.Drawing.Point(442, 93);
+            this.btnSelectAll.Location = new System.Drawing.Point(466, 93);
             this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(133, 23);
+            this.btnSelectAll.Size = new System.Drawing.Size(109, 23);
             this.btnSelectAll.TabIndex = 15;
             this.btnSelectAll.Text = "Select All";
             this.btnSelectAll.UseVisualStyleBackColor = true;
@@ -301,6 +303,18 @@
             this.lblStatus.Text = "Ready";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // btnExcel
+            // 
+            this.btnExcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExcel.ForeColor = System.Drawing.Color.Green;
+            this.btnExcel.Location = new System.Drawing.Point(381, 94);
+            this.btnExcel.Name = "btnExcel";
+            this.btnExcel.Size = new System.Drawing.Size(79, 23);
+            this.btnExcel.TabIndex = 17;
+            this.btnExcel.Text = "Excel";
+            this.btnExcel.UseVisualStyleBackColor = true;
+            this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
+            // 
             // Disposal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -352,5 +366,6 @@
         private System.Windows.Forms.Button btnTransfer;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.Button btnExcel;
     }
 }

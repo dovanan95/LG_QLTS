@@ -16,8 +16,9 @@ namespace QLTS_LG
     public partial class Revoke : Form
     {
 
-        public string strSearchPublic = "SELECT a.Ma_TS, b.Ten_TS, b.SN, b.FA_Tag, b.IT_Tag, b.Model, c.Ten_loai, d.Ten_tinh_trang, a.ID_User " +
+        public string strSearchPublic = "SELECT a.Ma_TS, b.Ten_TS, b.SN, b.FA_Tag, b.IT_Tag, b.Model, c.Ten_loai, d.Ten_tinh_trang, e.USER_ID " +
                 "FROM Ngoai_Kho a " +
+                "inner join bien_ban e on a.SO_BB = e.SO_BIEN_BAN " +
                 "INNER JOIN  Tai_san b ON a.Ma_TS = b.Ma_TS " +
                 "INNER JOIN Loai_TS_cap2 c ON b.Ma_Loai_TS_cap2 = c.Ma_loai " +
                 "INNER JOIN Status d On b.Ma_tinh_trang = d.Ma_tinh_trang ";
@@ -29,6 +30,8 @@ namespace QLTS_LG
         OracleDataAdapter DataAdapter = new OracleDataAdapter();
         DataTable Table = new DataTable();
         AntiDuplicated AntiDuplicated = new AntiDuplicated();
+        AutoTask AutoTask = new AutoTask();
+        Excel Excel = new Excel();
 
         Permission IT_OP = new Permission();
 
@@ -76,6 +79,7 @@ namespace QLTS_LG
             {
                 string strSearch2 = "select a.Ma_TS, b.Ten_TS, d.Ten_loai, b.SN, b.FA_Tag, b.IT_Tag, c.Ten_tinh_trang " +
                     "from Ngoai_Kho a " +
+                    "inner join BIEN_BAN e on a.So_BB = e.SO_BIEN_BAN " +
                     "inner join Tai_san b on b.Ma_TS = a.Ma_TS " +
                     "inner join Status c on c.Ma_tinh_trang = b.Ma_tinh_trang " +
                     "inner join Loai_TS_cap2 d on d.Ma_loai =  b.Ma_Loai_TS_cap2 " +
@@ -148,7 +152,7 @@ namespace QLTS_LG
                             flag = true;
                             break;
                         }
-                        
+
                     }
                 }
 
@@ -158,7 +162,7 @@ namespace QLTS_LG
                 {
                     MessageBox.Show("Check Remark for NG items!!!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     flag = false;
-                    foreach(DataGridViewRow rowNG in dataGridView2.Rows)
+                    foreach (DataGridViewRow rowNG in dataGridView2.Rows)
                     {
                         Boolean CheckRowNG = Convert.ToBoolean(rowNG.Cells["Select"].Value);
                         if (CheckRowNG)
@@ -176,7 +180,7 @@ namespace QLTS_LG
                 }
                 else
                 {
-                    string strInsertBB = "INSERT INTO Bien_Ban (So_Bien_Ban, Ma_loai_BB, CL_DATE, User_ID, IT_OP) VALUES (:So_Bien_Ban, :Ma_loai_BB, CURRENT_DATE, :ID, :ITOP)";
+                    string strInsertBB = "INSERT INTO Bien_Ban (So_Bien_Ban, Ma_loai_BB, CL_DATE, REASON, User_ID, IT_OP, APPROVED) VALUES (:So_Bien_Ban, :Ma_loai_BB, CURRENT_DATE, :reason, :ID, :ITOP, :APP)";
                     OracleCommand cmdInsertBB = new OracleCommand();
                     cmdInsertBB.Connection = con;
                     cmdInsertBB.CommandType = CommandType.Text;
@@ -184,15 +188,17 @@ namespace QLTS_LG
                     cmdInsertBB.Parameters.Add(new OracleParameter("So_Bien_Ban", txtSoBB.Text.ToString()));
                     cmdInsertBB.Parameters.Add(new OracleParameter("Ma_loai_BB", "IN"));
                     //cmdInsertBB.Parameters.Add("@DATE", DateTime.Now.ToString());
+                    cmdInsertBB.Parameters.Add(new OracleParameter("reason", txtReason.Text.ToString()));
                     cmdInsertBB.Parameters.Add(new OracleParameter("ID", txtUserID2.Text.ToString()));
                     cmdInsertBB.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
+                    cmdInsertBB.Parameters.Add(new OracleParameter("APP", "N"));
                     con.Open();
                     cmdInsertBB.ExecuteNonQuery();
                     con.Close();
 
 
                     //Insert ngày thu hồi vật tư đối với các vật tư cho mượn.
-                    string strSelectBorrow = "SELECT * FROM Muon_vat_tu";
+                    /*string strSelectBorrow = "SELECT * FROM Muon_vat_tu";
                     OracleCommand cmdSelectBorrow = new OracleCommand(strSelectBorrow, con);
                     OracleDataReader rdrSelectBorrow = null;
                     con.Open();
@@ -220,7 +226,7 @@ namespace QLTS_LG
                             }
                         }
                     }
-                    con.Close();
+                    con.Close();*/
 
 
                     string strSelect_TS = "SELECT * FROM Tai_san";
@@ -247,7 +253,7 @@ namespace QLTS_LG
                                     cmdReceived.Parameters.Add(new OracleParameter("Ma_TS", Convert.ToInt32(row.Cells["Ma_TS"].Value)));
                                     cmdReceived.Parameters.Add(new OracleParameter("User_ID", txtUserID2.Text.ToString()));
                                     cmdReceived.Parameters.Add(new OracleParameter("Status", strStatusCode));
-                                  
+
                                     if (row.Cells["Remark"].Value != null)
                                     {
                                         cmdReceived.Parameters.Add(new OracleParameter("Remark", row.Cells["Remark"].Value.ToString()));
@@ -286,6 +292,8 @@ namespace QLTS_LG
                         Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
                         if (CheckRow == true)
                         {
+
+                            AutoTask.ToBufferIN(Convert.ToInt32(row.Cells["Ma_TS"].Value));
                             string strDEL = "DELETE FROM Ngoai_Kho WHERE Ma_TS = '" + Convert.ToInt32(row.Cells["Ma_TS"].Value) + "'";
                             OracleCommand cmdDEL = new OracleCommand();
                             cmdDEL.Connection = con;
@@ -327,6 +335,7 @@ namespace QLTS_LG
             AutoGenBB Bien_Ban = new AutoGenBB();
             Bien_Ban.AutoGenBBBG();
             txtSoBB.Text = Bien_Ban.SoBBBG;
+            txtReason.ResetText();
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -357,7 +366,7 @@ namespace QLTS_LG
             }
             else if (txtUserID.Text.ToString() != "")
             {
-                string ID = strSearchPublic + " where a.ID_User = '" + txtUserID.Text.ToString() + "'";
+                string ID = strSearchPublic + " where e.USER_ID = '" + txtUserID.Text.ToString().ToUpper() + "'";
                 OracleDataAdapter daID = new OracleDataAdapter(ID, con);
                 DataTable dtID = new DataTable();
                 daID.Fill(dtID);
@@ -622,7 +631,7 @@ namespace QLTS_LG
                 daType.Fill(dtType);
                 dataGridView1.DataSource = dtType;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -662,7 +671,13 @@ namespace QLTS_LG
 
         private void lblReport_Click(object sender, EventArgs e)
         {
-            Report.TestBB(txtSoBB.Text.ToString());
+            //Report.TestBB(txtSoBB.Text.ToString());
+            Report.Print_Bien_Ban(txtSoBB.Text.ToString());
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            Excel.ExportExcelFromDGV(dataGridView1);
         }
     }
 }

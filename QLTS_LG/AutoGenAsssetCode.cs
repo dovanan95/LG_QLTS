@@ -19,6 +19,7 @@ namespace QLTS_LG
         public string code;
         public string TypeCode;
         public string unit_id;
+        public string model_code;
         public void AutoGenCode()
         {
             //code...
@@ -60,6 +61,22 @@ namespace QLTS_LG
             int Tcode = Convert.ToInt32(LastItem) + 1;
             TypeCode = Tcode.ToString();
            
+            con.Close();
+        }
+        public void AutoGenModelCode()
+        {
+            con.Open();
+            string strQuerryTypeDevice = "select max(to_number(model_code)) from Model";
+            OracleDataAdapter dataAdapter = new OracleDataAdapter(strQuerryTypeDevice, con);
+            DataTable dtQTD = new DataTable();
+            dataAdapter.Fill(dtQTD);
+
+            //int RowCount = dtQTD.Rows.Count - 1;
+            //string LastItem = dtQTD.Rows[RowCount][0].ToString();
+            string LastItem = dtQTD.Rows[0][0].ToString();
+            int Tcode = Convert.ToInt32(LastItem) + 1;
+            model_code = Tcode.ToString();
+
             con.Close();
         }
         public void AutoGenUnit()

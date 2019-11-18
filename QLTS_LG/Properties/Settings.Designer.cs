@@ -43,5 +43,15 @@ namespace QLTS_LG.Properties {
                 return ((string)(this["QLTS_LG_WS_ORG_QLTS_ORG"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://10.224.50.222:49155/print_doc_service.asmx")]
+        public string QLTS_LG_Print_Document_Print_doc_service {
+            get {
+                return ((string)(this["QLTS_LG_Print_Document_Print_doc_service"]));
+            }
+        }
     }
 }

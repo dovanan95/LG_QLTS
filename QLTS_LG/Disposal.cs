@@ -21,8 +21,8 @@ namespace QLTS_LG
         DataTable Table = new DataTable();
         LoadComboboxData LoadCombobox = new LoadComboboxData();
         Permission IT_OP = new Permission();
+        Excel Excel = new Excel();
 
-        
 
         public Disposal()
         {
@@ -116,7 +116,7 @@ namespace QLTS_LG
         {
             try
             {
-                string strBB = "INSERT INTO Bien_Ban (So_Bien_ban, Ma_loai_BB, CL_DATE, IT_OP) VALUES (:SoBB, :Type, CURRENT_DATE, :ITOP)";
+                string strBB = "INSERT INTO Bien_Ban (So_Bien_ban, Ma_loai_BB, CL_DATE, USER_ID, IT_OP, APPROVED) VALUES (:SoBB, :Type, CURRENT_DATE, :userid, :ITOP, :APP)";
                 OracleCommand cmdBB = new OracleCommand();
                 cmdBB.Connection = con;
                 cmdBB.CommandType = CommandType.Text;
@@ -124,7 +124,9 @@ namespace QLTS_LG
                 cmdBB.Parameters.Add(new OracleParameter("SoBB", txtSoBB.Text.ToString()));
                 cmdBB.Parameters.Add(new OracleParameter("Type", "DIS"));
                 //cmdBB.Parameters.Add("@Date", DateTime.Now.ToString());
+                cmdBB.Parameters.Add(new OracleParameter("userid", "VH000005"));
                 cmdBB.Parameters.Add(new OracleParameter("ITOP", IT_OP.Get_IT_User()));
+                cmdBB.Parameters.Add(new OracleParameter("APP", "N"));
                 con.Open();
                 cmdBB.ExecuteNonQuery();
                 con.Close();
@@ -177,7 +179,7 @@ namespace QLTS_LG
 
                 MessageBox.Show("Complete!!", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
 
@@ -207,7 +209,7 @@ namespace QLTS_LG
 
         private void txtSN_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 btnSearch_Click(this, new EventArgs());
             }
@@ -215,7 +217,7 @@ namespace QLTS_LG
 
         private void txtIT_Tag_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 btnSearch_Click(this, new EventArgs());
             }
@@ -223,10 +225,15 @@ namespace QLTS_LG
 
         private void txtFA_Tag_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 btnSearch_Click(this, new EventArgs());
             }
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            Excel.ExportExcelFromDGV(dgvQuerry);
         }
     }
 }

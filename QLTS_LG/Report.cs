@@ -9,6 +9,8 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Configuration;
 using Oracle.ManagedDataAccess.Client;
+using Microsoft.Win32;
+using System.Diagnostics;
 
 namespace QLTS_LG
 {
@@ -17,8 +19,9 @@ namespace QLTS_LG
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
         OracleConnection con = new OracleConnection(connectionString);
         OracleConnection con2 = new OracleConnection(connectionString);
-
+        AutoTask AutoTask = new AutoTask();
         Bien_Ban frm = new Bien_Ban();
+        Print_Document.Print_doc_service print_Doc = new Print_Document.Print_doc_service();
 
 
         private string Export = "Xuat_Kho";
@@ -92,7 +95,7 @@ namespace QLTS_LG
                         "inner join Loai_TS_cap2 c on a.Ma_Loai_TS_cap2 = c.Ma_loai " +
                         "inner join Unit d on d.unit_id = a.Unit " +
                         "inner join Status e on e.Ma_tinh_Trang  = a.Ma_tinh_trang " +
-                        "where b." + Report_type_private + "= '" + SoBB + "' and a.Ma_Loai_TS_cap1 = 'DE'";
+                        "where b." + Report_type_private + "= '" + SoBB + "' and a.Ma_Loai_TS_cap1 = 'DE' and b.APPROVED = 1";
 
                 strGridviewTransferDataForAdditional =
                         "select a.Ma_TS, a.Ten_TS, c.Ten_loai, a.SN, a.Model, d.unit_name, e.Ten_tinh_trang " +
@@ -101,7 +104,7 @@ namespace QLTS_LG
                         "inner join Loai_TS_cap2 c on a.Ma_Loai_TS_cap2 = c.Ma_loai " +
                         "inner join Unit d on d.unit_id = a.Unit " +
                         "inner join Status e on e.Ma_tinh_Trang  = a.Ma_tinh_trang " +
-                        "where not a.Ma_Loai_TS_cap1 = 'DE' and b." + Report_type_private + " = '" + SoBB + "'";
+                        "where not a.Ma_Loai_TS_cap1 = 'DE' and b." + Report_type_private + " = '" + SoBB + "' and b.APPROVED = 1";
 
                 strGridviewTransferDataforAdditionalofRepair =
                         "select a.Ma_TS, a.Ten_TS, c.Ten_loai, a.SN, a.Model, d.unit_name, e.Ten_tinh_trang " +
@@ -110,7 +113,7 @@ namespace QLTS_LG
                         "inner join Loai_TS_cap2 c on a.Ma_Loai_TS_cap2 = c.Ma_loai " +
                         "inner join Unit d on d.unit_id = a.Unit " +
                         "inner join Status e on e.Ma_tinh_Trang  = a.Ma_tinh_trang " +
-                        "where not a.Ma_Loai_TS_cap1 = 'DE' and b." + Report_type_private + " = '" + SoBB + "'";
+                        "where not a.Ma_Loai_TS_cap1 = 'DE' and b." + Report_type_private + " = '" + SoBB + "' and b.APPROVED = 1";
 
                 SqlCommand cmdGTD = new SqlCommand();
 
@@ -153,9 +156,16 @@ namespace QLTS_LG
                 frm.Dept_Rcv = dtRcv.Rows[0]["Dept"].ToString();
                                 
                 frm.WindowState = FormWindowState.Maximized;
-                frm.FormBorderStyle = FormBorderStyle.FixedDialog;
-                frm.TopMost = true;
-                frm.ShowDialog();
+                //frm.FormBorderStyle = FormBorderStyle.FixedDialog;
+                //frm.TopMost = true;
+                if(AutoTask.CheckApproved(SoBB) == true)
+                {
+                    frm.ShowDialog();
+                }
+                else if(AutoTask.CheckApproved(SoBB) == false)
+                {
+                    MessageBox.Show("Yêu cầu xác nhận từ phía Ms.Nhung!");
+                }
 
                 //frm.gridView = gridView;
             }
@@ -163,6 +173,22 @@ namespace QLTS_LG
             {
                 MessageBox.Show(exx.Message);
             }
+        }
+        public void Print_Bien_Ban(string SoBB)
+        {
+            OpenURL(string.Format("http://10.224.50.222:49155/Bien_Ban.aspx?So_BB={0}", SoBB));
+        }
+        private void OpenURL(string url)
+        {
+            string key = @"htmlfile\shell\open\command";
+            RegistryKey registryKey = Registry.ClassesRoot.OpenSubKey(key, false);
+            // Get the default browser path on the system
+            string Default_Browser_Path = ((string)registryKey.GetValue(null, null)).Split('"')[1];
+
+            Process p = new Process();
+            p.StartInfo.FileName = Default_Browser_Path;
+            p.StartInfo.Arguments = url;
+            p.Start();
         }
     }
 }

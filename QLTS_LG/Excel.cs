@@ -219,6 +219,13 @@ namespace QLTS_LG
             }
          
         }
+        public void ExportExcelFromDGV(DataGridView dataGridView)
+        {
+            DataTable dt = new DataTable();
+            dt = (DataTable)dataGridView.DataSource;
+
+            Export_Excel(dt);
+        }
 
     }
 }

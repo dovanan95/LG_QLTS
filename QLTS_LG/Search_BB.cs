@@ -68,10 +68,10 @@ namespace QLTS_LG
         {
             try
             {
-                int SDM = Int32.Parse(stNhan);
+                string SDM =stNhan;
                 switch (SDM)
                 {
-                    case 1:
+                    case "1":
                         {
                             this.Text = "Biên Bản Nhập Mới";
                             lblTitle.Text= "Biên Bản Nhập Mới";
@@ -82,7 +82,7 @@ namespace QLTS_LG
                             dataGridView1.Columns[0].HeaderText = "So_Bien_Ban";
                         }
                         break;
-                    case 2:
+                    case "2":
                         {
                             this.Text = "Biên Bản Nhập Kho";
                             lblTitle.Text = "Biên Bản Nhập Kho";
@@ -90,7 +90,7 @@ namespace QLTS_LG
                             Loaddata();
                         }
                         break;
-                    case 3:
+                    case "3":
                         {
                             this.Text = "Biên Bản Xuất Kho";
                             lblTitle.Text = this.Text;
@@ -98,7 +98,7 @@ namespace QLTS_LG
                             Loaddata();
                         }
                         break;
-                    case 4:
+                    case "4":
                         {
                             this.Text = "Biên Bản Cho Mượn";
                             lblTitle.Text = this.Text;
@@ -106,7 +106,7 @@ namespace QLTS_LG
                             Loaddata();
                         }
                         break;
-                    case 5:
+                    case "5":
                         {
                             this.Text = "Biên Bản Sửa Chữa";
                             lblTitle.Text = this.Text;
@@ -114,7 +114,7 @@ namespace QLTS_LG
                             Loaddata();
                         }
                         break;
-                    case 6:
+                    case "6":
                         {
                             this.Text = "Biên Bản Hủy Tài Sản";
                             lblTitle.Text = this.Text;
@@ -223,6 +223,11 @@ namespace QLTS_LG
             {
                 dateTimePicker2.Value = dateTimePicker1.Value;
             }
+        }
+
+        private void btnPrintOnline_Click(object sender, EventArgs e)
+        {
+            ExportReport.Print_Bien_Ban(txtSoBB.Text.ToString());
         }
     }
 }

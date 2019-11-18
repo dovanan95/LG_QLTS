@@ -22,7 +22,7 @@ namespace QLTS_LG
         public void LoadDataType(ComboBox cbType)
         {
             con.Open();
-            string cmdLoaiTS2 = "SELECT * FROM Loai_TS_cap2";
+            string cmdLoaiTS2 = "SELECT * FROM Loai_TS_cap2 order by Ten_loai";
             OracleCommand cmd = new OracleCommand(cmdLoaiTS2, con);
             DataTable dtLoaiTS2 = new DataTable();
             OracleDataAdapter daLoaiTS2 = new OracleDataAdapter(cmd);
@@ -38,7 +38,7 @@ namespace QLTS_LG
         public void LoadDataStatus(ComboBox cbStatus)
         {
             con.Open();
-            string cmdStatus = "SELECT * FROM Status";
+            string cmdStatus = "SELECT * FROM Status order by ten_tinh_trang";
             OracleCommand cmd = new OracleCommand(cmdStatus, con);
             DataTable dtStatus = new DataTable();
             OracleDataAdapter daStatus = new OracleDataAdapter(cmd);
@@ -56,7 +56,7 @@ namespace QLTS_LG
         public void LoadDataType1(ComboBox cbType)
         {
             con.Open();
-            string cmdLoaiTS2 = "SELECT * FROM Loai_TS_cap1";
+            string cmdLoaiTS2 = "SELECT * FROM Loai_TS_cap1 order by ten_loai";
             OracleCommand cmd = new OracleCommand(cmdLoaiTS2, con);
             DataTable dtLoaiTS2 = new DataTable();
             OracleDataAdapter daLoaiTS2 = new OracleDataAdapter(cmd);
@@ -86,7 +86,7 @@ namespace QLTS_LG
         public void LoadUnit(ComboBox cbUnit)
         {
             con.Open();
-            string strUnitLoad = "select * from Unit";
+            string strUnitLoad = "select * from Unit order by unit_name";
             OracleCommand cmdUnit = new OracleCommand(strUnitLoad, con);
             DataTable dtUnit = new DataTable();
             OracleDataAdapter daUnit = new OracleDataAdapter(cmdUnit);
@@ -116,7 +116,7 @@ namespace QLTS_LG
         public void LoadORG(ComboBox cbORG)
         {
             con.Open();
-            string strORG = "select * from ORG_NAME";
+            string strORG = "select * from ORG_NAME order by org_name";
             OracleCommand cmdORG = new OracleCommand(strORG, con);
             DataTable dtORG = new DataTable();
             OracleDataAdapter daORG = new OracleDataAdapter(cmdORG);
@@ -131,7 +131,7 @@ namespace QLTS_LG
         public void LoadModel(ComboBox cbModel)
         {
             con.Open();
-            string strModel = "select * from Model";
+            string strModel = "select * from Model order by model";
             OracleCommand cmdModel = new OracleCommand(strModel, con);
             DataTable dtModel = new DataTable();
             OracleDataAdapter daModel = new OracleDataAdapter(cmdModel);

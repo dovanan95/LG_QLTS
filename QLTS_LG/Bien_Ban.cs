@@ -18,6 +18,13 @@ namespace QLTS_LG
         public Bien_Ban()
         {
             InitializeComponent();
+            //this.WindowState = FormWindowState.Maximized;
+            dgvDevice.AutoResizeColumns();
+            dgvDevice.AutoResizeRows();
+            dgvMaterial.AutoResizeColumns();
+            dgvMaterial.AutoResizeRows();
+
+            //this.AutoScroll = true;
         }
 
         //Bitmap bitmap;
@@ -95,11 +102,17 @@ namespace QLTS_LG
                 
                 CaptureScreen();
                 printPreviewDialog1.Document = printDocument1;
-                this.Close();
-                printPreviewDialog1.Show();
-                printPreviewDialog1.BringToFront();
-                printPreviewDialog1.Focus();
-                          
+                printDialog1.Document = printDocument1;
+                //this.Close();
+                //printPreviewDialog1.Show();
+                //printPreviewDialog1.BringToFront();
+                //printPreviewDialog1.Focus();
+
+                if (printDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    printDocument1.Print();
+                }
+
 
             }
             catch(Exception ex)
@@ -134,6 +147,16 @@ namespace QLTS_LG
 
             dgvMaterial.DataSource = dtMaterial;
             dgvMaterial.RowHeadersVisible = false;
+            AutoScroll = true;
+        }
+
+        private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
+            Print();
+        }
+
+        private void printDocument1_PrintPage_1(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
 
         }
     }

@@ -50,6 +50,7 @@
             this.dgvSelected = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnExcel_Load = new System.Windows.Forms.Button();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnTransfer = new System.Windows.Forms.Button();
             this.cbStatus = new System.Windows.Forms.ComboBox();
@@ -64,6 +65,8 @@
             this.txtIT_Tag = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnEPA = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.btnBack = new System.Windows.Forms.Button();
             this.txtReason = new System.Windows.Forms.TextBox();
@@ -78,7 +81,7 @@
             this.txtSoBB = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnCreateBB = new System.Windows.Forms.Button();
-            this.btnExport = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuerry)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSelected)).BeginInit();
@@ -296,6 +299,7 @@
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.btnExcel_Load);
             this.panel3.Controls.Add(this.btnSelectAll);
             this.panel3.Controls.Add(this.btnTransfer);
             this.panel3.Controls.Add(this.cbStatus);
@@ -314,6 +318,18 @@
             this.panel3.Size = new System.Drawing.Size(520, 137);
             this.panel3.TabIndex = 2;
             // 
+            // btnExcel_Load
+            // 
+            this.btnExcel_Load.Font = new System.Drawing.Font("Modern No. 20", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExcel_Load.ForeColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnExcel_Load.Location = new System.Drawing.Point(244, 93);
+            this.btnExcel_Load.Name = "btnExcel_Load";
+            this.btnExcel_Load.Size = new System.Drawing.Size(41, 32);
+            this.btnExcel_Load.TabIndex = 32;
+            this.btnExcel_Load.Text = "X";
+            this.btnExcel_Load.UseVisualStyleBackColor = true;
+            this.btnExcel_Load.Click += new System.EventHandler(this.button1_Click_2);
+            // 
             // btnSelectAll
             // 
             this.btnSelectAll.Location = new System.Drawing.Point(291, 93);
@@ -327,9 +343,9 @@
             // btnTransfer
             // 
             this.btnTransfer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTransfer.Location = new System.Drawing.Point(448, 92);
+            this.btnTransfer.Location = new System.Drawing.Point(448, 93);
             this.btnTransfer.Name = "btnTransfer";
-            this.btnTransfer.Size = new System.Drawing.Size(65, 33);
+            this.btnTransfer.Size = new System.Drawing.Size(65, 32);
             this.btnTransfer.TabIndex = 30;
             this.btnTransfer.Text = ">>";
             this.btnTransfer.UseVisualStyleBackColor = true;
@@ -445,6 +461,7 @@
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel4.Controls.Add(this.btnEPA);
             this.panel4.Controls.Add(this.btnExport);
             this.panel4.Controls.Add(this.label10);
             this.panel4.Controls.Add(this.btnBack);
@@ -458,6 +475,30 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(525, 137);
             this.panel4.TabIndex = 3;
+            // 
+            // btnEPA
+            // 
+            this.btnEPA.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEPA.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.btnEPA.Location = new System.Drawing.Point(31, 93);
+            this.btnEPA.Name = "btnEPA";
+            this.btnEPA.Size = new System.Drawing.Size(104, 31);
+            this.btnEPA.TabIndex = 31;
+            this.btnEPA.Text = "EP APPROVAL";
+            this.btnEPA.UseVisualStyleBackColor = true;
+            this.btnEPA.Click += new System.EventHandler(this.btnEPA_Click);
+            // 
+            // btnExport
+            // 
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.ForeColor = System.Drawing.Color.Indigo;
+            this.btnExport.Location = new System.Drawing.Point(141, 91);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(106, 33);
+            this.btnExport.TabIndex = 30;
+            this.btnExport.Text = "Print";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // label10
             // 
@@ -474,7 +515,7 @@
             // 
             this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBack.ForeColor = System.Drawing.Color.DarkBlue;
-            this.btnBack.Location = new System.Drawing.Point(312, 91);
+            this.btnBack.Location = new System.Drawing.Point(413, 91);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(105, 33);
             this.btnBack.TabIndex = 28;
@@ -493,7 +534,7 @@
             // 
             this.btnGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGo.ForeColor = System.Drawing.Color.Crimson;
-            this.btnGo.Location = new System.Drawing.Point(151, 91);
+            this.btnGo.Location = new System.Drawing.Point(253, 91);
             this.btnGo.Name = "btnGo";
             this.btnGo.Size = new System.Drawing.Size(155, 33);
             this.btnGo.TabIndex = 26;
@@ -610,17 +651,10 @@
             this.btnCreateBB.UseVisualStyleBackColor = true;
             this.btnCreateBB.Click += new System.EventHandler(this.btnCreateBB_Click);
             // 
-            // btnExport
+            // openFileDialog1
             // 
-            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExport.ForeColor = System.Drawing.Color.Indigo;
-            this.btnExport.Location = new System.Drawing.Point(39, 91);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(106, 33);
-            this.btnExport.TabIndex = 30;
-            this.btnExport.Text = "Export";
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.button1_Click_1);
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // Borrow
             // 
@@ -710,5 +744,8 @@
         private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Button btnSelectAll;
         private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.Button btnEPA;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button btnExcel_Load;
     }
 }

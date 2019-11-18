@@ -18,6 +18,7 @@ namespace QLTS_LG
         OracleConnection con2 = new OracleConnection(connectionString);
         OracleDataAdapter DataAdapter = new OracleDataAdapter();
         DataTable Table = new DataTable();
+        AutoGenAsssetCode AutoGenAsssetCode = new AutoGenAsssetCode();
 
         public DataGridView AntiColumnDuplicate(DataGridView dataGridView)
         {
@@ -61,12 +62,14 @@ namespace QLTS_LG
             try
             {
                 bool flag = true;
-
-                string strInputToModel = "insert into Model(model, type_code) values (:model, :type)";
+                AutoGenAsssetCode.AutoGenModelCode();
+                string model_code = AutoGenAsssetCode.model_code;
+                string strInputToModel = "insert into Model(model_code, model, type_code) values (:model_code, :model, :type)";
                 OracleCommand cmdInput = new OracleCommand();
                 cmdInput.Connection = con2;
                 cmdInput.CommandType = CommandType.Text;
                 cmdInput.CommandText = strInputToModel;
+                cmdInput.Parameters.Add(new OracleParameter("model_code", model_code));
                 cmdInput.Parameters.Add(new OracleParameter("model", cbModel.Text.ToString().Trim()));
                 cmdInput.Parameters.Add(new OracleParameter("type", Convert.ToInt32(cbType2.SelectedValue)));
                 string strRead = "select * from Model";
@@ -77,7 +80,7 @@ namespace QLTS_LG
                 rdrRead = cmdRead.ExecuteReader();
                 while (rdrRead.Read())
                 {
-                    if (cbModel.Text.ToString().Trim() == rdrRead["model"].ToString())
+                    if (cbModel.Text.ToString().Trim() == rdrRead["model"].ToString() && Convert.ToInt32(cbType2.SelectedValue) == Convert.ToInt32(rdrRead["Type_code"]))
                     {
                         flag = false;
 
@@ -100,6 +103,71 @@ namespace QLTS_LG
                 MessageBox.Show(ex.Message);
             }
 
+        }
+        public void CheckModel2(string model, int Type)
+        {
+            try
+            {
+                bool flag = true;
+
+                AutoGenAsssetCode.AutoGenModelCode();
+                string model_code = AutoGenAsssetCode.model_code;
+                string strInputToModel = "insert into Model(model_code, model, type_code) values (:model_code, :model, :type)";
+                OracleCommand cmdInput = new OracleCommand();
+                cmdInput.Connection = con2;
+                cmdInput.CommandType = CommandType.Text;
+                cmdInput.CommandText = strInputToModel;
+                cmdInput.Parameters.Add(new OracleParameter("model_code", model_code));
+                cmdInput.Parameters.Add(new OracleParameter("model",model));
+                cmdInput.Parameters.Add(new OracleParameter("type", Type));
+                string strRead = "select * from Model";
+                OracleCommand cmdRead = new OracleCommand(strRead, con);
+                OracleDataReader rdrRead = null;
+
+                con.Open();
+                rdrRead = cmdRead.ExecuteReader();
+                while (rdrRead.Read())
+                {
+                    if (model == rdrRead["model"].ToString() && Type == Convert.ToInt32(rdrRead["Type_code"]))
+                    {
+                        flag = false;
+                        MessageBox.Show("Trùng!!!");
+                    }
+                }
+                con.Close();
+
+
+                if (flag == true)
+                {
+                    con2.Open();
+                    cmdInput.ExecuteNonQuery();
+                    con2.Close();
+                    flag = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public bool CheckTypeLevel2(string Ten_loai, string Phan_loai)
+        {
+            bool flag = true;
+
+            string SelectType2 = "select * from Loai_TS_cap2 where Ten_loai = '" + Ten_loai + "' and Phan_loai = '" + Phan_loai + "'";
+            OracleDataAdapter datype2 = new OracleDataAdapter(SelectType2, con);
+            DataTable dttype2 = new DataTable();
+            datype2.Fill(dttype2);
+            if(dttype2.Rows.Count > 0)
+            {
+                flag = false;
+            }
+            else if(dttype2.Rows.Count == 0)
+            {
+                flag = true;
+            }
+            return flag;
         }
     }
 }

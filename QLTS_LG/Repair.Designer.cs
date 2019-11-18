@@ -44,9 +44,11 @@
             this.btnSearchDeviceRepair = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnExport = new System.Windows.Forms.Button();
             this.btnLap_Bien_Ban = new System.Windows.Forms.Button();
             this.btnBacktoMainMenu = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnExcelforDevice = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.cbType_Repair = new System.Windows.Forms.ComboBox();
@@ -55,6 +57,7 @@
             this.txtIT_Tag = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.btnExcelforAdditional = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.txtSpec = new System.Windows.Forms.TextBox();
             this.rdrNoUse = new System.Windows.Forms.RadioButton();
@@ -93,7 +96,6 @@
             this.btnFinalTransfer = new System.Windows.Forms.Button();
             this.panel8 = new System.Windows.Forms.Panel();
             this.btnDel = new System.Windows.Forms.Button();
-            this.btnExport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAddingDevice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAddOutDevice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListDevice)).BeginInit();
@@ -263,6 +265,18 @@
             this.panel3.Size = new System.Drawing.Size(145, 158);
             this.panel3.TabIndex = 8;
             // 
+            // btnExport
+            // 
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.ForeColor = System.Drawing.Color.Salmon;
+            this.btnExport.Location = new System.Drawing.Point(3, 59);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(135, 43);
+            this.btnExport.TabIndex = 14;
+            this.btnExport.Text = "Print";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // btnLap_Bien_Ban
             // 
             this.btnLap_Bien_Ban.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -291,6 +305,7 @@
             // 
             this.panel4.BackColor = System.Drawing.SystemColors.ControlDark;
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel4.Controls.Add(this.btnExcelforDevice);
             this.panel4.Controls.Add(this.label15);
             this.panel4.Controls.Add(this.label5);
             this.panel4.Controls.Add(this.cbType_Repair);
@@ -305,6 +320,19 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(460, 158);
             this.panel4.TabIndex = 7;
+            // 
+            // btnExcelforDevice
+            // 
+            this.btnExcelforDevice.BackColor = System.Drawing.SystemColors.Control;
+            this.btnExcelforDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExcelforDevice.ForeColor = System.Drawing.Color.Green;
+            this.btnExcelforDevice.Location = new System.Drawing.Point(297, 104);
+            this.btnExcelforDevice.Name = "btnExcelforDevice";
+            this.btnExcelforDevice.Size = new System.Drawing.Size(75, 23);
+            this.btnExcelforDevice.TabIndex = 18;
+            this.btnExcelforDevice.Text = "Excel";
+            this.btnExcelforDevice.UseVisualStyleBackColor = false;
+            this.btnExcelforDevice.Click += new System.EventHandler(this.btnExcelforDevice_Click);
             // 
             // label15
             // 
@@ -378,6 +406,7 @@
             // 
             this.panel5.BackColor = System.Drawing.SystemColors.ControlDark;
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel5.Controls.Add(this.btnExcelforAdditional);
             this.panel5.Controls.Add(this.label9);
             this.panel5.Controls.Add(this.txtSpec);
             this.panel5.Controls.Add(this.rdrNoUse);
@@ -396,6 +425,18 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(453, 158);
             this.panel5.TabIndex = 8;
+            // 
+            // btnExcelforAdditional
+            // 
+            this.btnExcelforAdditional.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExcelforAdditional.ForeColor = System.Drawing.Color.Green;
+            this.btnExcelforAdditional.Location = new System.Drawing.Point(290, 123);
+            this.btnExcelforAdditional.Name = "btnExcelforAdditional";
+            this.btnExcelforAdditional.Size = new System.Drawing.Size(75, 23);
+            this.btnExcelforAdditional.TabIndex = 19;
+            this.btnExcelforAdditional.Text = "Excel";
+            this.btnExcelforAdditional.UseVisualStyleBackColor = true;
+            this.btnExcelforAdditional.Click += new System.EventHandler(this.btnExcelforAdditional_Click);
             // 
             // label9
             // 
@@ -464,7 +505,7 @@
             // 
             // btnSearchDeviceOutForRepair
             // 
-            this.btnSearchDeviceOutForRepair.Location = new System.Drawing.Point(324, 123);
+            this.btnSearchDeviceOutForRepair.Location = new System.Drawing.Point(371, 123);
             this.btnSearchDeviceOutForRepair.Name = "btnSearchDeviceOutForRepair";
             this.btnSearchDeviceOutForRepair.Size = new System.Drawing.Size(75, 23);
             this.btnSearchDeviceOutForRepair.TabIndex = 18;
@@ -796,18 +837,6 @@
             this.btnDel.UseVisualStyleBackColor = true;
             this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
-            // btnExport
-            // 
-            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExport.ForeColor = System.Drawing.Color.Salmon;
-            this.btnExport.Location = new System.Drawing.Point(3, 59);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(135, 43);
-            this.btnExport.TabIndex = 14;
-            this.btnExport.Text = "Export";
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
-            // 
             // Repair
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -923,5 +952,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtSpec;
         private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.Button btnExcelforDevice;
+        private System.Windows.Forms.Button btnExcelforAdditional;
     }
 }

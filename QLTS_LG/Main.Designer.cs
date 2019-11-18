@@ -61,9 +61,9 @@
             this.menuDeviceType = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHRM = new System.Windows.Forms.ToolStripMenuItem();
             this.menuORG = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuRevokeRequirement = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.menuIntro = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuContact = new System.Windows.Forms.ToolStripMenuItem();
             this.superDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -81,9 +81,9 @@
             this.tab = new System.Windows.Forms.TabControl();
             this.tabOut = new System.Windows.Forms.TabPage();
             this.panelOut = new System.Windows.Forms.Panel();
+            this.btnRejectOut = new System.Windows.Forms.Button();
             this.btnSelectOut = new System.Windows.Forms.Button();
             this.btnApproveOut = new System.Windows.Forms.Button();
-            this.btnRejectOut = new System.Windows.Forms.Button();
             this.btnUnSelectOut = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.tabRepair = new System.Windows.Forms.TabPage();
@@ -94,19 +94,21 @@
             this.SelectRepair = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabLend = new System.Windows.Forms.TabPage();
             this.panelBorrow = new System.Windows.Forms.Panel();
-            this.btnRejectLend = new System.Windows.Forms.Button();
+            this.btnRejectBorrow = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.tabCheckExpiredBorrow = new System.Windows.Forms.TabPage();
             this.dgvOverDue = new System.Windows.Forms.DataGridView();
             this.label6 = new System.Windows.Forms.Label();
             this.tabNew = new System.Windows.Forms.TabPage();
             this.pnlNew = new System.Windows.Forms.Panel();
+            this.btnRejectNew = new System.Windows.Forms.Button();
             this.btnSelectAllNew = new System.Windows.Forms.Button();
             this.btnAppNew = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.dgvNew = new System.Windows.Forms.DataGridView();
             this.SelectNew = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabRevoke = new System.Windows.Forms.TabPage();
+            this.btnRejectInStorage = new System.Windows.Forms.Button();
             this.pnlRevoke = new System.Windows.Forms.Panel();
             this.btnSelectAllRevoke = new System.Windows.Forms.Button();
             this.btnApproveRevoke = new System.Windows.Forms.Button();
@@ -114,6 +116,7 @@
             this.dgvRevoke = new System.Windows.Forms.DataGridView();
             this.SelectRevoke = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabDispose = new System.Windows.Forms.TabPage();
+            this.btnRejectDisposal = new System.Windows.Forms.Button();
             this.pnlDispose = new System.Windows.Forms.Panel();
             this.btnAllDispose = new System.Windows.Forms.Button();
             this.btnAppDispose = new System.Windows.Forms.Button();
@@ -122,10 +125,10 @@
             this.SelectDispose = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.txtExpired = new System.Windows.Forms.Label();
             this.lblExpired = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -161,6 +164,7 @@
             this.menuSearch,
             this.menuJob,
             this.menuDataModify,
+            this.menuRevokeRequirement,
             this.menuAbout,
             this.superDataToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -344,42 +348,42 @@
             // menuAddNew
             // 
             this.menuAddNew.Name = "menuAddNew";
-            this.menuAddNew.Size = new System.Drawing.Size(180, 26);
+            this.menuAddNew.Size = new System.Drawing.Size(154, 26);
             this.menuAddNew.Text = "Nhập Mới";
             this.menuAddNew.Click += new System.EventHandler(this.menuAddNew_Click);
             // 
             // menuReCall
             // 
             this.menuReCall.Name = "menuReCall";
-            this.menuReCall.Size = new System.Drawing.Size(180, 26);
+            this.menuReCall.Size = new System.Drawing.Size(154, 26);
             this.menuReCall.Text = "Thu Hồi";
             this.menuReCall.Click += new System.EventHandler(this.menuReCall_Click);
             // 
             // menuDistribute
             // 
             this.menuDistribute.Name = "menuDistribute";
-            this.menuDistribute.Size = new System.Drawing.Size(180, 26);
+            this.menuDistribute.Size = new System.Drawing.Size(154, 26);
             this.menuDistribute.Text = "Cấp Phát";
             this.menuDistribute.Click += new System.EventHandler(this.menuDistribute_Click);
             // 
             // menuLending
             // 
             this.menuLending.Name = "menuLending";
-            this.menuLending.Size = new System.Drawing.Size(180, 26);
+            this.menuLending.Size = new System.Drawing.Size(154, 26);
             this.menuLending.Text = "Cho Mượn";
             this.menuLending.Click += new System.EventHandler(this.menuLending_Click);
             // 
             // MenuRepair
             // 
             this.MenuRepair.Name = "MenuRepair";
-            this.MenuRepair.Size = new System.Drawing.Size(180, 26);
+            this.MenuRepair.Size = new System.Drawing.Size(154, 26);
             this.MenuRepair.Text = "Sửa chữa";
             this.MenuRepair.Click += new System.EventHandler(this.MenuRepair_Click);
             // 
             // menuDispose
             // 
             this.menuDispose.Name = "menuDispose";
-            this.menuDispose.Size = new System.Drawing.Size(180, 26);
+            this.menuDispose.Size = new System.Drawing.Size(154, 26);
             this.menuDispose.Text = "Tiêu Hủy";
             this.menuDispose.Click += new System.EventHandler(this.menuDispose_Click);
             // 
@@ -392,6 +396,7 @@
             this.menuDataModify.Name = "menuDataModify";
             this.menuDataModify.Size = new System.Drawing.Size(137, 25);
             this.menuDataModify.Text = "Quản Lý Dữ Liệu";
+            this.menuDataModify.Click += new System.EventHandler(this.menuDataModify_Click);
             // 
             // menuDeviceType
             // 
@@ -414,11 +419,17 @@
             this.menuORG.Text = "Organization Management";
             this.menuORG.Click += new System.EventHandler(this.organizationManagementToolStripMenuItem_Click);
             // 
+            // menuRevokeRequirement
+            // 
+            this.menuRevokeRequirement.Name = "menuRevokeRequirement";
+            this.menuRevokeRequirement.Size = new System.Drawing.Size(137, 25);
+            this.menuRevokeRequirement.Text = "Yêu Cầu Thu Hồi";
+            this.menuRevokeRequirement.Click += new System.EventHandler(this.menuRevokeRequirement_Click);
+            // 
             // menuAbout
             // 
             this.menuAbout.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuIntro,
-            this.menuContact});
+            this.menuIntro});
             this.menuAbout.Name = "menuAbout";
             this.menuAbout.Size = new System.Drawing.Size(64, 25);
             this.menuAbout.Text = "About";
@@ -426,14 +437,9 @@
             // menuIntro
             // 
             this.menuIntro.Name = "menuIntro";
-            this.menuIntro.Size = new System.Drawing.Size(180, 26);
+            this.menuIntro.Size = new System.Drawing.Size(151, 26);
             this.menuIntro.Text = "Giới Thiệu";
-            // 
-            // menuContact
-            // 
-            this.menuContact.Name = "menuContact";
-            this.menuContact.Size = new System.Drawing.Size(180, 26);
-            this.menuContact.Text = "Liên Hệ";
+            this.menuIntro.Click += new System.EventHandler(this.menuIntro_Click);
             // 
             // superDataToolStripMenuItem
             // 
@@ -598,14 +604,24 @@
             // 
             // panelOut
             // 
+            this.panelOut.Controls.Add(this.btnRejectOut);
             this.panelOut.Controls.Add(this.btnSelectOut);
             this.panelOut.Controls.Add(this.btnApproveOut);
-            this.panelOut.Controls.Add(this.btnRejectOut);
             this.panelOut.Controls.Add(this.btnUnSelectOut);
             this.panelOut.Location = new System.Drawing.Point(6, 47);
             this.panelOut.Name = "panelOut";
-            this.panelOut.Size = new System.Drawing.Size(515, 41);
+            this.panelOut.Size = new System.Drawing.Size(502, 41);
             this.panelOut.TabIndex = 17;
+            // 
+            // btnRejectOut
+            // 
+            this.btnRejectOut.Location = new System.Drawing.Point(390, 3);
+            this.btnRejectOut.Name = "btnRejectOut";
+            this.btnRejectOut.Size = new System.Drawing.Size(100, 33);
+            this.btnRejectOut.TabIndex = 17;
+            this.btnRejectOut.Text = "Reject";
+            this.btnRejectOut.UseVisualStyleBackColor = true;
+            this.btnRejectOut.Click += new System.EventHandler(this.btnRejectOut_Click);
             // 
             // btnSelectOut
             // 
@@ -626,15 +642,6 @@
             this.btnApproveOut.Text = "Approve";
             this.btnApproveOut.UseVisualStyleBackColor = true;
             this.btnApproveOut.Click += new System.EventHandler(this.btnApproveOut_Click);
-            // 
-            // btnRejectOut
-            // 
-            this.btnRejectOut.Location = new System.Drawing.Point(390, 3);
-            this.btnRejectOut.Name = "btnRejectOut";
-            this.btnRejectOut.Size = new System.Drawing.Size(119, 33);
-            this.btnRejectOut.TabIndex = 15;
-            this.btnRejectOut.Text = "Reject";
-            this.btnRejectOut.UseVisualStyleBackColor = true;
             // 
             // btnUnSelectOut
             // 
@@ -673,8 +680,8 @@
             // 
             // panelRepair
             // 
-            this.panelRepair.Controls.Add(this.btnSelectRepair);
             this.panelRepair.Controls.Add(this.btnRejectRepair);
+            this.panelRepair.Controls.Add(this.btnSelectRepair);
             this.panelRepair.Controls.Add(this.btnUnSelectRepair);
             this.panelRepair.Controls.Add(this.btnApproveRepair);
             this.panelRepair.Location = new System.Drawing.Point(6, 42);
@@ -686,10 +693,11 @@
             // 
             this.btnRejectRepair.Location = new System.Drawing.Point(372, 1);
             this.btnRejectRepair.Name = "btnRejectRepair";
-            this.btnRejectRepair.Size = new System.Drawing.Size(103, 41);
-            this.btnRejectRepair.TabIndex = 13;
+            this.btnRejectRepair.Size = new System.Drawing.Size(100, 41);
+            this.btnRejectRepair.TabIndex = 12;
             this.btnRejectRepair.Text = "Reject";
             this.btnRejectRepair.UseVisualStyleBackColor = true;
+            this.btnRejectRepair.Click += new System.EventHandler(this.btnRejectRepair_Click);
             // 
             // label2
             // 
@@ -740,23 +748,24 @@
             // 
             // panelBorrow
             // 
+            this.panelBorrow.Controls.Add(this.btnRejectBorrow);
             this.panelBorrow.Controls.Add(this.btnSelectLend);
-            this.panelBorrow.Controls.Add(this.btnRejectLend);
             this.panelBorrow.Controls.Add(this.btnUnSelectLend);
             this.panelBorrow.Controls.Add(this.btnApproveLend);
             this.panelBorrow.Location = new System.Drawing.Point(6, 37);
             this.panelBorrow.Name = "panelBorrow";
-            this.panelBorrow.Size = new System.Drawing.Size(495, 52);
+            this.panelBorrow.Size = new System.Drawing.Size(491, 52);
             this.panelBorrow.TabIndex = 13;
             // 
-            // btnRejectLend
+            // btnRejectBorrow
             // 
-            this.btnRejectLend.Location = new System.Drawing.Point(371, 3);
-            this.btnRejectLend.Name = "btnRejectLend";
-            this.btnRejectLend.Size = new System.Drawing.Size(110, 37);
-            this.btnRejectLend.TabIndex = 12;
-            this.btnRejectLend.Text = "Reject";
-            this.btnRejectLend.UseVisualStyleBackColor = true;
+            this.btnRejectBorrow.Location = new System.Drawing.Point(371, 3);
+            this.btnRejectBorrow.Name = "btnRejectBorrow";
+            this.btnRejectBorrow.Size = new System.Drawing.Size(100, 37);
+            this.btnRejectBorrow.TabIndex = 11;
+            this.btnRejectBorrow.Text = "Reject";
+            this.btnRejectBorrow.UseVisualStyleBackColor = true;
+            this.btnRejectBorrow.Click += new System.EventHandler(this.btnRejectBorrow_Click);
             // 
             // label3
             // 
@@ -818,12 +827,23 @@
             // 
             // pnlNew
             // 
+            this.pnlNew.Controls.Add(this.btnRejectNew);
             this.pnlNew.Controls.Add(this.btnSelectAllNew);
             this.pnlNew.Controls.Add(this.btnAppNew);
             this.pnlNew.Location = new System.Drawing.Point(6, 39);
             this.pnlNew.Name = "pnlNew";
-            this.pnlNew.Size = new System.Drawing.Size(245, 45);
+            this.pnlNew.Size = new System.Drawing.Size(373, 45);
             this.pnlNew.TabIndex = 4;
+            // 
+            // btnRejectNew
+            // 
+            this.btnRejectNew.Location = new System.Drawing.Point(247, 3);
+            this.btnRejectNew.Name = "btnRejectNew";
+            this.btnRejectNew.Size = new System.Drawing.Size(117, 31);
+            this.btnRejectNew.TabIndex = 4;
+            this.btnRejectNew.Text = "Reject";
+            this.btnRejectNew.UseVisualStyleBackColor = true;
+            this.btnRejectNew.Click += new System.EventHandler(this.btnRejectNew_Click);
             // 
             // btnSelectAllNew
             // 
@@ -878,6 +898,7 @@
             // tabRevoke
             // 
             this.tabRevoke.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.tabRevoke.Controls.Add(this.btnRejectInStorage);
             this.tabRevoke.Controls.Add(this.pnlRevoke);
             this.tabRevoke.Controls.Add(this.label7);
             this.tabRevoke.Controls.Add(this.dgvRevoke);
@@ -887,6 +908,16 @@
             this.tabRevoke.Size = new System.Drawing.Size(1288, 395);
             this.tabRevoke.TabIndex = 5;
             this.tabRevoke.Text = "Nhập Kho";
+            // 
+            // btnRejectInStorage
+            // 
+            this.btnRejectInStorage.Location = new System.Drawing.Point(240, 42);
+            this.btnRejectInStorage.Name = "btnRejectInStorage";
+            this.btnRejectInStorage.Size = new System.Drawing.Size(114, 34);
+            this.btnRejectInStorage.TabIndex = 4;
+            this.btnRejectInStorage.Text = "Reject";
+            this.btnRejectInStorage.UseVisualStyleBackColor = true;
+            this.btnRejectInStorage.Click += new System.EventHandler(this.btnRejectInStorage_Click);
             // 
             // pnlRevoke
             // 
@@ -950,6 +981,7 @@
             // tabDispose
             // 
             this.tabDispose.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.tabDispose.Controls.Add(this.btnRejectDisposal);
             this.tabDispose.Controls.Add(this.pnlDispose);
             this.tabDispose.Controls.Add(this.label9);
             this.tabDispose.Controls.Add(this.dgvDispose);
@@ -959,6 +991,16 @@
             this.tabDispose.Size = new System.Drawing.Size(1288, 395);
             this.tabDispose.TabIndex = 6;
             this.tabDispose.Text = "Hủy";
+            // 
+            // btnRejectDisposal
+            // 
+            this.btnRejectDisposal.Location = new System.Drawing.Point(261, 35);
+            this.btnRejectDisposal.Name = "btnRejectDisposal";
+            this.btnRejectDisposal.Size = new System.Drawing.Size(117, 32);
+            this.btnRejectDisposal.TabIndex = 3;
+            this.btnRejectDisposal.Text = "Reject";
+            this.btnRejectDisposal.UseVisualStyleBackColor = true;
+            this.btnRejectDisposal.Click += new System.EventHandler(this.btnRejectDisposal_Click);
             // 
             // pnlDispose
             // 
@@ -1046,6 +1088,26 @@
             this.label4.Text = "© 2019 Copyright of Do Van An - Information Technology Department - LG Electronic" +
     "s";
             // 
+            // txtExpired
+            // 
+            this.txtExpired.AutoSize = true;
+            this.txtExpired.ForeColor = System.Drawing.Color.Red;
+            this.txtExpired.Location = new System.Drawing.Point(22, 75);
+            this.txtExpired.Name = "txtExpired";
+            this.txtExpired.Size = new System.Drawing.Size(0, 13);
+            this.txtExpired.TabIndex = 17;
+            // 
+            // lblExpired
+            // 
+            this.lblExpired.AutoSize = true;
+            this.lblExpired.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblExpired.ForeColor = System.Drawing.Color.Red;
+            this.lblExpired.Location = new System.Drawing.Point(19, 62);
+            this.lblExpired.Name = "lblExpired";
+            this.lblExpired.Size = new System.Drawing.Size(88, 20);
+            this.lblExpired.TabIndex = 18;
+            this.lblExpired.Text = "Loading...";
+            // 
             // pictureBox2
             // 
             this.pictureBox2.Image = global::QLTS_LG.Properties.Resources._800px_Flag_of_Vietnam_svg;
@@ -1068,26 +1130,6 @@
             this.pictureBox1.TabIndex = 15;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // txtExpired
-            // 
-            this.txtExpired.AutoSize = true;
-            this.txtExpired.ForeColor = System.Drawing.Color.Red;
-            this.txtExpired.Location = new System.Drawing.Point(22, 75);
-            this.txtExpired.Name = "txtExpired";
-            this.txtExpired.Size = new System.Drawing.Size(0, 13);
-            this.txtExpired.TabIndex = 17;
-            // 
-            // lblExpired
-            // 
-            this.lblExpired.AutoSize = true;
-            this.lblExpired.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblExpired.ForeColor = System.Drawing.Color.Red;
-            this.lblExpired.Location = new System.Drawing.Point(19, 62);
-            this.lblExpired.Name = "lblExpired";
-            this.lblExpired.Size = new System.Drawing.Size(88, 20);
-            this.lblExpired.TabIndex = 18;
-            this.lblExpired.Text = "Loading...";
             // 
             // Main
             // 
@@ -1170,7 +1212,6 @@
         private System.Windows.Forms.ToolStripMenuItem menuDispose;
         private System.Windows.Forms.ToolStripMenuItem menuAbout;
         private System.Windows.Forms.ToolStripMenuItem menuIntro;
-        private System.Windows.Forms.ToolStripMenuItem menuContact;
         private System.Windows.Forms.ToolStripMenuItem menuHist;
         private System.Windows.Forms.ToolStripMenuItem menuAddNewBB;
         private System.Windows.Forms.ToolStripMenuItem menuInStorageBB;
@@ -1195,7 +1236,6 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.TabControl tab;
         private System.Windows.Forms.TabPage tabOut;
-        private System.Windows.Forms.Button btnRejectOut;
         private System.Windows.Forms.Button btnUnSelectOut;
         private System.Windows.Forms.Button btnApproveOut;
         private System.Windows.Forms.TabPage tabRepair;
@@ -1206,9 +1246,7 @@
         private System.Windows.Forms.Panel panelOut;
         private System.Windows.Forms.Button btnSelectOut;
         private System.Windows.Forms.Panel panelRepair;
-        private System.Windows.Forms.Button btnRejectRepair;
         private System.Windows.Forms.Panel panelBorrow;
-        private System.Windows.Forms.Button btnRejectLend;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn SelectBorrow;
@@ -1245,5 +1283,12 @@
         private System.Windows.Forms.ToolStripMenuItem menuORG;
         private System.Windows.Forms.Label txtExpired;
         private System.Windows.Forms.Label lblExpired;
+        private System.Windows.Forms.ToolStripMenuItem menuRevokeRequirement;
+        private System.Windows.Forms.Button btnRejectOut;
+        private System.Windows.Forms.Button btnRejectRepair;
+        private System.Windows.Forms.Button btnRejectBorrow;
+        private System.Windows.Forms.Button btnRejectNew;
+        private System.Windows.Forms.Button btnRejectInStorage;
+        private System.Windows.Forms.Button btnRejectDisposal;
     }
 }

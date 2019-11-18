@@ -48,12 +48,11 @@ namespace QLTS_LG
                             this.Text = "Tài sản lưu kho";
                             lblTitle.Text = "Tài sản lưu kho";
                             DataAdapter = new OracleDataAdapter(
-                                "SELECT Luu_Kho.Ma_TS, Status.Ten_tinh_trang, Luu_Kho.Ngay_update, Tai_san.Ten_TS, Loai_TS_cap1.Ten_loai, Loai_TS_cap2.Ten_loai " +
-                                "FROM Luu_Kho " +
-                                "INNER JOIN Tai_san ON Luu_Kho.Ma_TS=Tai_san.Ma_TS " +
-                                "INNER JOIN Loai_TS_cap1 ON Tai_san.Ma_Loai_TS_cap1 = Loai_TS_cap1.Ma_loai " +
-                                "INNER JOIN Loai_TS_cap2 ON Tai_san.Ma_Loai_TS_cap2 = Loai_TS_cap2.Ma_loai " +
-                                "INNER JOIN Status ON Luu_Kho.Tinh_Trang=Status.Ma_tinh_trang", con);
+                                "SELECT a.Ma_TS, a.Tinh_Trang, a.Ngay_update, b.Ten_TS, c.Ten_loai, d.Ten_loai " +
+                                "FROM Luu_Kho a " +
+                                "INNER JOIN Tai_san b ON a.Ma_TS = b.Ma_TS " +
+                                "INNER JOIN Loai_TS_cap1 c ON b.Ma_Loai_TS_cap1 = c.Ma_loai " +
+                                "INNER JOIN Loai_TS_cap2 d ON b.Ma_Loai_TS_cap2 = d.Ma_loai ", con);
                             Loaddata();
                         }
                         break;
@@ -62,12 +61,13 @@ namespace QLTS_LG
                             this.Text = "Tài sản ngoại kho";
                             lblTitle.Text = "Tài sản ngoại kho";
                             DataAdapter = new OracleDataAdapter(
-                                "SELECT Ngoai_Kho.Ma_TS, Tai_san.Ten_TS, Loai_TS_cap1.Ten_loai, Loai_TS_cap2.Ten_loai, Ngoai_Kho.ID_User, TB_User.Name, TB_User.Phone, Ngoai_Kho.Latest_Day_Out " +
-                                "FROM Ngoai_Kho " +
-                                "INNER JOIN Tai_san ON Ngoai_Kho.Ma_TS = Tai_san.Ma_TS " +
-                                "INNER JOIN TB_User ON TB_User.ID = Ngoai_Kho.ID_User " +
-                                "INNER JOIN Loai_TS_cap1 ON Tai_san.Ma_Loai_TS_cap1 = Loai_TS_cap1.Ma_loai " +
-                                "INNER JOIN Loai_TS_cap2 ON Tai_san.Ma_Loai_TS_cap2 = Loai_TS_cap2.Ma_loai ", con);
+                                "SELECT a.Ma_TS, b.Ten_TS, d.Ten_loai, e.Ten_loai, f.USER_ID, c.Name, c.Phone, a.Latest_Day_Out " +
+                                "FROM Ngoai_Kho a " +
+                                "inner join Bien_Ban f on a.So_BB = f.So_Bien_Ban " +
+                                "INNER JOIN Tai_san b ON a.Ma_TS = b.Ma_TS " +
+                                "INNER JOIN TB_User c ON c.ID = f.USER_ID " +
+                                "INNER JOIN Loai_TS_cap1 d ON b.Ma_Loai_TS_cap1 = d.Ma_loai " +
+                                "INNER JOIN Loai_TS_cap2 e ON b.Ma_Loai_TS_cap2 = e.Ma_loai ", con);
                             Loaddata();
                         }
                         break;

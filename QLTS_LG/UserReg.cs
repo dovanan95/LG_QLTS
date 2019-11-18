@@ -103,7 +103,7 @@ namespace QLTS_LG
                         cmdReg.Parameters.Add("ID_User", txtUserName.Text.ToString());
                         cmdReg.Parameters.Add("pass", Cryptography.ComputeSha256Hash(txtPass.Text.ToString()));
                         cmdReg.Parameters.Add("per", cbPermission.SelectedValue);
-                        cmdReg.Parameters.Add("ID", txtID.Text.ToString());
+                        cmdReg.Parameters.Add("ID", txtID.Text.ToString().ToUpper());
                         con.Open();
                         cmdReg.ExecuteNonQuery();
                         con.Close();
