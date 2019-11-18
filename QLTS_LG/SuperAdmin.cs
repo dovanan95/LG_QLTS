@@ -18,7 +18,7 @@ namespace QLTS_LG
         static string connectionString = ConfigurationManager.ConnectionStrings["QLTS_LG.Properties.Settings.QLTSConnectionString"].ConnectionString;
         OracleConnection con = new OracleConnection(connectionString);
         OracleConnection con2 = new OracleConnection(connectionString);
-        DataTable dtQuerry = new DataTable();
+       
         Excel excel = new Excel();
 
         public SuperAdmin()
@@ -30,6 +30,7 @@ namespace QLTS_LG
         {
             try
             {
+                DataTable dtQuerry = new DataTable();
                 dtQuerry.Clear();
                 string strQuerry = txtQuerry.Text.ToString();
                 OracleDataAdapter daQuerry = new OracleDataAdapter(strQuerry, con);
@@ -71,7 +72,8 @@ namespace QLTS_LG
             {
                 txtQuerry.ResetText();
                 
-                dtQuerry.Clear();
+                //dtQuerry.Clear();
+                //dtQuerry.Dispose();
                 dgvQuerry.DataSource = null;
                 dgvQuerry.Rows.Clear();
                 dgvQuerry.Refresh();
@@ -114,7 +116,8 @@ namespace QLTS_LG
 
         private void btnExcel_Click(object sender, EventArgs e)
         {
-            excel.Export_Excel(dtQuerry);
+            //excel.Export_Excel(dtQuerry);
+            excel.ExportExcelFromDGV(dgvQuerry);
         }
     }
 }
