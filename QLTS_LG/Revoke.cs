@@ -512,26 +512,7 @@ namespace QLTS_LG
 
         private void btnUserSearch_Click(object sender, EventArgs e)
         {
-            /*string Search_User = "SELECT * FROM _User WHERE _User.ID='" + txtIDSearch.Text.ToString() + "' and _User.Emp_Status = 'EMP'";
-            OracleDataAdapter daSearch = new OracleDataAdapter(Search_User, con);
-            DataTable dtSearch = new DataTable();
-            daSearch.Fill(dtSearch);
 
-            if (dtSearch.Rows.Count > 0)
-            {
-                txtUserID2.Text = dtSearch.Rows[0]["ID"].ToString();
-                txtUser_Name.Text = dtSearch.Rows[0]["Name"].ToString();
-                txtPhone.Text = dtSearch.Rows[0]["Phone"].ToString();
-                txtMail.Text = dtSearch.Rows[0]["Mail"].ToString();
-                txtDept.Text = dtSearch.Rows[0]["Dept"].ToString();
-                chkOSP.Checked = Convert.ToBoolean(dtSearch.Rows[0]["OSP"]);
-                btnUpdateUser.Enabled = false;
-            }
-            else
-            {
-                MessageBox.Show("No information or User resigned!", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                btnUpdate.Enabled = true;
-            }*/
             update.SearchUser(txtIDSearch, txtUserID2, txtUser_Name, txtPhone, txtMail, txtDept, chkOSP, btnUpdateUser);
         }
 

@@ -16,9 +16,10 @@ namespace QLTS_LG
 
         public string SoTaiSanDaBanGiao(string MaNV)
         {
-            string SoLuongTaiSan = "select * from Ngoai_kho a " +
+            string SoLuongTaiSan = "select a.* from Ngoai_kho a " +
                 "inner join tai_san b on a.ma_ts = b.ma_ts " +
-                " where a.ID_USER = '" + MaNV + "' and b.Ma_loai_TS_cap1 = 'DE' ";
+                "inner join bien_ban c on a.so_bb = c.so_bien_ban " +
+                " where c.user_id = '" + MaNV + "' and b.Ma_loai_TS_cap1 = 'DE' ";
             OracleDataAdapter daSoLuong = new OracleDataAdapter(SoLuongTaiSan, connect);
             DataTable dtSoLuong = new DataTable();
             daSoLuong.Fill(dtSoLuong);
