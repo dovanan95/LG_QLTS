@@ -176,7 +176,14 @@ namespace QLTS_LG
         }
         public void Print_Bien_Ban(string SoBB)
         {
-            OpenURL(string.Format("http://10.224.50.222:49155/Bien_Ban.aspx?So_BB={0}", SoBB));
+            if (AutoTask.CheckApproved(SoBB) == true)
+            {
+                OpenURL(string.Format("http://10.224.50.222:49155/Bien_Ban.aspx?So_BB={0}", SoBB));
+            }
+            else if(AutoTask.CheckApproved(SoBB) == false)
+            {
+                MessageBox.Show("Yêu cầu xác nhận từ phía Ms.Nhung!");
+            }
         }
         private void OpenURL(string url)
         {

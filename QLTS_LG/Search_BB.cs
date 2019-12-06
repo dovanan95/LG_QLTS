@@ -172,7 +172,7 @@ namespace QLTS_LG
                 string strSearch = "select a.so_bien_ban, b.ten_loai, a.CL_DATE, a.file_attach, a.reason, a.user_id, a.IT_OP from bien_ban a " +
                     "inner join loai_bien_ban b on a.ma_loai_bb = b.ma_loai " +
                     "where b.ma_loai = '" + ReportTypeCode +
-                    "' and a.cl_date between (to_date('" + start_date + "',  'yyyy/mm/dd hh24:mi:ss')) and (to_date('" + end_date + "',  'yyyy/mm/dd hh24:mi:ss'))";
+                    "' and a.APPROVED = 'Y' and a.cl_date between (to_date('" + start_date + "',  'yyyy/mm/dd hh24:mi:ss')) and (to_date('" + end_date + "',  'yyyy/mm/dd hh24:mi:ss'))";
                 OracleDataAdapter daFind = new OracleDataAdapter(strSearch, con);
                 DataTable dtFind = new DataTable();
                 daFind.Fill(dtFind);
@@ -180,7 +180,7 @@ namespace QLTS_LG
             }
             else if(!(txtSoBB.Text is null))
             {
-                string strSearchBB = "select a.so_bien_ban, b.ten_loai, a.CL_DATE, a.file_attach, a.reason, a.user_id, a.IT_OP from bien_ban a " +
+                string strSearchBB = "select a.so_bien_ban, b.ten_loai, a.CL_DATE, a.file_attach, a.reason, a.user_id, a.IT_OP, a.APPROVED from bien_ban a " +
                     "inner join loai_bien_ban b on a.ma_loai_bb = b.ma_loai " +
                     "where a.so_bien_ban = '" + SoBB + "'";
                 OracleDataAdapter daBB = new OracleDataAdapter(strSearchBB, con);

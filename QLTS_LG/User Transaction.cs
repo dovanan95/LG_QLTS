@@ -104,6 +104,7 @@ namespace QLTS_LG
                 daOUT.Fill(dtOUT);
                 dgvUser.DataSource = dtOUT;
                 dgvUser.Columns["TEN_LOAI1"].HeaderText = "Loại Giao Dịch";
+                dgvUser.Columns["CL_DATE"].HeaderText = "Ngày Giao Dịch";
                 dgvUser.AutoResizeRows();
                 dgvUser.AutoResizeColumns();
             }

@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuCauHinh = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuLogin = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAddUser = new System.Windows.Forms.ToolStripMenuItem();
             this.menuChangePass = new System.Windows.Forms.ToolStripMenuItem();
             this.menuPermission = new System.Windows.Forms.ToolStripMenuItem();
@@ -177,7 +176,6 @@
             // menuCauHinh
             // 
             this.menuCauHinh.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuLogin,
             this.menuAddUser,
             this.menuChangePass,
             this.menuPermission,
@@ -188,43 +186,37 @@
             this.menuCauHinh.Text = "Cấu hình hệ thống";
             this.menuCauHinh.Click += new System.EventHandler(this.addNewMenu_Click);
             // 
-            // menuLogin
-            // 
-            this.menuLogin.Name = "menuLogin";
-            this.menuLogin.Size = new System.Drawing.Size(205, 26);
-            this.menuLogin.Text = "Chuyển Tài Khoản";
-            // 
             // menuAddUser
             // 
             this.menuAddUser.Name = "menuAddUser";
-            this.menuAddUser.Size = new System.Drawing.Size(205, 26);
+            this.menuAddUser.Size = new System.Drawing.Size(186, 26);
             this.menuAddUser.Text = "Đăng ký User";
             this.menuAddUser.Click += new System.EventHandler(this.menuAddUser_Click);
             // 
             // menuChangePass
             // 
             this.menuChangePass.Name = "menuChangePass";
-            this.menuChangePass.Size = new System.Drawing.Size(205, 26);
+            this.menuChangePass.Size = new System.Drawing.Size(186, 26);
             this.menuChangePass.Text = "Đổi Mật Khẩu";
             this.menuChangePass.Click += new System.EventHandler(this.menuChangePass_Click);
             // 
             // menuPermission
             // 
             this.menuPermission.Name = "menuPermission";
-            this.menuPermission.Size = new System.Drawing.Size(205, 26);
+            this.menuPermission.Size = new System.Drawing.Size(186, 26);
             this.menuPermission.Text = "Phân Quyền (*)";
             // 
             // menuLogOut
             // 
             this.menuLogOut.Name = "menuLogOut";
-            this.menuLogOut.Size = new System.Drawing.Size(205, 26);
+            this.menuLogOut.Size = new System.Drawing.Size(186, 26);
             this.menuLogOut.Text = "Đăng Xuất";
             this.menuLogOut.Click += new System.EventHandler(this.logOutToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(205, 26);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(186, 26);
             this.ExitToolStripMenuItem.Text = "Thoát";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.thoátToolStripMenuItem_Click);
             // 
@@ -1193,7 +1185,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuCauHinh;
         private System.Windows.Forms.ToolStripMenuItem menuSearch;
-        private System.Windows.Forms.ToolStripMenuItem menuLogin;
         private System.Windows.Forms.ToolStripMenuItem menuAddUser;
         private System.Windows.Forms.ToolStripMenuItem menuChangePass;
         private System.Windows.Forms.ToolStripMenuItem menuLogOut;

@@ -88,13 +88,14 @@ namespace QLTS_LG
                 {
                     Directory.CreateDirectory(folderPath);
                 }
-
+                string So_Bien_Ban = txtSoBB.Text.ToString();
                 string strInsertFile = "UPDATE Bien_Ban SET File_attach = :Path WHERE So_Bien_ban = :SoBB";
                 OracleCommand cmdUpdateFile = new OracleCommand();
                 cmdUpdateFile.Connection = con;
                 cmdUpdateFile.CommandType = CommandType.Text;
                 cmdUpdateFile.CommandText = strInsertFile;
-                cmdUpdateFile.Parameters.Add("Path", folderPath + Path.GetFileName(openFileDialog1.FileName));
+                //cmdUpdateFile.Parameters.Add("Path", folderPath + Path.GetFileName(openFileDialog1.FileName));
+                cmdUpdateFile.Parameters.Add("Path", folderPath + So_Bien_Ban);
                 cmdUpdateFile.Parameters.Add("SoBB", txtSoBB.Text.ToString());
                 con.Open();
                 cmdUpdateFile.ExecuteNonQuery();
@@ -102,8 +103,8 @@ namespace QLTS_LG
 
                 //Upload file to server
                 string filelocation = openFileDialog1.FileName;
-                File.Copy(filelocation, Path.Combine(@"\\10.224.50.222\\qlts\\Document\\", Path.GetFileName(filelocation)), true);
-
+                //File.Copy(filelocation, Path.Combine(@"\\10.224.50.222\\qlts\\Document\\", Path.GetFileName(filelocation)), true);
+                File.Copy(filelocation, Path.Combine(@"\\10.224.50.222\\qlts\\Document\\", So_Bien_Ban), true);
                 MessageBox.Show("Finished!!!");
             }
             catch (Exception ex)
@@ -122,13 +123,15 @@ namespace QLTS_LG
                 daATT.Fill(dtATT);
                 string ATT_PATH = dtATT.Rows[0]["FILE_ATTACH"].ToString();
 
-                saveFile.FileName = EP_Approval;
+                saveFile.FileName = SoBB;
                 if (saveFile.ShowDialog() == DialogResult.OK)
                 {
                     string FilePath = Path.GetDirectoryName(saveFile.FileName);
-                    File.Copy(ATT_PATH, Path.Combine(FilePath, EP_Approval), true);
+                    File.Copy(ATT_PATH, Path.Combine(FilePath, SoBB), true);
+
+                    MessageBox.Show("Download 100%");
                 }
-                MessageBox.Show("Download 100%");
+                
             }
             catch(Exception ex)
             {
