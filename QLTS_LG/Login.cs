@@ -15,7 +15,8 @@ namespace QLTS_LG
 {
     public partial class Login : Form
     {
-               
+
+        WS_ORG.QLTS_ORG ITS_ORG = new WS_ORG.QLTS_ORG();
         public Login()
         {
             InitializeComponent();
@@ -49,6 +50,7 @@ namespace QLTS_LG
                 {
                     MessageBox.Show("Dang Nhap Thanh Cong!");
                     this.Hide();
+                    ITS_ORG.CheckResignation();
                     
                     username = txtUser.Text.ToString().Trim();
                     Main frm = new Main();

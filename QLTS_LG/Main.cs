@@ -101,7 +101,7 @@ namespace QLTS_LG
         public void OutStorageLoad()
         {
 
-            ITS_ORG.CheckResignation();
+            //ITS_ORG.CheckResignation();
 
             NSCBGTS_Check();
 
