@@ -63,11 +63,10 @@
             this.button3 = new System.Windows.Forms.Button();
             this.pnlInfo = new System.Windows.Forms.Panel();
             this.btnBack2 = new System.Windows.Forms.Button();
-            this.btnNewItem2 = new System.Windows.Forms.Button();
             this.cbModel = new System.Windows.Forms.ComboBox();
+            this.btnNewItem2 = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.cbUnit = new System.Windows.Forms.ComboBox();
-            this.btnNewAssetID = new System.Windows.Forms.Button();
             this.pnlControl = new System.Windows.Forms.Panel();
             this.btnCloseBB = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -81,6 +80,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnExcel = new System.Windows.Forms.Button();
+            this.btnNewAssetID = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.loaiTScap1BindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.qLTSDataSet)).BeginInit();
@@ -454,16 +454,6 @@
             this.btnBack2.UseVisualStyleBackColor = true;
             this.btnBack2.Click += new System.EventHandler(this.btnBack2_Click);
             // 
-            // btnNewItem2
-            // 
-            this.btnNewItem2.Location = new System.Drawing.Point(135, 531);
-            this.btnNewItem2.Name = "btnNewItem2";
-            this.btnNewItem2.Size = new System.Drawing.Size(75, 23);
-            this.btnNewItem2.TabIndex = 34;
-            this.btnNewItem2.Text = "Thêm Mới";
-            this.btnNewItem2.UseVisualStyleBackColor = true;
-            this.btnNewItem2.Click += new System.EventHandler(this.btnNewItem2_Click);
-            // 
             // cbModel
             // 
             this.cbModel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -473,6 +463,16 @@
             this.cbModel.Size = new System.Drawing.Size(183, 28);
             this.cbModel.TabIndex = 33;
             this.cbModel.SelectedIndexChanged += new System.EventHandler(this.cbModel_SelectedIndexChanged);
+            // 
+            // btnNewItem2
+            // 
+            this.btnNewItem2.Location = new System.Drawing.Point(135, 531);
+            this.btnNewItem2.Name = "btnNewItem2";
+            this.btnNewItem2.Size = new System.Drawing.Size(75, 23);
+            this.btnNewItem2.TabIndex = 34;
+            this.btnNewItem2.Text = "Thêm Mới";
+            this.btnNewItem2.UseVisualStyleBackColor = true;
+            this.btnNewItem2.Click += new System.EventHandler(this.btnNewItem2_Click);
             // 
             // label14
             // 
@@ -494,19 +494,6 @@
             this.cbUnit.Name = "cbUnit";
             this.cbUnit.Size = new System.Drawing.Size(183, 28);
             this.cbUnit.TabIndex = 31;
-            // 
-            // btnNewAssetID
-            // 
-            this.btnNewAssetID.BackgroundImage = global::QLTS_LG.Properties.Resources.CQZuP;
-            this.btnNewAssetID.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewAssetID.Image = global::QLTS_LG.Properties.Resources.CQZuP;
-            this.btnNewAssetID.Location = new System.Drawing.Point(135, 54);
-            this.btnNewAssetID.Name = "btnNewAssetID";
-            this.btnNewAssetID.Size = new System.Drawing.Size(87, 26);
-            this.btnNewAssetID.TabIndex = 30;
-            this.btnNewAssetID.Text = "New Code";
-            this.btnNewAssetID.UseVisualStyleBackColor = true;
-            this.btnNewAssetID.Click += new System.EventHandler(this.button2_Click);
             // 
             // pnlControl
             // 
@@ -629,6 +616,19 @@
             this.btnExcel.UseVisualStyleBackColor = true;
             this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
             // 
+            // btnNewAssetID
+            // 
+            this.btnNewAssetID.BackgroundImage = global::QLTS_LG.Properties.Resources.CQZuP;
+            this.btnNewAssetID.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNewAssetID.Image = global::QLTS_LG.Properties.Resources.CQZuP;
+            this.btnNewAssetID.Location = new System.Drawing.Point(135, 54);
+            this.btnNewAssetID.Name = "btnNewAssetID";
+            this.btnNewAssetID.Size = new System.Drawing.Size(87, 26);
+            this.btnNewAssetID.TabIndex = 30;
+            this.btnNewAssetID.Text = "New Code";
+            this.btnNewAssetID.UseVisualStyleBackColor = true;
+            this.btnNewAssetID.Click += new System.EventHandler(this.button2_Click);
+            // 
             // AddNewItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -643,7 +643,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddNewItem";
-            this.Text = "AddNewItem";
+            this.Text = "Nhập Mới";
             this.Load += new System.EventHandler(this.AddNewItem_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.loaiTScap1BindingSource)).EndInit();

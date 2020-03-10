@@ -634,6 +634,7 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(273, 273);
             this.panel6.TabIndex = 27;
+            this.panel6.Paint += new System.Windows.Forms.PaintEventHandler(this.panel6_Paint);
             // 
             // btnInsertUser
             // 
@@ -648,7 +649,7 @@
             // chkOSP
             // 
             this.chkOSP.AutoSize = true;
-            this.chkOSP.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.chkOSP.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.chkOSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkOSP.ForeColor = System.Drawing.Color.Cornsilk;
             this.chkOSP.Location = new System.Drawing.Point(39, 207);

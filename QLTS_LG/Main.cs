@@ -212,7 +212,7 @@ namespace QLTS_LG
             CheckOverDue();
 
             dtLoadOverDue.Clear();
-            string strLoadOverDue = "SELECT * FROM Muon_vat_tu WHERE Qua_han = 1 and Ngay_tra_thuc is null and APPROVED = 1"; 
+            string strLoadOverDue = "SELECT * FROM Muon_vat_tu WHERE Qua_han = 1 and Ngay_tra_thuc is null and APPROVED = 1";
             OracleDataAdapter daLoadOverDue = new OracleDataAdapter(strLoadOverDue, con);
             //DataTable dtLoadOverDue = new DataTable();
             daLoadOverDue.Fill(dtLoadOverDue);
@@ -392,7 +392,7 @@ namespace QLTS_LG
         private void tabPage1_Click(object sender, EventArgs e)
         {
             OutStorageLoad();
-            
+
         }
 
         private void tabPage2_Click(object sender, EventArgs e)
@@ -476,87 +476,95 @@ namespace QLTS_LG
             {
                 AutoStickDuplicatedMTS();
 
-                foreach (DataGridViewRow row in dataGridView2.Rows)
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
+                if (CheckRow)
                 {
-                    Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
-                    if (CheckRow)
+                    AutoTask.UpdateApprovedOfBB(row.Cells["So_Bien_Ban"].Value.ToString());
+                    AutoTask.BufferClear(Convert.ToInt32(row.Cells["Ma_TS"].Value));
+                    if(row.Cells["vat_tu_xuat"].Value.ToString() != "")
                     {
-                        AutoTask.UpdateApprovedOfBB(row.Cells["So_Bien_Ban"].Value.ToString());
-                        AutoTask.BufferClear(Convert.ToInt32(row.Cells["Ma_TS"].Value));
                         AutoTask.BufferClear(Convert.ToInt32(row.Cells["vat_tu_xuat"].Value));
-
-                        string strUpdate = "UPDATE Sua_chua SET Approved = 1 WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
-                        OracleCommand cmdUpdate = new OracleCommand();
-                        cmdUpdate.CommandType = CommandType.Text;
-                        cmdUpdate.CommandText = strUpdate;
-                        cmdUpdate.Connection = con;
-                        con.Open();
-                        cmdUpdate.ExecuteNonQuery();
-                        con.Close();
-
-
                     }
-                }
-
-                foreach (DataGridViewRow row in dataGridView2.Rows)
-                {
-                    Boolean ChkRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
-
-
-                    if (ChkRow == true)
+                    else if(row.Cells["vat_tu_xuat"].Value.ToString() == "")
                     {
-                        string VTX = row.Cells["Vat_tu_xuat"].Value.ToString();
-                        if (VTX != "")
-                        {
-                            string strRepair = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out, So_BB) VALUES (:Ma_TS, :ID_User, CURRENT_DATE, :SoBB)";
-                            OracleCommand cmdRepair = new OracleCommand();
-                            cmdRepair.Connection = con;
-                            cmdRepair.CommandType = CommandType.Text;
-                            cmdRepair.CommandText = strRepair;
-                            cmdRepair.Parameters.Add(new OracleParameter("Ma_TS", row.Cells["Vat_tu_xuat"].Value.ToString()));
-                            cmdRepair.Parameters.Add(new OracleParameter("ID_User", row.Cells["USER_ID"].Value.ToString()));
-                            cmdRepair.Parameters.Add(new OracleParameter("SoBB", row.Cells["So_Bien_Ban"].Value.ToString()));
-                            //cmdRepair.Parameters.Add(new OracleParameter("clDate", row.Cells["Ngay_update"].Value.ToString()));
 
-                            con.Open();
-                            cmdRepair.ExecuteNonQuery();
-                            con.Close();
-                        }
-                        else if (VTX == "")
-                        {
-
-                        }
                     }
+                    
+
+                    string strUpdate = "UPDATE Sua_chua SET Approved = 1 WHERE Ma_TS = '" + row.Cells["Ma_TS"].Value.ToString() + "'";
+                    OracleCommand cmdUpdate = new OracleCommand();
+                    cmdUpdate.CommandType = CommandType.Text;
+                    cmdUpdate.CommandText = strUpdate;
+                    cmdUpdate.Connection = con;
+                    con.Open();
+                    cmdUpdate.ExecuteNonQuery();
+                    con.Close();
 
 
                 }
+            }
 
-                foreach (DataGridViewRow row in dataGridView2.Rows)
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                Boolean ChkRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
+
+
+                if (ChkRow == true)
                 {
-                    Boolean ChkRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
-                    if (ChkRow)
+                    string VTX = row.Cells["Vat_tu_xuat"].Value.ToString();
+                    if (VTX != "")
                     {
-                        string strRepair2 = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out, So_BB) VALUES (:Ma_TS, :ID_User, CURRENT_DATE, :So_BB)";
-                        OracleCommand cmdRepair2 = new OracleCommand();
-                        cmdRepair2.Connection = con;
-                        cmdRepair2.CommandType = CommandType.Text;
-                        cmdRepair2.CommandText = strRepair2;
-                        cmdRepair2.Parameters.Add(new OracleParameter("Ma_TS", row.Cells["Ma_TS"].Value.ToString()));
-                        cmdRepair2.Parameters.Add(new OracleParameter("ID_User", row.Cells["USER_ID"].Value.ToString()));
-                        //cmdRepair2.Parameters.Add("clDate", row.Cells["Ngay_update"].Value.ToString());
-                        cmdRepair2.Parameters.Add(new OracleParameter("So_BB", row.Cells["So_Bien_Ban"].Value.ToString()));
+                        string strRepair = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out, So_BB) VALUES (:Ma_TS, :ID_User, CURRENT_DATE, :SoBB)";
+                        OracleCommand cmdRepair = new OracleCommand();
+                        cmdRepair.Connection = con;
+                        cmdRepair.CommandType = CommandType.Text;
+                        cmdRepair.CommandText = strRepair;
+                        cmdRepair.Parameters.Add(new OracleParameter("Ma_TS", row.Cells["Vat_tu_xuat"].Value.ToString()));
+                        cmdRepair.Parameters.Add(new OracleParameter("ID_User", row.Cells["USER_ID"].Value.ToString()));
+                        cmdRepair.Parameters.Add(new OracleParameter("SoBB", row.Cells["So_Bien_Ban"].Value.ToString()));
+                        //cmdRepair.Parameters.Add(new OracleParameter("clDate", row.Cells["Ngay_update"].Value.ToString()));
+
                         con.Open();
-                        cmdRepair2.ExecuteNonQuery();
+                        cmdRepair.ExecuteNonQuery();
                         con.Close();
                     }
+                    else if (VTX == "")
+                    {
+
+                    }
                 }
-                string tableName = "NGOAI_KHO";
-                string fieldName = "MA_TS";
 
-                AntiDuplicated antiDuplicated = new AntiDuplicated();
-                antiDuplicated.DeleteDuplicatedRow(tableName, fieldName);
 
-                OutStorageLoad();
+            }
+
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                Boolean ChkRow = Convert.ToBoolean(row.Cells["SelectRepair"].Value);
+                if (ChkRow)
+                {
+                    string strRepair2 = "INSERT INTO Ngoai_Kho (Ma_TS, ID_User, Latest_Day_Out, So_BB) VALUES (:Ma_TS, :ID_User, CURRENT_DATE, :So_BB)";
+                    OracleCommand cmdRepair2 = new OracleCommand();
+                    cmdRepair2.Connection = con;
+                    cmdRepair2.CommandType = CommandType.Text;
+                    cmdRepair2.CommandText = strRepair2;
+                    cmdRepair2.Parameters.Add(new OracleParameter("Ma_TS", row.Cells["Ma_TS"].Value.ToString()));
+                    cmdRepair2.Parameters.Add(new OracleParameter("ID_User", row.Cells["USER_ID"].Value.ToString()));
+                    //cmdRepair2.Parameters.Add("clDate", row.Cells["Ngay_update"].Value.ToString());
+                    cmdRepair2.Parameters.Add(new OracleParameter("So_BB", row.Cells["So_Bien_Ban"].Value.ToString()));
+                    con.Open();
+                    cmdRepair2.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            string tableName = "NGOAI_KHO";
+            string fieldName = "MA_TS";
+
+            AntiDuplicated antiDuplicated = new AntiDuplicated();
+            antiDuplicated.DeleteDuplicatedRow(tableName, fieldName);
+
+            OutStorageLoad();
 
             }
             catch (Exception ex)
@@ -827,7 +835,7 @@ namespace QLTS_LG
                         cmdRevoke.ExecuteNonQuery();
                         con.Close();
 
-                        
+
                     }
                 }
                 //Insert ngày thu hồi vật tư đối với các vật tư cho mượn.
@@ -908,7 +916,7 @@ namespace QLTS_LG
                         con.Close();
                     }
                 }
-               
+
                 OutStorageLoad();
             }
             catch (Exception ex)
@@ -954,10 +962,10 @@ namespace QLTS_LG
 
         private void btnRejectDisposal_Click(object sender, EventArgs e)
         {
-            foreach(DataGridViewRow row in dgvDispose.Rows)
+            foreach (DataGridViewRow row in dgvDispose.Rows)
             {
                 Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectDispose"].Value);
-                if(CheckRow)
+                if (CheckRow)
                 {
                     string SoBB = row.Cells["So_Bien_Ban"].Value.ToString();
                     int Ma_TS = Convert.ToInt32(row.Cells["Ma_TS"].Value);
@@ -1017,7 +1025,15 @@ namespace QLTS_LG
                     con.Close();
 
                     AutoTask.BUFFERtoLuuKho(Convert.ToInt32(row.Cells["Ma_TS"].Value));
-                    AutoTask.BUFFERtoLuuKho(Convert.ToInt32(row.Cells["vat_tu_xuat"].Value));
+                    if (row.Cells["VAT_TU_XUAT"].Value.ToString() != "")
+                    {
+                        AutoTask.BUFFERtoLuuKho(Convert.ToInt32(row.Cells["vat_tu_xuat"].Value));
+                    }
+                    else if (row.Cells["VAT_TU_XUAT"].Value.ToString() == "")
+                    {
+
+                    }
+
                     AntiDuplicated.DeleteDuplicatedRow("Luu_Kho", "Ma_TS");
                 }
             }
@@ -1072,10 +1088,10 @@ namespace QLTS_LG
 
         private void btnRejectNew_Click(object sender, EventArgs e)
         {
-            foreach(DataGridViewRow row in dgvNew.Rows)
+            foreach (DataGridViewRow row in dgvNew.Rows)
             {
                 Boolean CheckRow = Convert.ToBoolean(row.Cells["SelectNew"].Value);
-                if(CheckRow)
+                if (CheckRow)
                 {
                     string clearTS = "delete from Tai_san where Ma_TS = " + Convert.ToInt32(row.Cells["Ma_TS"].Value);
                     string clearNEWITEM = "delete from Nhap_Moi where Ma_TS = " + Convert.ToInt32(row.Cells["Ma_TS"].Value) + " and So_BB = '" + row.Cells["So_Bien_Ban"].Value.ToString() + "'";
@@ -1091,6 +1107,12 @@ namespace QLTS_LG
                 }
             }
             OutStorageLoad();
+        }
+
+        private void MenuRepair_Beta_Click(object sender, EventArgs e)
+        {
+            NewRepair_Beta repair_beta = new NewRepair_Beta();
+            repair_beta.ShowDialog();
         }
     }
 }

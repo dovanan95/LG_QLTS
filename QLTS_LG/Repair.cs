@@ -707,5 +707,10 @@ namespace QLTS_LG
         {
             Excel.ExportExcelFromDGV(dgvAddingDevice);
         }
+
+        private void panel6_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

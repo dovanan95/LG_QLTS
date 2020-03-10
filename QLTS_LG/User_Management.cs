@@ -350,7 +350,7 @@ namespace QLTS_LG
             {
                 //DataTable dtUpdateORG = new DataTable();
                 DataRow[] drUpdateORG = dtORG_HR.Select("ORGANIZATION_ID = '" + Org_code_HR + "'");
-                string strNew_Org = drUpdateORG[0]["ORG_NAME_ENG"].ToString();
+                string strNew_Org = drUpdateORG[0]["ORG_NAME_ENGLISH"].ToString();
                 string UpdateNewORG = "insert into org_name(org_code, org_name) values (:code, :name)";
                 OracleCommand cmdNewORG = new OracleCommand(UpdateNewORG, con3);
                 cmdNewORG.Parameters.Add(new OracleParameter("code", Org_code_HR));
