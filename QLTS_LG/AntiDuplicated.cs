@@ -35,6 +35,20 @@ namespace QLTS_LG
 
             return dataGridView;
         }
+        public DataTable AntiTableRowDuplicate(DataTable dt, string colname)
+        {
+            for (int i = 0; i < dt.Rows.Count - 1; i++)
+            {
+                for (int j = i + 1; j <= dt.Rows.Count - 1; j++)
+                {
+                    if (Convert.ToInt32(dt.Rows[i][colname]) == Convert.ToInt32(dt.Rows[j][colname]))
+                    {
+                        dt.Rows.RemoveAt(j);
+                    }
+                }
+            }
+            return dt;
+        }
         public void DeleteDuplicatedRow(string tableName, string fieldName)
         {
             //string strClearDup = "DELETE FROM " + tableName + " WHERE " + fieldName

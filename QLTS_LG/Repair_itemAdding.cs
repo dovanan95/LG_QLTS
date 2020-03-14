@@ -20,6 +20,9 @@ namespace QLTS_LG
         CopyGridView CopyGrid = new CopyGridView();
         DataTable dtSummaryData = new DataTable();
         NewRepair_Beta mainFrm = new NewRepair_Beta();
+        AntiDuplicated Clear = new AntiDuplicated();
+        DataTable dt = new DataTable();
+        DataTable dtSource = new DataTable();
         public string itemID { get; set; }
 
         public string strSearchPublic = "SELECT a.Ma_TS, b.Ten_TS, b.SN, b.FA_Tag, b.IT_Tag, b.Model, b.Spec, c.Ten_loai" +
@@ -34,6 +37,7 @@ namespace QLTS_LG
         private void Repair_itemAdding_Load(object sender, EventArgs e)
         {
             lblRepairItemID.Text = itemID.ToString();
+            //btnDeleteAddedItem.Enabled = false;
 
             DataGridViewCheckBoxColumn column = new DataGridViewCheckBoxColumn();
             column.HeaderText = "Select";
@@ -64,7 +68,8 @@ namespace QLTS_LG
                         if (Convert.ToInt32(dgvAddingItem.Rows[i].Cells["Ma_TS"].Value) == Convert.ToInt32(NewRepair_Beta.SummaryData.Rows[j]["VTX"]))
                         {
                             int Rowindex = dgvAddingItem.Rows[i].Index;
-                            dgvAddingItem.Rows.RemoveAt(Rowindex);
+                            dgvAddingItem.Rows.RemoveAt(i);
+                            i = 0;
                         }
                     }
                 }
@@ -78,7 +83,37 @@ namespace QLTS_LG
 
         private void btnTransfer_Click(object sender, EventArgs e)
         {
-            CopyGrid.CopyDataGridView(dgvAddingItem, dgvAddingSelected);
+            if (dgvAddingSelected.DataSource != null)
+            {
+                DataTable dtGridView1 = new DataTable();
+                //dtGridView1 = (DataTable)dgvAddingItem.DataSource;
+                //dtSource.Merge(dtGridView1);
+                //dgvAddingSelected.DataSource = dtSource;
+                foreach (DataGridViewColumn column in dgvAddingItem.Columns)
+                {
+                    dtGridView1.Columns.Add(column.HeaderText);
+                }
+                foreach (DataGridViewRow row in dgvAddingItem.Rows)
+                {
+                    Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
+                    if (CheckRow)
+                    {
+                        dtGridView1.Rows.Add();
+                        foreach (DataGridViewCell cell in row.Cells)
+                        {
+                            dtGridView1.Rows[dtGridView1.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
+                        }
+                    }
+
+                }
+                //dtSource.Merge(dtGridView1);
+                dgvAddingSelected.DataSource = dtGridView1;
+            }
+            else if (dgvAddingSelected.DataSource is null)
+            {
+                CopyGrid.CopyDataGridView(dgvAddingItem, dgvAddingSelected);
+            }
+
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -134,6 +169,68 @@ namespace QLTS_LG
             frm.SummaryData = NewRepair_Beta.SummaryData;
             frm.LoadAddingItemPreview();
             frm.ShowDialog();
+        }
+        public void ReviewAddedItem(int itemID)
+        {
+            DataGridViewCheckBoxColumn column = new DataGridViewCheckBoxColumn();
+            column.HeaderText = "Select";
+            column.Name = "Select";
+            column.Visible = true;
+
+            dgvAddingSelected.Columns.Add(column);
+            dgvAddingSelected.Columns["Select"].DisplayIndex = 0;
+            if (NewRepair_Beta.SummaryData != null)
+            {
+                DataRow[] dr = NewRepair_Beta.SummaryData.Select("Ma_TS = '" + Convert.ToInt32(itemID) + "'");
+                foreach (DataRow row in dr)
+                {
+                    string strQuerry = strSearchPublic + " where a.Ma_TS = '" + row["VTX"].ToString() + "'";
+                    OracleDataAdapter daAdded = new OracleDataAdapter(strQuerry, con);
+
+                    daAdded.Fill(dt);
+
+                    if (dt is null)
+                    {
+                        dtSource = dt;
+                    }
+                    else if (dt != null)
+                    {
+                        dtSource.Merge(dt);
+                    }
+
+                }
+                dtSource.Merge(dt);
+                dtSource = Clear.AntiTableRowDuplicate(dtSource, "Ma_TS");
+                dgvAddingSelected.DataSource = dtSource;
+            }
+            else if (NewRepair_Beta.SummaryData is null)
+            {
+                MessageBox.Show("Chua khoi tao vat tu di kem!!!");
+            }
+
+
+        }
+
+        private void btnDeleteAddedItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dgvAddingSelected.Rows.Count; i++)
+            {
+                Boolean CheckRow = Convert.ToBoolean(dgvAddingSelected.Rows[i].Cells["Select"].Value);
+                if(CheckRow)
+                {
+                    for (int j = 0; j < NewRepair_Beta.SummaryData.Rows.Count; j++)
+                    {
+                        if (Convert.ToInt32(dgvAddingSelected.Rows[i].Cells["Ma_TS"].Value) == Convert.ToInt32(NewRepair_Beta.SummaryData.Rows[j]["VTX"]))
+                        {
+                            NewRepair_Beta.SummaryData.Rows.RemoveAt(j);
+                            dgvAddingSelected.Rows.RemoveAt(i);
+                        }
+                    }
+                }
+                
+
+            }
+            
         }
     }
 }

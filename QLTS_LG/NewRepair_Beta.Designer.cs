@@ -74,6 +74,7 @@
             this.btnTransfer = new System.Windows.Forms.Button();
             this.btnDel = new System.Windows.Forms.Button();
             this.btnRprAdding = new System.Windows.Forms.Button();
+            this.btnItemAddingPreview = new System.Windows.Forms.Button();
             this.panel6.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -361,6 +362,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.SeaShell;
             this.label15.Location = new System.Drawing.Point(159, 89);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(180, 20);
@@ -492,7 +494,7 @@
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(302, 23);
             this.btnPreview.TabIndex = 3;
-            this.btnPreview.Text = "Preview";
+            this.btnPreview.Text = "Preview Before Submit";
             this.btnPreview.UseVisualStyleBackColor = true;
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
@@ -528,6 +530,7 @@
             // 
             // btnTransfer
             // 
+            this.btnTransfer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTransfer.Location = new System.Drawing.Point(295, 361);
             this.btnTransfer.Name = "btnTransfer";
             this.btnTransfer.Size = new System.Drawing.Size(75, 23);
@@ -543,7 +546,7 @@
             this.btnDel.Name = "btnDel";
             this.btnDel.Size = new System.Drawing.Size(76, 23);
             this.btnDel.TabIndex = 42;
-            this.btnDel.Text = "Del";
+            this.btnDel.Text = "Delete";
             this.btnDel.UseVisualStyleBackColor = true;
             this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
@@ -557,12 +560,23 @@
             this.btnRprAdding.UseVisualStyleBackColor = true;
             this.btnRprAdding.Click += new System.EventHandler(this.btnRprAdding_Click);
             // 
+            // btnItemAddingPreview
+            // 
+            this.btnItemAddingPreview.Location = new System.Drawing.Point(567, 361);
+            this.btnItemAddingPreview.Name = "btnItemAddingPreview";
+            this.btnItemAddingPreview.Size = new System.Drawing.Size(125, 23);
+            this.btnItemAddingPreview.TabIndex = 44;
+            this.btnItemAddingPreview.Text = "Preview Added Items";
+            this.btnItemAddingPreview.UseVisualStyleBackColor = true;
+            this.btnItemAddingPreview.Click += new System.EventHandler(this.btnItemAddingPreview_Click);
+            // 
             // NewRepair_Beta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(1382, 657);
+            this.Controls.Add(this.btnItemAddingPreview);
             this.Controls.Add(this.btnRprAdding);
             this.Controls.Add(this.btnDel);
             this.Controls.Add(this.btnTransfer);
@@ -642,5 +656,6 @@
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.Button btnRprAdding;
         private System.Windows.Forms.Button btnPreview;
+        private System.Windows.Forms.Button btnItemAddingPreview;
     }
 }

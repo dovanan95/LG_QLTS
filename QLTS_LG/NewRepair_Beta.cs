@@ -126,6 +126,13 @@ namespace QLTS_LG
                 Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
                 if (CheckRow)
                 {
+                    foreach(DataRow dtrow in SummaryData.Rows)
+                    {
+                        if(dtrow["Ma_TS"].ToString() == row.Cells["Ma_TS"].Value.ToString())
+                        {
+                            SummaryData.Rows.Remove(dtrow);
+                        }
+                    }
                     dgvRepairSelected.Rows.RemoveAt(row.Index);
                 }
             }
@@ -363,7 +370,7 @@ namespace QLTS_LG
                 lblStatus.Text = "OK";
                 lblStatus.ForeColor = System.Drawing.Color.Chartreuse;
                 MessageBox.Show("Complete!!!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
@@ -396,6 +403,21 @@ namespace QLTS_LG
             }
 
             return flag;
+        }
+
+        private void btnItemAddingPreview_Click(object sender, EventArgs e)
+        {
+            Repair_itemAdding frm = new Repair_itemAdding();
+            frm.itemID = itemID;
+            if (frm.itemID is null)
+            {
+                MessageBox.Show("Vui long chon 1 vat tu can sua chua! (click vào bang ben duoi)");
+            }
+            else if (frm.itemID != null)
+            {
+                frm.ReviewAddedItem(Convert.ToInt32(itemID));
+                frm.ShowDialog();
+            }
         }
     }
 }
