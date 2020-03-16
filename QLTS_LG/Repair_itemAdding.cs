@@ -23,6 +23,7 @@ namespace QLTS_LG
         AntiDuplicated Clear = new AntiDuplicated();
         DataTable dt = new DataTable();
         DataTable dtSource = new DataTable();
+        DataTable dtSearch = new DataTable();
         public string itemID { get; set; }
 
         public string strSearchPublic = "SELECT a.Ma_TS, b.Ten_TS, b.SN, b.FA_Tag, b.IT_Tag, b.Model, b.Spec, c.Ten_loai" +
@@ -52,12 +53,15 @@ namespace QLTS_LG
         {
             string strSearch = strSearchPublic + " WHERE c.Phan_loai = 'MAT' and (b.Ma_Tinh_Trang = 'OK' OR b.Ma_Tinh_Trang = 'NE')";
             OracleDataAdapter daSearch = new OracleDataAdapter(strSearch, con);
-            DataTable dtSearch = new DataTable();
+
             daSearch.Fill(dtSearch);
 
             dgvAddingItem.DataSource = dtSearch;
-
             //kiem tra neu vat tu material da duoc su dung lien tu dong xoa khoi danh sach cap phat phuc vu sua chua
+            dgvFilterRecursive();
+        }
+        public void dgvFilterRecursive()
+        {          
             if (NewRepair_Beta.SummaryData != null)
             {
                 for (int i = 0; i < dgvAddingItem.Rows.Count; i++)
@@ -69,7 +73,11 @@ namespace QLTS_LG
                         {
                             int Rowindex = dgvAddingItem.Rows[i].Index;
                             dgvAddingItem.Rows.RemoveAt(i);
-                            i = 0;
+                            dgvFilterRecursive();
+                        }
+                        else
+                        {
+                            continue;
                         }
                     }
                 }
