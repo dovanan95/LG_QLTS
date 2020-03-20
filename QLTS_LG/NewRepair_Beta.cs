@@ -121,19 +121,48 @@ namespace QLTS_LG
 
         private void btnDel_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dgvRepairSelected.Rows)
+
+            if (NewRepair_Beta.SummaryData != null)
             {
-                Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
+                RecursiveDelete();
+                foreach (DataGridViewRow row in dgvRepairSelected.Rows)
+                {
+                    Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
+                    if (CheckRow)
+                    {
+                        dgvRepairSelected.Rows.RemoveAt(row.Index);
+                    }
+                }
+            }
+            else if (NewRepair_Beta.SummaryData is null)
+            {
+                foreach (DataGridViewRow row in dgvRepairSelected.Rows)
+                {
+                    Boolean CheckRow = Convert.ToBoolean(row.Cells["Select"].Value);
+                    if (CheckRow)
+                    {
+                        dgvRepairSelected.Rows.RemoveAt(row.Index);
+                    }
+                }
+            }
+
+        }
+
+        public void RecursiveDelete()
+        {
+            for (int i = 0; i < dgvRepairSelected.Rows.Count; i++)
+            {
+                Boolean CheckRow = Convert.ToBoolean(dgvRepairSelected.Rows[i].Cells["Select"].Value);
                 if (CheckRow)
                 {
-                    foreach(DataRow dtrow in SummaryData.Rows)
+                    for (int j = 0; j < NewRepair_Beta.SummaryData.Rows.Count; j++)
                     {
-                        if(dtrow["Ma_TS"].ToString() == row.Cells["Ma_TS"].Value.ToString())
+                        if (Convert.ToInt32(NewRepair_Beta.SummaryData.Rows[j]["Ma_TS"]) == Convert.ToInt32(dgvRepairSelected.Rows[i].Cells["Ma_TS"].Value))
                         {
-                            SummaryData.Rows.Remove(dtrow);
+                            NewRepair_Beta.SummaryData.Rows.RemoveAt(j);
+                            RecursiveDelete();
                         }
                     }
-                    dgvRepairSelected.Rows.RemoveAt(row.Index);
                 }
             }
         }
